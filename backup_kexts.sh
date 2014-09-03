@@ -1,6 +1,6 @@
 #!/bin/sh
 
 cd /System/Library/Extensions 
-zip -r "/Volumes/Mcm Hdd/Google Drive/OS X/Kexts/kexts_orig.zip" \
+zip -r "/Volumes/Drive/Google Drive/OS X/Kexts/kexts-dp7_orig.zip" \
 AppleHDA.kext IONetworkingFamily.kext
 
