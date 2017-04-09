@@ -1,0 +1,18 @@
+**********************iMessage Debug**********************
+Credits: ElNono, mdmwii,flux84, sugarface, pokenguyen
+
+
+              Model: MacPro6,1
+           Board-id: Mac-F60DEB81FF30ACF6
+       SerialNumber: C02LLSNEF9VM
+      Hardware UUID: 703DC931-3815-5552-A6C0-5819550F7028
+
+          System-ID: 829C9027-10D4-4113-9A50-EC24CF0352EC
+                ROM: ec24cf0352ec
+  BoardSerialNumber: C023426002YFV8RAN
+
+         Gq3489ugfi: b6d3230688da063d4061a4b394c29379f7
+          Fyp98tpgj: 986f7deedaced32cfa77d2680d73e1f40b
+         kbjfrfpoJU: 834b1da21d77a1b6041c732648da49b932
+       oycqAZloTNDm: ed18b58a2bd1b8e6671491c39d8756bf77
+       abKPld1EcMni: 825f2ca5da7bfea9a9778e95a1fcd5f572

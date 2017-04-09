@@ -1,0 +1,5 @@
+#!/bin/sh
+
+git rm --cached -r .navigation/ .idea/
+git commit -m "remove a directory"
+git push origin master
