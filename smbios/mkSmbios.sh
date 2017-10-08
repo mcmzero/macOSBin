@@ -1,0 +1,6 @@
+echo "uuidgen -> SmUUID"
+echo "reboot"
+echo "simpleMLB.sh -> Board Serial Number"
+echo "reboot"
+echo "iMessageDebug"
+echo "reboot"
