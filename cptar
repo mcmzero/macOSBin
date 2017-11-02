@@ -1,0 +1,30 @@
+#!/bin/sh
+
+cp_tar_v() {
+    if [ $# != 2 ] || [ ! -e $1 ] || [ ! -e $2 ]; then
+	echo "cptar <srcdir> <destdir>"
+	return 1;
+    fi
+
+    if [ "$(basename $(readlink $(which tar)))" = "busybox" ]; then
+	tar cf - -C $1 . | tar xvf - -C $2
+    else
+	tar cf - -C $1 . | tar xvfp - -C $2
+    fi
+}
+
+cp_tar() {
+    if [ $# != 2 ] || [ ! -e $1 ] || [ ! -e $2 ]; then
+    echo "cptar <srcdir> <destdir>"
+    return 1;
+    fi
+
+    if [ "$(basename $(readlink $(which tar)))" = "busybox" ]; then
+    tar cf - -C $1 . | tar xf - -C $2
+    else
+    tar cf - -C $1 . | tar xfp - -C $2
+    fi
+}
+
+#cp_tar $*
+cp_tar_v $*

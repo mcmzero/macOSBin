@@ -1,1 +1,0 @@
-sudo trimforce enable
