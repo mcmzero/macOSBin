@@ -58,9 +58,8 @@ if [ -f ${NVDASTARTUPWEB_INFO} ]; then
                                         
         echo "kextcahe 재생성: sudo kextcache -Boot -i /"
         sudo kextcache -Boot -i /
-fi
+        echo
 
-if [ "$WEBDRIVER_PKG" == "pkg" ]; then
         read -p "시스템을 재시작 하겠습니까? (y/N): " choice
         case "$choice" in
         [yY]* )
