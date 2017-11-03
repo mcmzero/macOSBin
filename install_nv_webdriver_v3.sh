@@ -59,17 +59,4 @@ if [ -f ${NVDASTARTUPWEB_INFO} ]; then
         echo "kextcahe 재생성: sudo kextcache -Boot -i /"
         sudo kextcache -Boot -i /
         echo
-
-        read -p "시스템을 재시작 하겠습니까? (y/N): " choice
-        case "$choice" in
-        [yY]* )
-        echo "시스템을 재시작합니다."
-        sleep 3
-        sudo reboot
-        ;;
-        * )
-        echo "작업을 종료합니다."
-        sleep 1
-        ;;
-        esac
 fi
