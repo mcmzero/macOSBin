@@ -59,4 +59,6 @@ if [ -f ${NVDASTARTUPWEB_INFO} ]; then
         echo "kextcahe 재생성: sudo kextcache -Boot -i /"
         sudo kextcache -Boot -i /
         echo
+
+        rm $PKG_FILE
 fi
