@@ -1,0 +1,19 @@
+#!/bin/sh
+
+function disable_agent {
+	echo "Disabling ${1}"
+	AGENT_PATH=/System/Library/LaunchAgents/${1}.plist
+	DAEMON_PATH=/System/Library/LaunchDaemons/${1}.plist
+	if [ -f ${AGENT_PATH} ]; then
+		launchctl unload -w ${AGENT_PATH}
+	else
+		launchctl unload -w ${DAEMON_PATH}
+	fi
+}
+
+#disable_agent com.apple.telephonyutilities.callservicesd
+#disable_agent com.apple.identityservicesd
+
+disable_agent com.apple.spindump
+disable_agent com.apple.preference.displays.MirrorDisplays
+disable_agent com.apple.imfoundation.IMRemoteURLConnectionAgent

@@ -13,7 +13,5 @@ sudo rm -rf com.apple.ids.service*
 sudo rm -rf com.apple.identityserviced*
 sudo rm -rf com.apple.security.*
 
-echo ==============
-echo cd /Library/Preferences/SystemConfiguration
-echo sudo rm -f NetworkInterfaces.plist
-echo sudo rm -f preferences.plist
+echo sudo rm -f /Library/Preferences/SystemConfiguration/NetworkInterfaces.plist
+echo sudo rm -f /Library/Preferences/SystemConfiguration/preferences.plist
