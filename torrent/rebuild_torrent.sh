@@ -10,20 +10,19 @@ function cleanup() {
 
 	cd ${TRG_DIR}
 	echo Cleanup ${TRG_DIR}
-	for FILE in *
-	do
+	for FILE in *; do
 		if [ -d "${FILE}" ] && [ "$(echo ${FILE} | cut -c 1)" == "[" ]; then
 			echo Pass: ${FILE}
 		else
-			find ${TRG_DIR}/${FILE} -name *.mp4 -exec mv -v '{}' ${SRC_DIR} \;
+			echo find "${FILE}" -name "*.mp4" -or -name "*.mkv" -or -name "*.avi" -or -name "*.smi" -or -name "*.sup" -exec mv -v '{}' ${SRC_DIR} \;
+			find "${FILE}" \( -name "*.mp4" -or -name "*.mkv" -or -name "*.avi" -or -name "*.smi" -or -name "*.sup" \) -exec mv -v '{}' ${SRC_DIR} \;
 		fi
 	done
 
-	for FILE in *
-	do
+	for FILE in *; do
 		if [ -d "${FILE}" ] && [ "$(echo ${FILE} | cut -c 1)" != "[" ]; then
-			find ${TRG_DIR}/${FILE} -name .DS_Store -exec rm '{}' \;
-			rmdir ${FILE} 2> /dev/null && echo rmdir ${FILE}
+			find "${FILE}" -name ".DS_Store" -exec rm '{}' \;
+			rmdir "${FILE}" 2> /dev/null && echo rmdir "${FILE}"
 		fi
 	done
 }
@@ -39,18 +38,26 @@ function rebuild_mp4_catagory() {
 
 	if [ "${SRC_DIR}" != "${TRG_DIR}" ]; then
 		echo Prepair ${SRC_DIR}
-		echo find "${SRC_DIR}" -name *.mp4 -exec mv -v '{}' "${TRG_DIR}" \;
-		find "${SRC_DIR}" -name *.mp4 -exec mv -v '{}' "${TRG_DIR}" \;
-		echo mv -v "${TRG_DIR}"/*.mp4 "${SRC_DIR}"
-		mv -v "${TRG_DIR}"/*.mp4 "${SRC_DIR}"
+		echo find "${SRC_DIR}" -name "*.mp4" -or -name "*.mkv" -or -name "*.avi" -or -name "*.smi" -or -name "*.sup" -exec mv -v '{}' "${TRG_DIR}" \;
+		find "${SRC_DIR}" \( -name "*.mp4" -or -name "*.mkv" -or -name "*.avi" -or -name "*.smi" -or -name "*.sup" \) -exec mv -v '{}' "${TRG_DIR}" \;
+		echo mv ${TRG_DIR}/*.{mp4,mkv,avi,smi,sup} ${SRC_DIR}
+		mv ${TRG_DIR}/*.{mp4,mkv,avi,smi,sup} ${SRC_DIR}
+		echo
 	fi
 
 	cd ${SRC_DIR}
 	echo Rebuild ${SRC_DIR}
-	for FILE in *.mp4
-	do
-		if [ "${FILE}" != "*.mp4" ]; then
-			TARGET_NAME=$(echo $FILE | cut -d "]" -f 2 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's/....p-NEXT//' -e 's/\.\./\./' -e 's/\.END//' -e 's/알\.쓸\.신\.잡/알쓸신잡/' -e 's/HDTV\.//' -e 's/H264\.//')
+	for FILE in *.{mp4,mkv,avi,smi,sup}; do
+		if [ "${FILE}" != "*.mp4" ] && [ "${FILE}" != "*.mkv" ] && [ "${FILE}" != "*.avi" ] && [ "${FILE}" != "*.smi" ] && [ "${FILE}" != "*.sup" ]; then
+			TARGET_NAME=$(echo -n ${FILE} | sed -e 's/[[:space:]]*\[.*\][[:space:]]*//' -e 's/[[:space:]]*\「.*\」[[:space:]]*//' -e 's/[[:space:]]*\\(.*\\)[[:space:]]*//')
+			TARGET_NAME=$(echo -n "${TARGET_NAME}" | sed -e 's/....[pP]-[nN][eE][xX][tT]//' -e 's/....[pP]-[wW][iI][tT][hH]//' -e 's/....[pP]-[cC][iI][nN][eE][bB][uU][sS]//')
+			TARGET_NAME=$(echo -n "${TARGET_NAME}" | sed -e 's/\.[aA][aA][cC]//' -e 's/\.[hH][dD][tT][vV]//' -e 's/\.[hH]26[45]//' -e 's/\.[eE][nN][dD]//')
+			TARGET_NAME=$(echo -n "${TARGET_NAME}" | sed -e 's/\.[hH][eE][vV][cC]//' -e 's/\.10[bB][iI][tT]//' -e 's/\.[xX]26[45]//' -e 's/\.[bB][lL][uU][rR][aA][yY]//')
+			TARGET_NAME=$(echo -n "${TARGET_NAME}" | sed -e 's/\.[wW][eE][bB]-[dD][lL]//' -e 's/-.*\././' -e 's/\.5\.1//' -e 's/\.[xX]26[45]//' -e 's/\.[bB][lL][uU][rR][aA][yY]//')
+			TARGET_NAME=$(echo -n "${TARGET_NAME}" | sed -e 's/\.\.\./\./' -e 's/\.\./\./' -e 's/알\.쓸\.신\./알쓸신/' -e 's/AMZN//' -e 's/Game.of.Thrones/Game of Thrones/')
+			TARGET_NAME=$(echo -n "${TARGET_NAME}" | sed -e 's/ .부\.//' -e 's/\.[wW][eE][bB][rR][iI][pP]//')
+			TARGET_NAME=$(echo -n "${TARGET_NAME}" | sed -e 's/\.1440[pP]//' -e 's/\.1080[pP]//' -e 's/\.720[pP]//' -e 's/\.360[pP]//')
+			TARGET_NAME=$(echo -n "${TARGET_NAME}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 			DIR_NAME=${TRG_DIR}/$(echo $TARGET_NAME | cut -d . -f 1 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 			if [ ! -d "${DIR_NAME}" ]; then
 				echo mkdir -pv "${DIR_NAME}"

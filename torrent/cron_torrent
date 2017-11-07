@@ -23,6 +23,7 @@ MAILTO=""
 10 22 * * 6,0 pi /usr/local/bin/download 런닝맨
 10 23 * * 6,0 pi /usr/local/bin/download 황금빛
 30 1 * * 6 pi /usr/local/bin/download 정글의
+30 1 * * 6 pi /usr/local/bin/download 알.쓸.신.잡
 30 23 * * 6 pi /usr/local/bin/download 빅리그
 30 1 * * 1 pi /usr/local/bin/download 개그
 30 1 * * 6,0 pi /usr/local/bin/download 고백부부

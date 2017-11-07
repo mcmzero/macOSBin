@@ -67,7 +67,7 @@ function download_torrent() {
 	VAR=$1
 	if ((VAR > 0)) 2> /dev/null
 	then
-		COUNT=${1}
+		COUNT=$((${1}+1))
 		shift
 		VAR=$1
 		if ((VAR > 0)) 2> /dev/null
