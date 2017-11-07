@@ -1,4 +1,4 @@
-# /etc/cron.d/torrent: crontab fragment for torrent
+ /etc/cron.d/torrent: crontab fragment for torrent
 #  This purges session files in session.save_path older than X,
 #  where X is defined in seconds as the largest value of
 #  session.gc_maxlifetime from all your SAPI php.ini files
@@ -12,32 +12,33 @@
 MAILTO=""
 
 # Look for and purge old sessions every 5 minutes
-*/5 * * * * pi /usr/local/bin/purge_torrent.sh
-*/10 * * * * pi /usr/local/bin/rebuild_torrent.sh &
+* * * * * pi /usr/local/bin/purge_torrent.sh &
+* * * * * pi /usr/local/bin/rebuild_torrent.sh &
 
 # 일일tv
-10 13,23 * * 1-5 pi /usr/local/bin/download 달순아 1 360
-10 13,23 * * 1-5 pi /usr/local/bin/download 인간극장
+10 13,23 * * 1-5 pi /usr/local/bin/download 달순아
+40 13,23 * * 1-5 pi /usr/local/bin/download 인간극장
 
 # 주말tv
 10 22 * * 6,0 pi /usr/local/bin/download 런닝맨
 10 23 * * 6,0 pi /usr/local/bin/download 황금빛
 30 1 * * 6 pi /usr/local/bin/download 정글의
-30 1 * * 6 pi /usr/local/bin/download 알.쓸.신.잡
 30 23 * * 6 pi /usr/local/bin/download 빅리그
 30 1 * * 1 pi /usr/local/bin/download 개그
 30 1 * * 6,0 pi /usr/local/bin/download 고백부부
 
-10 5 * * 0 pi /usr/local/bin/download 고백부부 2
-20 5 * * 0 pi /usr/local/bin/download 황금빛 2
+10 5 * * 0 pi /usr/local/bin/download 2 고백부부
+20 5 * * 0 pi /usr/local/bin/download 2 황금빛
 30 5 * * 0 pi /usr/local/bin/download 정글의
+30 1 * * 6 pi /usr/local/bin/download 알.쓸.신.잡
 40 5 * * 0 pi /usr/local/bin/download 빅리그
 50 5 * * 0 pi /usr/local/bin/download 개그
 5 5 * * 0 pi /usr/local/bin/download 런닝맨 
+15 5 * * 0 pi /usr/local/bin/download 믹스나인
 
 # 화요일 11시
 10 23 * * 2 pi /usr/local/bin/download 백선생
 
 10 1 * * 2 pi /usr/local/bin/download 처음이라
 10 1 * * 3 pi /usr/local/bin/download 처음이라
-10 5 * * 3 pi /usr/local/bin/download 처음이라 2
+10 5 * * 3 pi /usr/local/bin/download 2 처음이라
