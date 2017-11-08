@@ -84,8 +84,8 @@ function rebuild_raspberryPi() {
 
 function rebuild_changmin() {
 	echo "Rebuild CHANGMIN"
-	TORRENT_DIR=/Share/torrent
-	SOURCE_DIR=/Volumes/Movies/Torrent
+	TORRENT_DIR=/Share/nas
+	SOURCE_DIR=/Volumes/Movies/Downloads
 	TARGET_DIR=/Volumes/Movies/TV
 	case "${1}" in
 	ct*)

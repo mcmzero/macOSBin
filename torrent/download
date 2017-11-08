@@ -1,4 +1,14 @@
 #!/bin/bash
+
+SRC_PATH=/Users/changmin/drv/bin.torrent
+if [ "$1" == "sync" ]; then
+	scp pi@r1:/etc/cron.d/cron_torrent ${SRC_PATH}/cron_torrent.bak
+	scp ${SRC_PATH}/cron_torrent root@r1:/etc/cron.d
+	scp ${SRC_PATH}/* pi@r1:torrent
+	cp -af ${SRC_PATH}/* /Users/changmin/bin/torrent
+	exit
+fi
+
 source /usr/local/bin/download_torrent.sh
 
 [ $# -eq 0 ] && download_torrent_help || download_torrent $@

@@ -1,61 +1,53 @@
 #!/bin/bash
 
-SERVER_IP=192.168.0.1
-[ "$(hostname|cut -c 1-4)" == "iMac" ] && SERVER_IP=localhost
-TOR_IP_PORT=${SERVER_IP}:9191
+TOR_AUTH=moon:123123212121
+TOR_SERVER=192.168.0.1:9191
+#[ "$(hostname|cut -c 1-4)" == "iMac" ] && TOR_SERVER=localhost:9191
+
+function purge_torrent() {
+	[ "${1}" != "" ] && TOR_SERVER=${1} || 
+	TOR_LIST_TEMP=`mktemp -q`
+	echo "transmission-remote ${TOR_SERVER} --auth ${TOR_AUTH} --list"
+
+	transmission-remote ${TOR_SERVER} --auth ${TOR_AUTH} --list >& ${TOR_LIST_TEMP}
+	cat ${TOR_LIST_TEMP}
+
+	TORRENT_ID_LIST=`cat ${TOR_LIST_TEMP} | grep "Stopped\|Seeding\|Finished\|Idle" | grep "100%" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' | cut -d ' ' -f 1`
+	TORRENT_ID_LIST=`echo ${TORRENT_ID_LIST} | sed -e 's/ /,/g'`
+
+	if [ "$TORRENT_ID_LIST" != "" ]; then
+		echo "transmission-remote ${TOR_SERVER} --auth ${TOR_AUTH} --torrent $TORRENT_ID_LIST --remove"
+		transmission-remote ${TOR_SERVER} --auth ${TOR_AUTH} --torrent $TORRENT_ID_LIST --remove
+	fi
+	rm -f ${TOR_LIST_TEMP}
+}
+
+function add_magnet() {
+	#echo "transmission-remote ${TOR_SERVER} --auth moon:123123212121$@"
+	transmission-remote ${TOR_SERVER} --auth moon:123123212121$@
+}
+
+function get_magnet_list() {
+	MAGNET_LIST=""
+	MAGNET_COUNT=0
+	for URL in $@
+	do
+		#echo ${URL}
+		MAGNET=$(curl -s "${URL}" | grep "magnet:" | sed -e "s/\" style.*//" -e "s/.*\"//")
+		#echo add_magnet "--add $MAGNET"
+		if [ "$MAGNET" != "" ]; then
+			let MAGNET_COUNT=MAGNET_COUNT+1
+			MAGNET_LIST="$MAGNET_LIST -a $MAGNET"
+			echo $MAGNET
+		fi
+	done
+	echo "검색 결과: 마그넷 ${MAGNET_COUNT}개 발견"
+	[ "$MAGNET_LIST" != "" ] &&	add_magnet "${MAGNET_LIST}"
+}
 
 URL_TYPE_DRAMA="torrent_kortv_drama"
 URL_TYPE_ENT="torrent_kortv_ent"
 URL_TYPE_SOCIAL="torrent_kortv_social"
-
-function purge_torrent() {
-	echo "Purge torrent"
-	[ "${1}" == "" ] || TOR_IP_PORT=${1}
-	TOR_USER=moon
-	TOR_PASS=123123212121
-
-	TORRENTLIST=`transmission-remote ${TOR_IP_PORT} --auth ${TOR_USER}:${TOR_PASS} --list | sed -e '1d;$d;s/^ *//' | cut --delimiter=' ' --fields=1`
-
-	for TORRENTID in $TORRENTLIST
-	do
-		echo "* * * * * Operations on torrent ID $TORRENTID starting. * * * * *"
-
-		DL_COMPLETED=`transmission-remote ${TOR_IP_PORT} --auth ${TOR_USER}:${TOR_PASS} --torrent $TORRENTID --info | grep "Percent Done: 100%"`
-		STATE_STOPPED=`transmission-remote ${TOR_IP_PORT} --auth ${TOR_USER}:${TOR_PASS} --torrent $TORRENTID --info | grep "State: Stopped\|Seeding\|Finished\|Idle"`
-
-		if [ "$DL_COMPLETED" != "" ] && [ "$STATE_STOPPED" != "" ]; then
-			echo "Torrent #$TORRENTID is completed."
-			echo "Removing torrent from list."
-			transmission-remote ${TOR_IP_PORT} --auth ${TOR_USER}:${TOR_PASS} --torrent $TORRENTID --remove
-		else
-			echo "Torrent #$TORRENTID is not completed. Ignoring."
-		fi
-
-		echo "* * * * * Operations on torrent ID $TORRENTID completed. * * * * *"
-	done
-}
-
-function add_magnet() {
-	echo "마그넷 추가: ${TOR_IP_PORT} $(echo "$*"|cut -d ' ' -f 2)"
-	transmission-remote ${TOR_IP_PORT} --auth moon:123123212121 $@
-}
-
-function get_magnet() {
-        curl -s "${*}" | grep "magnet:" | sed -e "s/\" style.*//" -e "s/.*\"//"
-}
-
-function get_magnet_list() {
-	for URL in $@
-	do
-		echo ${URL}
-		MAGNET=$(get_magnet "${URL}")
-		#echo add_magnet "--add ${MAGNET}"
-		if [ "${MAGNET}" != "" ]; then
-			echo
-			add_magnet "--add ${MAGNET}"
-		fi
-	done
-}
 
 function download_torrent() {
 	# download_torrent count page quality search
@@ -88,15 +80,15 @@ function download_torrent() {
 	for PAGE_NUM in $(eval echo {1..$PAGE_MAX_NUM}); do
 		URL="https://ttocorps.com/bbs/board.php?bo_table=${URL_TYPE_DRAMA}&stx=${SEARCH}&page=${PAGE_NUM}"
 		URL_DRAMA="$(curl -s "${URL}"|grep "${QUALITY}"|grep ttocorps.com|grep wr_id|grep "${SEARCH}"|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//'|head -n ${COUNT})"
-		[ "${URL_DRAMA}" != "" ] && echo "[드라마]" && echo "${URL_DRAMA}"
+		#[ "${URL_DRAMA}" != "" ] && echo "[드라마]" && echo "${URL_DRAMA}"
 
 		URL="https://ttocorps.com/bbs/board.php?bo_table=${URL_TYPE_ENT}&stx=${SEARCH}&page=${PAGE_NUM}"
 		URL_ENT="$(curl -s "${URL}"|grep "${QUALITY}"|grep ttocorps.com|grep wr_id|grep "${SEARCH}"|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//'|head -n ${COUNT})"
-		[ "${URL_ENT}" != "" ] && echo "[예능]" && echo "${URL_ENT}"
+		#[ "${URL_ENT}" != "" ] && echo "[예능]" && echo "${URL_ENT}"
 
 		URL="https://ttocorps.com/bbs/board.php?bo_table=${URL_TYPE_SOCIAL}&stx=${SEARCH}&page=${PAGE_NUM}"
 		URL_SOCIAL="$(curl -s "${URL}"|grep "${QUALITY}"|grep ttocorps.com|grep wr_id|grep "${SEARCH}"|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//'|head -n ${COUNT})"
-		[ "${URL_SOCIAL}" != "" ] && echo "[교양]" && echo "${URL_SOCIAL}"
+		#[ "${URL_SOCIAL}" != "" ] && echo "[교양]" && echo "${URL_SOCIAL}"
 
 		get_magnet_list ${URL_DRAMA} ${URL_ENT} ${URL_SOCIAL}
 	done
