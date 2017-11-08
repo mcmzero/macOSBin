@@ -17,3 +17,7 @@ function disable_agent {
 disable_agent com.apple.spindump
 disable_agent com.apple.preference.displays.MirrorDisplays
 disable_agent com.apple.imfoundation.IMRemoteURLConnectionAgent
+
+disable_agent com.adobe.AAM.Updater-1.0
+disable_agent com.adobe.ARMDC.Communicator
+disable_agent com.adobe.ARMDC.SMJobBlessHelper

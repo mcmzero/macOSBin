@@ -1,6 +1,6 @@
 #!/bin/sh
 
-TARGET_DIR=/Volumes/Archives/Clover
+TARGET_DIR=/Volumes/Archives/macOS/Clover
 DMD_UTC=$(date -u +%y%m%d-%H)
 DMD=$(date +%y%m%d-%H)
 if [ "$(mount | grep ESP)" != "" ]; then
