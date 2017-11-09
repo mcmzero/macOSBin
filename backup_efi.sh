@@ -1,6 +1,7 @@
 #!/bin/sh
 
-TARGET_DIR=/Volumes/Archives/macOS/Clover
+TARGET_PATH="/Volumes/Archives/Google Drive/컴퓨터/Clover"
+
 DMD_UTC=$(date -u +%y%m%d-%H)
 DMD=$(date +%y%m%d-%H)
 if [ "$(mount | grep ESP)" != "" ]; then
@@ -11,4 +12,4 @@ fi
 
 EXCLUDE_TAR="--exclude .Spotlight-V100 --exclude .Trashes --exclude .fseventsd --exclude .TemporaryItems --exclude .svn"
 
-tar cvzf ${TARGET_DIR}/efi_${DMD}.tgz ${EXCLUDE_TAR} -C ${SOURCE_DIR} .
+tar cvzf "${TARGET_PATH}"/efi_${DMD}.tgz ${EXCLUDE_TAR} -C ${SOURCE_DIR} .
