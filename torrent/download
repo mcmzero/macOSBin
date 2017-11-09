@@ -1,12 +1,12 @@
 #!/bin/bash
+SRC_PATH="/Volumes/Archives/Google Drive/ShellScript/TorrentBin"
 
-SRC_PATH=/Users/changmin/drv/bin.torrent
 if [ "$1" == "sync" ]; then
-	scp pi@r1:/etc/cron.d/cron_torrent ${SRC_PATH}/cron_torrent.bak
-	scp ${SRC_PATH}/cron_torrent root@r1:/etc/cron.d
-	scp ${SRC_PATH}/* pi@r1:torrent
-	cp -af ${SRC_PATH}/* /Users/changmin/bin/torrent
-	ln -sf ${SRC_PATH}/* /usr/local/bin
+	scp pi@r1:/etc/cron.d/cron_torrent "$SRC_PATH"/cron_torrent.bak
+	scp "$SRC_PATH"/cron_torrent root@r1:/etc/cron.d
+	scp "$SRC_PATH"/* pi@r1:torrent
+	cp -af "$SRC_PATH"/* /Users/changmin/bin/torrent
+	ln -sf "$SRC_PATH"/* /usr/local/bin
 	exit
 fi
 
