@@ -6,6 +6,7 @@ if [ "$1" == "sync" ]; then
 	scp ${SRC_PATH}/cron_torrent root@r1:/etc/cron.d
 	scp ${SRC_PATH}/* pi@r1:torrent
 	cp -af ${SRC_PATH}/* /Users/changmin/bin/torrent
+	ln -sf ${SRC_PATH}/* /usr/local/bin
 	exit
 fi
 

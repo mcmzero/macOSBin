@@ -2,7 +2,7 @@
 
 TOR_AUTH=moon:123123212121
 TOR_SERVER=192.168.0.1:9191
-#[ "$(hostname|cut -c 1-4)" == "iMac" ] && TOR_SERVER=localhost:9191
+[ "$(hostname -s |cut -c 1-4)" == "iMac" ] && TOR_SERVER=localhost:9191
 
 function purge_torrent() {
 	[ "${1}" != "" ] && TOR_SERVER=${1} || 
