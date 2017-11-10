@@ -1,5 +1,2 @@
 #!/bin/bash
-source /usr/local/bin/download_torrent.sh
-
-#[ $# -eq 0 ] && download_torrent_help || download_ent $@
-download_ent 100 1 720
+source /usr/local/bin/download_torrent.sh && download_ent 100 1 720
