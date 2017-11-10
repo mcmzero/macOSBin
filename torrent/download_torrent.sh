@@ -43,9 +43,9 @@ function get_magnet_list() {
 	[ "$MAGNET_LIST" != "" ] &&	add_magnet "${MAGNET_LIST}"
 }
 
-URL_TYPE_DRAMA="torrent_kortv_drama"
-URL_TYPE_ENT="torrent_kortv_ent"
-URL_TYPE_SOCIAL="torrent_kortv_social"
+URL_TYPE_DRAMA="https://ttocorps.com/bbs/board.php?bo_table=torrent_kortv_drama"
+URL_TYPE_ENT="https://ttocorps.com/bbs/board.php?bo_table=torrent_kortv_ent"
+URL_TYPE_SOCIAL="https://ttocorps.com/bbs/board.php?bo_table=torrent_kortv_social"
 
 function download_torrent() {
 	# download_torrent count page quality search
@@ -73,22 +73,23 @@ function download_torrent() {
 		fi
 	fi
 	SEARCH=$@
-	echo "검색[$SEARCH]"
+	echo "검색 [$SEARCH]"
 
 	URL_LIST=""
 	for PAGE_NUM in $(eval echo {1..$PAGE_MAX_NUM}); do
-		URL="https://ttocorps.com/bbs/board.php?bo_table=${URL_TYPE_DRAMA}&stx=${SEARCH}&page=${PAGE_NUM}"
+		URL="${URL_TYPE_DRAMA}&page=${PAGE_NUM}&stx=${SEARCH}"
 		URL_DRAMA="$(curl -s "${URL}"|grep "${QUALITY}"|grep ttocorps.com|grep wr_id|grep "${SEARCH}"|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//'|head -n ${COUNT})"
 		[ "${URL_DRAMA}" != "" ] && URL_LIST="$URL_LIST $URL_DRAMA"
 
-		URL="https://ttocorps.com/bbs/board.php?bo_table=${URL_TYPE_ENT}&stx=${SEARCH}&page=${PAGE_NUM}"
+		URL="${URL_TYPE_ENT}&page=${PAGE_NUM}&stx=${SEARCH}"
 		URL_ENT="$(curl -s "${URL}"|grep "${QUALITY}"|grep ttocorps.com|grep wr_id|grep "${SEARCH}"|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//'|head -n ${COUNT})"
 		[ "${URL_ENT}" != "" ] && URL_LIST="$URL_LIST $URL_ENT"
 
-		URL="https://ttocorps.com/bbs/board.php?bo_table=${URL_TYPE_SOCIAL}&stx=${SEARCH}&page=${PAGE_NUM}"
+		URL="${URL_TYPE_SOCIAL}&page=${PAGE_NUM}&stx=${SEARCH}"
 		URL_SOCIAL="$(curl -s "${URL}"|grep "${QUALITY}"|grep ttocorps.com|grep wr_id|grep "${SEARCH}"|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//'|head -n ${COUNT})"
 		[ "${URL_SOCIAL}" != "" ] && URL_LIST="$URL_LIST $URL_SOCIAL"
 	done
+
 	get_magnet_list ${URL_LIST}
 }
 
@@ -120,7 +121,7 @@ function download_drama() {
 
 	URL_LIST=""
 	for PAGE_NUM in $(eval echo {1..$PAGE_MAX_NUM}); do
-		URL="https://ttocorps.com/bbs/board.php?bo_table=${URL_TYPE_DRAMA}&page=${PAGE_NUM}"
+		URL="${URL_TYPE_DRAMA}&page=${PAGE_NUM}"
 		URL_DRAMA=$(curl -s "${URL}"|grep "${QUALITY}"|grep ttocorps.com|grep wr_id|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//'|head -n ${COUNT})
 		[ "${URL_DRAMA}" != "" ] && URL_LIST="$URL_LIST $URL_DRAMA"
 	done
@@ -155,7 +156,7 @@ function download_ent() {
 
 	URL_LIST=""
 	for PAGE_NUM in $(eval echo {1..$PAGE_MAX_NUM}); do
-		URL="https://ttocorps.com/bbs/board.php?bo_table=${URL_TYPE_ENT}&page=${PAGE_NUM}"
+		URL="${URL_TYPE_ENT}&page=${PAGE_NUM}"
 		URL_ENT=$(curl -s "${URL}"|grep "${QUALITY}"|grep ttocorps.com|grep wr_id|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//'|head -n ${COUNT})
 		[ "${URL_ENT}" != "" ] && URL_LIST="$URL_LIST $URL_ENT"
 	done
@@ -188,8 +189,8 @@ function download_social() {
 
 	URL_LIST=""
 	for PAGE_NUM in $(eval echo {1..$PAGE_MAX_NUM}); do
-		URL="https://ttocorps.com/bbs/board.php?bo_table=${URL_TYPE_SOCIAL}&stx=${SEARCH}&page=${PAGE_NUM}"
-		URL_SOCIAL=$(curl -s "${URL}"|grep "${QUALITY}"|grep ttocorps.com|grep wr_id|grep "${SEARCH}"|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//'|head -n ${COUNT})
+		URL="${URL_TYPE_SOCIAL}&page=${PAGE_NUM}&stx=${SEARCH}"
+		URL_SOCIAL=$(curl -s "${URL}"|grep "${QUALITY}"|grep ttocorps.com|grep wr_id|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//'|head -n ${COUNT})
 		[ "${URL_SOCIAL}" != "" ] && URL_LIST="$URL_LIST $URL_SOCIAL"
 	done
 	get_magnet_list ${URL_LIST}
