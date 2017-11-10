@@ -2,6 +2,7 @@
 
 TOR_AUTH=moon:123123212121
 TOR_SERVER=192.168.0.1:9191
+
 [ "$(hostname -s |cut -c 1-4)" == "iMac" ] && TOR_SERVER=localhost:9191
 
 function purge_torrent() {
@@ -23,7 +24,6 @@ function purge_torrent() {
 }
 
 function add_magnet() {
-	#echo "transmission-remote ${TOR_SERVER} --auth moon:123123212121$@"
 	transmission-remote ${TOR_SERVER} --auth moon:123123212121$@
 }
 
@@ -32,10 +32,8 @@ function get_magnet_list() {
 	MAGNET_COUNT=0
 	for URL in $@
 	do
-		#echo ${URL}
 		MAGNET=$(curl -s "${URL}" | grep "magnet:" | sed -e "s/\" style.*//" -e "s/.*\"//")
-		#echo add_magnet "--add $MAGNET"
-		if [ "$MAGNET" != "" ]; then
+			if [ "$MAGNET" != "" ]; then
 			let MAGNET_COUNT=MAGNET_COUNT+1
 			MAGNET_LIST="$MAGNET_LIST -a $MAGNET"
 			echo $MAGNET
@@ -77,27 +75,27 @@ function download_torrent() {
 	SEARCH=$@
 	echo "검색[$SEARCH]"
 
+	URL_LIST=""
 	for PAGE_NUM in $(eval echo {1..$PAGE_MAX_NUM}); do
 		URL="https://ttocorps.com/bbs/board.php?bo_table=${URL_TYPE_DRAMA}&stx=${SEARCH}&page=${PAGE_NUM}"
 		URL_DRAMA="$(curl -s "${URL}"|grep "${QUALITY}"|grep ttocorps.com|grep wr_id|grep "${SEARCH}"|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//'|head -n ${COUNT})"
-		#[ "${URL_DRAMA}" != "" ] && echo "[드라마]" && echo "${URL_DRAMA}"
+		[ "${URL_DRAMA}" != "" ] && URL_LIST="$URL_LIST $URL_DRAMA"
 
 		URL="https://ttocorps.com/bbs/board.php?bo_table=${URL_TYPE_ENT}&stx=${SEARCH}&page=${PAGE_NUM}"
 		URL_ENT="$(curl -s "${URL}"|grep "${QUALITY}"|grep ttocorps.com|grep wr_id|grep "${SEARCH}"|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//'|head -n ${COUNT})"
-		#[ "${URL_ENT}" != "" ] && echo "[예능]" && echo "${URL_ENT}"
+		[ "${URL_ENT}" != "" ] && URL_LIST="$URL_LIST $URL_ENT"
 
 		URL="https://ttocorps.com/bbs/board.php?bo_table=${URL_TYPE_SOCIAL}&stx=${SEARCH}&page=${PAGE_NUM}"
 		URL_SOCIAL="$(curl -s "${URL}"|grep "${QUALITY}"|grep ttocorps.com|grep wr_id|grep "${SEARCH}"|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//'|head -n ${COUNT})"
-		#[ "${URL_SOCIAL}" != "" ] && echo "[교양]" && echo "${URL_SOCIAL}"
-
-		get_magnet_list ${URL_DRAMA} ${URL_ENT} ${URL_SOCIAL}
+		[ "${URL_SOCIAL}" != "" ] && URL_LIST="$URL_LIST $URL_SOCIAL"
 	done
+	get_magnet_list ${URL_LIST}
 }
 
 function download_drama() {
 	# download_drama count page_num quality
 	COUNT=1
-	PAGE_MAX_NUM=1
+	PAGE_MAX_NUM=2
 	QUALITY="720p-NEXT"
 	SEARCH=""
 
@@ -120,18 +118,19 @@ function download_drama() {
 		fi
 	fi
 
+	URL_LIST=""
 	for PAGE_NUM in $(eval echo {1..$PAGE_MAX_NUM}); do
 		URL="https://ttocorps.com/bbs/board.php?bo_table=${URL_TYPE_DRAMA}&page=${PAGE_NUM}"
 		URL_DRAMA=$(curl -s "${URL}"|grep "${QUALITY}"|grep ttocorps.com|grep wr_id|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//'|head -n ${COUNT})
-		[ "${URL_DRAMA}" != "" ] && echo "드라마: ${URL_DRAMA}"
-		get_magnet_list ${URL_DRAMA}
+		[ "${URL_DRAMA}" != "" ] && URL_LIST="$URL_LIST $URL_DRAMA"
 	done
+	get_magnet_list ${URL_LIST}
 }
 
 function download_ent() {
 	# download_ent count page_num quality
 	COUNT=1
-	PAGE_MAX_NUM=1
+	PAGE_MAX_NUM=2
 	QUALITY="720p-NEXT"
 	SEARCH=""
 
@@ -154,17 +153,19 @@ function download_ent() {
 		fi
 	fi
 
-	URL="https://ttocorps.com/bbs/board.php?bo_table=${URL_TYPE_ENT}&page=${PAGE_NUM}"
-	URL_ENT=$(curl -s "${URL}"|grep "${QUALITY}"|grep ttocorps.com|grep wr_id|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//'|head -n ${COUNT})
-	[ "${URL_ENT}" != "" ] && echo "예능: ${URL_ENT}"
-
-	get_magnet_list ${URL_ENT}
+	URL_LIST=""
+	for PAGE_NUM in $(eval echo {1..$PAGE_MAX_NUM}); do
+		URL="https://ttocorps.com/bbs/board.php?bo_table=${URL_TYPE_ENT}&page=${PAGE_NUM}"
+		URL_ENT=$(curl -s "${URL}"|grep "${QUALITY}"|grep ttocorps.com|grep wr_id|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//'|head -n ${COUNT})
+		[ "${URL_ENT}" != "" ] && URL_LIST="$URL_LIST $URL_ENT"
+	done
+	get_magnet_list ${URL_LIST}
 }
 
 function download_social() {
 	# download_social count page_num quality
 	COUNT=1
-	PAGE_NUM=1
+	PAGE_NUM=2
 	QUALITY="720p-NEXT"
 	SEARCH=""
 
@@ -185,11 +186,13 @@ function download_social() {
 	fi
 	SEARCH=$@
 
-	URL="https://ttocorps.com/bbs/board.php?bo_table=${URL_TYPE_SOCIAL}&stx=${SEARCH}&page=${PAGE_NUM}"
-	URL_SOCIAL=$(curl -s "${URL}"|grep "${QUALITY}"|grep ttocorps.com|grep wr_id|grep "${SEARCH}"|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//'|head -n ${COUNT})
-	[ "${URL_SOCIAL}" != "" ] && echo "교양: ${URL_SOCIAL}"
-
-	get_magnet_list ${URL_SOCIAL}
+	URL_LIST=""
+	for PAGE_NUM in $(eval echo {1..$PAGE_MAX_NUM}); do
+		URL="https://ttocorps.com/bbs/board.php?bo_table=${URL_TYPE_SOCIAL}&stx=${SEARCH}&page=${PAGE_NUM}"
+		URL_SOCIAL=$(curl -s "${URL}"|grep "${QUALITY}"|grep ttocorps.com|grep wr_id|grep "${SEARCH}"|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//'|head -n ${COUNT})
+		[ "${URL_SOCIAL}" != "" ] && URL_LIST="$URL_LIST $URL_SOCIAL"
+	done
+	get_magnet_list ${URL_LIST}
 }
 
 function download_torrent_help() {

@@ -18,31 +18,39 @@ MAILTO=""
 * *	* * *	pi	/usr/local/bin/rebuild_torrent.sh
 
 # 일일tv
-10 13,23	* * 1-5	pi	/usr/local/bin/download	달순아
+10 13,23	* * 1-5	pi	/usr/local/bin/download	1 1 360 TV소설
 40 13,23	* * 1-5	pi	/usr/local/bin/download	인간극장
 
 # 주말tv
 10 22	* * 6,0	pi	/usr/local/bin/download	런닝맨
-10 23	* * 6,0	pi	/usr/local/bin/download	황금빛
-30 1	* * 6	pi	/usr/local/bin/download	정글의
-30 23	* * 6	pi	/usr/local/bin/download	빅리그
-30 1	* * 1	pi	/usr/local/bin/download	개그
+10 23	* * 6,0	pi	/usr/local/bin/download	황금빛 내 인생
+30 1	* * 6	pi	/usr/local/bin/download	정글의 법칙
+30 23	* * 6	pi	/usr/local/bin/download	코미디 빅리그
+30 1	* * 1	pi	/usr/local/bin/download	개그 콘서트
 30 1	* * 6,0	pi	/usr/local/bin/download	고백부부
 
 10 5	* * 0	pi	/usr/local/bin/download	2 고백부부
-20 5	* * 0	pi	/usr/local/bin/download	2 황금빛
-30 5	* * 0	pi	/usr/local/bin/download	정글의
+20 5	* * 0	pi	/usr/local/bin/download	2 황금빛 내 인생
+30 5	* * 0	pi	/usr/local/bin/download	정글의 법칙
+30 1	* * 0	pi	/usr/local/bin/download	SNL 코리아 9
 30 1	* * 6	pi	/usr/local/bin/download	알.쓸.신.잡
-40 5	* * 0	pi	/usr/local/bin/download	빅리그
-50 5	* * 0	pi	/usr/local/bin/download	개그
-5 5	* * 0	pi	/usr/local/bin/download	런닝맨 
+40 5	* * 0	pi	/usr/local/bin/download	코미디 빅리그
+50 5	* * 0	pi	/usr/local/bin/download	개그 콘서트
+5 5     * * 0	pi	/usr/local/bin/download	런닝맨 
 15 5	* * 0	pi	/usr/local/bin/download	믹스나인
 
 # 월요일
 30 1	* * 2   pi      /usr/local/bin/download 섬총사
 
-# 화요일 11시 a
+# 화요일
 10 23   * * 2   pi      /usr/local/bin/download 집밥 백선생 시즌3
+10 2	* * 3   pi      /usr/local/bin/download 모란봉 클럽
+
+# 목요일
+10 23   * * 4   pi      /usr/local/bin/download 어쩌다 어른
+
+# 금요일
+10 2	* * 6   pi      /usr/local/bin/download 백종원의 푸드트럭
 
 10 1	* * 2	pi	/usr/local/bin/download	이번 생은 처음이라
 10 1	* * 3	pi	/usr/local/bin/download	이번 생은 처음이라
