@@ -3,8 +3,8 @@
 RAS_SOURCE_PATH=/media/torrent
 RAS_TARGET_PATH=/media/torrent/동영상
 
-TORRENT_SOURCE_PATH=/Share/nas
-TORRENT_TARGET_PATH=/Share/nas/동영상
+TORRENT_SOURCE_PATH=/Share/routerAp
+TORRENT_TARGET_PATH=/Share/routerAp/동영상
 
 MCM_SOURCE_PATH=/Volumes/Movies
 MCM_TARGET_PATH=/Volumes/Movies
