@@ -12,4 +12,10 @@ fi
 
 source /usr/local/bin/download_torrent.sh
 
-[ $# -eq 0 ] && download_torrent_help || download_torrent $@
+if [ $# -eq 0 ]; then
+	download_torrent_help
+	read -p "검색할 토렌트 이름을 입력하세요:" searchTorrent
+	download_torrent "$searchTorrent"
+else
+	download_torrent $@
+fi

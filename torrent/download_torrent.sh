@@ -197,17 +197,20 @@ function download_social() {
 
 function download_torrent_help() {
 	#download_torrent count page_max_num quality(360 720 1080) search text
-	echo "download_torrent 개수 최대페이지 화질(360 720 1080) 검색어"
-	echo "download_torrent 개수 최대페이지 화질(360 720 1080)"
-	echo "download_torrent 개수 최대페이지 검색어"
-	echo "download_torrent 개수 최대페이지"
-	echo "download_torrent 개수 검색어"
-	echo "download_torrent 개수"
-	echo "download_torrent 검색어"
-	echo "download_torrent 100 5 720 동상이몽2"
-	echo "download_torrent 1 1 360 TV소설 꽃피어라 달순아"
-	echo "download_torrent 1 1 720 황금빛 내 인생"
-	echo "download_torrent 1 1 720 무한 도전"
-	echo "download_torrent 100 2 720 아는 형님"
-	exit
+	echo "기본 사용법:"
+	echo "download 개수 최대페이지 화질(360 720 1080) 검색어"
+	echo "download 개수 최대페이지 화질(360 720 1080)"
+	echo "download 개수 최대페이지 검색어"
+	echo "download 개수 최대페이지"
+	echo "download 개수 검색어"
+	echo "download 개수"
+	echo "download 검색어"
+	echo
+	echo "예제:"
+	echo "download 100 5 720 동상이몽2"
+	echo "download 1 1 360 TV소설 꽃피어라 달순아"
+	echo "download 1 1 720 황금빛 내 인생"
+	echo "download 1 1 720 무한 도전"
+	echo "download 100 2 720 아는 형님"
+	echo
 }

@@ -36,7 +36,7 @@ MAILTO=""
 30 1	* * 6	pi	/usr/local/bin/download	알.쓸.신.잡
 40 5	* * 0	pi	/usr/local/bin/download	코미디 빅리그
 50 5	* * 0	pi	/usr/local/bin/download	개그 콘서트
-5 5     * * 0	pi	/usr/local/bin/download	런닝맨 
+5 5	* * 0	pi	/usr/local/bin/download	런닝맨 
 15 5	* * 0	pi	/usr/local/bin/download	믹스나인
 
 # 월요일
@@ -45,6 +45,9 @@ MAILTO=""
 # 화요일
 10 23   * * 2   pi      /usr/local/bin/download 집밥 백선생 시즌3
 10 2	* * 3   pi      /usr/local/bin/download 모란봉 클럽
+
+# 수요일
+10 23	* * 3   pi      /usr/local/bin/download 주간 아이돌
 
 # 목요일
 10 23   * * 4   pi      /usr/local/bin/download 어쩌다 어른
