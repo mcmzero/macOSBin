@@ -7,6 +7,7 @@ if [ "$1" == "sync" ]; then
 	scp "$SRC_PATH"/* pi@r1:torrent
 	cp -af "$SRC_PATH"/* /Users/changmin/bin/torrent
 	ln -sf "$SRC_PATH"/* /usr/local/bin
+	ssh root@r1 ln -sf ~pi/torrent/* /usr/local/bin
 	exit
 fi
 
@@ -16,6 +17,8 @@ if [ $# -eq 0 ]; then
 	download_torrent_help
 	read -p "검색할 토렌트 이름을 입력하세요:" searchTorrent
 	download_torrent "$searchTorrent"
+elif [ "$(echo "$@" | cut -d: -f1)" == "magnet" ]; then
+	add_magnet -a $@
 else
 	download_torrent $@
 fi

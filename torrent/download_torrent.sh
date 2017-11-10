@@ -24,7 +24,7 @@ function purge_torrent() {
 }
 
 function add_magnet() {
-	transmission-remote ${TOR_SERVER} --auth moon:123123212121$@
+	transmission-remote ${TOR_SERVER} --auth moon:123123212121 $(echo "$@" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 }
 
 function get_magnet_list() {
