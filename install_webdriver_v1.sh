@@ -32,7 +32,7 @@ PKG_URL=https://images.nvidia.com/mac/pkg/${PKG_MAJOR_VERSION}/${PKG_FILE}
 SYSTEM_VERSION_FILE=/System/Library/CoreServices/SystemVersion.plist
 SYSCTL_OSVERSION=$(sysctl kern.osversion | cut -d ' ' -f2)
 if [ "${OSVERSION}" == "" ]; then
-        sudo /usr/libexec/PlistBuddy -c "set :ProductBuildVersion ${SYSCTL_OSVERSION}" ${SYSTEM_VERSION_FILE}
+        sudo sed -e "s/\<string\>${OSVERSION}\<\/string\>/\<string\>${SYSCTL_OSVERSION}\<\/string\>/" -i '' ${SYSTEM_VERSION_FILE}
         OSVERSION=$(sw_vers -buildVersion)
 fi
 
@@ -40,8 +40,8 @@ echo "Nvidia ${PKG_FILE} 설치 스크립트 입니다."
 sudo echo ""
 if [ "${PKG_OSVERSION}" != "${OSVERSION}" ]; then
         echo "시스템 빌드번호 변경: ${OSVERSION} -> ${PKG_OSVERSION}"
-        sudo /usr/libexec/PlistBuddy -c "set :ProductBuildVersion ${PKG_OSVERSION}" ${SYSTEM_VERSION_FILE}
-        SYSTEM_OSVERSION=$(/usr/libexec/PlistBuddy -c "print ProductBuildVersion" ${SYSTEM_VERSION_FILE})
+        sudo sed -e "s/${OSVERSION}/${PKG_OSVERSION}/" -i '' ${SYSTEM_VERSION_FILE}
+        SYSTEM_OSVERSION=$(grep ${PKG_OSVERSION} ${SYSTEM_VERSION_FILE} | cut -d "<" -f 2 | cut -d ">" -f 2)
         echo "시스템 빌드번호 확인: ${SYSTEM_OSVERSION} $(sw_vers -buildVersion)"
         echo
 fi
@@ -61,21 +61,24 @@ fi
 
 if [ "${PKG_OSVERSION}" != "${OSVERSION}" ]; then
         echo "시스템 빌드번호 복구: ${PKG_OSVERSION} -> ${OSVERSION}"
-        sudo /usr/libexec/PlistBuddy -c "set :ProductBuildVersion ${OSVERSION}" ${SYSTEM_VERSION_FILE}
-        SYSTEM_OSVERSION=$(/usr/libexec/PlistBuddy -c "print ProductBuildVersion" ${SYSTEM_VERSION_FILE})
+        sudo sed -e "s/${PKG_OSVERSION}/${OSVERSION}/" -i '' ${SYSTEM_VERSION_FILE}
+        SYSTEM_OSVERSION=$(grep ${OSVERSION} ${SYSTEM_VERSION_FILE} | cut -d "<" -f 2 | cut -d ">" -f 2)
         echo "시스템 빌드번호 확인: ${SYSTEM_OSVERSION} $(sw_vers -buildVersion)"
         echo
 fi
 
 if [ -f ${NVDASTARTUPWEB_INFO} ]; then
-        BEFORE_NUMBER=$(/usr/libexec/PlistBuddy -c "print IOKitPersonalities:NVDAStartup:NVDARequiredOS" ${NVDASTARTUPWEB_INFO})
-        sudo /usr/libexec/PlistBuddy -c "set :IOKitPersonalities:NVDAStartup:NVDARequiredOS ${MAJOR_NUMBER}" ${NVDASTARTUPWEB_INFO}
+        BEFORE_NUMBER=$(grep ${MAJOR_NUMBER} ${NVDASTARTUPWEB_INFO} | cut -d "<" -f 2 | cut -d ">" -f 2)
+        echo sudo sed -e "s/>${MAJOR_NUMBER}.*</>${MAJOR_NUMBER}</" -i '' ${NVDASTARTUPWEB_INFO}
+        sudo sed -e "s/>${MAJOR_NUMBER}.*</>${MAJOR_NUMBER}</" -i '' ${NVDASTARTUPWEB_INFO}
         sudo chown -R root:wheel ${NVDASTARTUPWEB_INFO}
-        AFTER_NUMBER=$(/usr/libexec/PlistBuddy -c "print IOKitPersonalities:NVDAStartup:NVDARequiredOS" ${NVDASTARTUPWEB_INFO})
+        AFTER_NUMBER=$(grep ${MAJOR_NUMBER} ${NVDASTARTUPWEB_INFO} | cut -d "<" -f 2 | cut -d ">" -f 2)
         echo "NVDAStartupWeb.kext 변경: ${BEFORE_NUMBER} -> ${AFTER_NUMBER}"
         echo                               
+                                        
         echo "kextcahe 재생성: sudo kextcache -Boot -i /"
         sudo kextcache -Boot -i /
         echo
+
         rm ${PKG_FILE}
 fi
