@@ -1,28 +1,29 @@
 #!/bin/bash
-SRC_PATH="/Volumes/Archives/Google Drive/ShellScript/TorrentBin"
 
+SRC_PATH="$HOME/tor"
 if [ "$1" == "sync" ]; then
-	mv -f "$SRC_PATH"/cron_torrent "$SRC_PATH"/cron_torrent.bak
-	scp root@r1:/etc/cron.d/cron_torrent "$SRC_PATH"/cron_torrent
+        ln -sf $SRC_PATH/* /usr/local/bin
 
-	scp "$SRC_PATH"/* pi@r1:torrent
-	ssh root@r1 ln -sf ~pi/torrent/* /usr/local/bin
+        mv -f $SRC_PATH/cron_torrent $SRC_PATH/cron_torrent.bak
+        scp root@r1:/etc/cron.d/cron_torrent $SRC_PATH/cron_torrent
 
-	rm /Users/changmin/bin/torrent/*
-	cp -af "$SRC_PATH"/* /Users/changmin/bin/torrent
-	ln -sf "$SRC_PATH"/* /usr/local/bin
+        scp $SRC_PATH/* pi@r1:torrent
+        ssh root@r1 ln -sf ~pi/torrent/* /usr/local/bin
 
-	exit
+        rm ~changmin/bin/torrent/*
+        cp -af $SRC_PATH/* $HOME/bin/torrent
+
+        exit
 fi
 
 source /usr/local/bin/download_torrent.sh
 
 if [ $# -eq 0 ]; then
-	download_torrent_help
-	read -p "검색할 토렌트 이름을 입력하세요:" searchTorrent
-	download_torrent "$searchTorrent"
+        download_torrent_help
+        read -p "검색할 토렌트 이름을 입력하세요:" searchTorrent
+        download_torrent "$searchTorrent"
 elif [ "$(echo "$@" | cut -d: -f1)" == "magnet" ]; then
-	add_magnet -a $@
+        add_magnet -a $@
 else
-	download_torrent $@
+        download_torrent $@
 fi
