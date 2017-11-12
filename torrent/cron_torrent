@@ -61,4 +61,4 @@ MAILTO=""
 10 5	* * 3	pi	/usr/local/bin/download	2 이번 생은 처음이라
 10 6	* * 3	pi	/usr/local/bin/download	신서유기 외전
 
-10 6	* * *	pi	/usr/local/bin/download_ent
+30 5	* * *	pi	/usr/local/bin/download_ent 2

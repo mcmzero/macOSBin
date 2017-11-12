@@ -5,9 +5,9 @@ function disable_agent {
 	AGENT_PATH=/System/Library/LaunchAgents/${1}.plist
 	DAEMON_PATH=/System/Library/LaunchDaemons/${1}.plist
 	if [ -f ${AGENT_PATH} ]; then
-		launchctl unload -w ${AGENT_PATH}
+		launchctl unload -w ${AGENT_PATH} && echo OK
 	else
-		launchctl unload -w ${DAEMON_PATH}
+		launchctl unload -w ${DAEMON_PATH} && echo OK
 	fi
 }
 

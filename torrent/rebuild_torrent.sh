@@ -6,8 +6,8 @@ RAS_TARGET_PATH=/media/torrent/동영상
 TORRENT_SOURCE_PATH=/Share/routerAp
 TORRENT_TARGET_PATH=/Share/routerAp/동영상
 
-MCM_SOURCE_PATH=/Volumes/Movies
-MCM_TARGET_PATH=/Volumes/Movies
+MCM_SOURCE_PATH=$HOME/Movies
+MCM_TARGET_PATH=$HOME/Movies
 
 [ "$(hostname -s |cut -c 1-4)" == "iMac" ] && SAY_MODE=ON
 
