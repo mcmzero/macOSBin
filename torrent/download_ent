@@ -1,2 +1,3 @@
 #!/bin/bash
-source /usr/local/bin/download_torrent.sh && download_ent 100 1 720
+[ $# -eq 0 ] && source /usr/local/bin/download_torrent.sh && download_ent 100 1 720
+[ $# -eq 1 ] && source /usr/local/bin/download_torrent.sh && download_ent 100 $1 720
