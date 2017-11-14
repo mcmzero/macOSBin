@@ -2,16 +2,18 @@
 
 SRC_PATH="$HOME/tor"
 if [ "$1" == "sync" ]; then
+        rm ~changmin/bin/torrent/*
+        cp -af $SRC_PATH/* $HOME/bin/torrent
         ln -sf $SRC_PATH/* /usr/local/bin
 
         mv -f $SRC_PATH/cron_torrent $SRC_PATH/cron_torrent.bak
         scp root@r1:/etc/cron.d/cron_torrent $SRC_PATH/cron_torrent
 
         scp $SRC_PATH/* pi@r1:torrent
-        ssh root@r1 ln -sf ~pi/torrent/* /usr/local/bin
+        ssh root@r1 "ln -sf ~pi/torrent/download* /usr/local/bin;ln -sf ~pi/torrent/*torrent*.sh /usr/local/bin"
 
-        rm ~changmin/bin/torrent/*
-        cp -af $SRC_PATH/* $HOME/bin/torrent
+        ssh root@r1 "tar cvzf ~pi/torrent/etc.tgz -C /etc ."
+        scp pi@r1:torrent/etc.tgz $SRC_PATH
 
         exit
 fi
