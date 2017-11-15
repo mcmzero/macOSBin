@@ -2,18 +2,37 @@
 
 TOR_AUTH=moon:123123212121
 TOR_SERVER=192.168.0.1:9191
-[ "$(hostname -s |cut -c 1-4)" == "iMac" ] && TOR_SERVER=192.168.0.3:9191
+TOR_SERVER_IMAC=192.168.0.3
 
-# transmission-remote 192.168.0.1:9191 --auth moon:123123212121 --list
-# transmission-remote 192.168.0.3:9191 --auth moon:123123212121 --list
-# transmission-remote 192.168.0.8:9191 --auth moon:123123212121 --list
+function set_server() {
+	TOR_SERVER="$@":9191
+}
+
+function set_server_local() {
+	TOR_SERVER=localhost:9191
+}
+
+function set_server_config() {
+	if [ "$(hostname -s |cut -c 1-4)" == "iMac" ]; then
+		[ "$(ps x|grep Transmission|grep App)" == "" ] && set_server "$TOR_SERVER_IMAC" || set_server_local
+	fi
+}
+
+function list_magnet() {
+	# tranmission-remote 192.168.0.3:9191 --auth moon:123123212121s --list
+	transmission-remote ${TOR_SERVER} --auth ${TOR_AUTH} --list
+}
+
+function remove_magnet() {
+	transmission-remote ${TOR_SERVER} --auth ${TOR_AUTH} --torrent $TORRENT_ID_LIST --remove
+
+}
 
 function purge_torrent() {
 	[ "${1}" != "" ] && TOR_SERVER=${1} || 
 	TOR_LIST_TEMP=`mktemp -q`
-	echo "transmission-remote ${TOR_SERVER} --auth ${TOR_AUTH} --list"
 
-	transmission-remote ${TOR_SERVER} --auth ${TOR_AUTH} --list >& ${TOR_LIST_TEMP}
+	list_magnet >& ${TOR_LIST_TEMP}
 	cat ${TOR_LIST_TEMP}
 
 	TORRENT_ID_LIST=`cat ${TOR_LIST_TEMP} | grep "Stopped\|Seeding\|Finished\|Idle" | grep "100%" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' | cut -d ' ' -f 1`

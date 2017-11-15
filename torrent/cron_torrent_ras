@@ -1,0 +1,21 @@
+# /etc/cron.d/torrent: crontab fragment for torrent
+#  This purges session files in session.save_path older than X,
+#  where X is defined in seconds as the largest value of
+#  session.gc_maxlifetime from all your SAPI php.ini files
+#  or 24 minutes if not defined.  The script triggers only
+#  when session.save_handler=files.
+#
+#  WARNING: The scripts tries hard to honour all relevant
+#  session PHP options, but if you do something unusual
+#  you have to disable this script and take care of your
+#  sessions yourself.
+MAILTO=""
+
+# m h dom mon dow user  command
+
+# Look for and purge old sessions every 5 minutes
+*/30 *	* * *	pi	/usr/local/bin/local_purge_torrent.sh
+*/2 *	* * *	pi	/usr/local/bin/local_rebuild_torrent.sh
+
+30 10	* * *	pi	/usr/local/bin/local_download_ent 2
+30 11	* * *	pi	/usr/local/bin/local_download_drama 2

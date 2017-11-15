@@ -1,31 +1,55 @@
 #!/bin/bash
 
-SRC_PATH="$HOME/tor"
+function link_file() {
+        cd /usr/local/bin
+        for FILE in download* *torrent*.sh; do
+                FILE=$(echo $FILE | sed -e 's/local_//g')
+                ln -sfv $FILE local_$FILE
+        done
+}
+
+if [ "$1" == "link" ]; then
+        link_file
+        exit
+fi
+
 if [ "$1" == "sync" ]; then
+        SRC_PATH="$HOME/tor"
         rm ~changmin/bin/torrent/*
         cp -af $SRC_PATH/* $HOME/bin/torrent
-        ln -sf $SRC_PATH/* /usr/local/bin
 
-        mv -f $SRC_PATH/cron_torrent $SRC_PATH/cron_torrent.bak
-        scp root@r1:/etc/cron.d/cron_torrent $SRC_PATH/cron_torrent
+        ln -sfv $SRC_PATH/download* /usr/local/bin
+        ln -sfv $SRC_PATH/*torrent*.sh /usr/local/bin
+
+        scp root@r1:/etc/cron.d/cron_torrent_* $SRC_PATH
 
         scp $SRC_PATH/* pi@r1:torrent
-        ssh root@r1 "ln -sf ~pi/torrent/download* /usr/local/bin;ln -sf ~pi/torrent/*torrent*.sh /usr/local/bin"
+        ssh root@r1 "
+                ln -sfv ~pi/torrent/download* /usr/local/bin
+                ln -sfv ~pi/torrent/*torrent*.sh /usr/local/bin
+        "
 
-        ssh root@r1 "tar cvzf ~pi/torrent/etc.tgz -C /etc ."
-        scp pi@r1:torrent/etc.tgz $SRC_PATH
+        ssh root@r1 "tar czf ~pi/torrent/etc.tgz -C /etc ."
+        scp root@r1:~pi/torrent/etc.tgz $SRC_PATH
+
+        link_file
+        ssh root@r1 /usr/local/bin/download link
 
         exit
 fi
 
 source /usr/local/bin/download_torrent.sh
+[ "$(basename $0 | cut -d_ -f 1)" == "local" ] && set_server_local || set_server_config
 
 if [ $# -eq 0 ]; then
         download_torrent_help
         read -p "검색할 토렌트 이름을 입력하세요:" searchTorrent
-        download_torrent "$searchTorrent"
+        [ "$searchTorrent" != "" ] && download_torrent "$searchTorrent"
+        purge_torrent
 elif [ "$(echo "$@" | cut -d: -f1)" == "magnet" ]; then
         add_magnet -a $@
+        purge_torrent
 else
         download_torrent $@
+        purge_torrent
 fi

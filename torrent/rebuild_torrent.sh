@@ -1,13 +1,17 @@
 #!/bin/bash
 
-RAS_SOURCE_PATH=/media/torrent
-RAS_TARGET_PATH=/media/torrent/동영상
+PI1_AP_SOURCE_PATH=/media/torrent
+PI1_AP_TARGET_PATH=/media/torrent/동영상
+PI1_RAS_SOURCE_PATH=/mnt/torrent
+PI1_RAS_TARGET_PATH=/mnt/torrent/동영상
 
-TORRENT_SOURCE_PATH=/Share/routerAp
-TORRENT_TARGET_PATH=/Share/routerAp/동영상
+MCM_AP_TORRENT_SOURCE_PATH=/Share/apTorrent
+MCM_AP_TORRENT_TARGET_PATH=/Share/apTorrent/동영상
+MCM_RAS_TORRENT_SOURCE_PATH=/Share/rasTorrent
+MCM_RAS_TORRENT_TARGET_PATH=/Share/rasTorrent/동영상
 
-MCM_SOURCE_PATH=$HOME/Movies
-MCM_TARGET_PATH=$HOME/Movies
+MCM_IMAC_SOURCE_PATH=$HOME/Movies
+MCM_IMAC_TARGET_PATH=$HOME/Movies
 
 [ "$(hostname -s |cut -c 1-4)" == "iMac" ] && SAY_MODE=ON
 
@@ -83,15 +87,28 @@ function rebuild_mp4_catagory() {
 	echo
 }
 
-function rebuild_raspberryPi() {
+function rebuild_pi_ap() {
 	echo "[Rebuild `hostname -s`]"
 	case "${1}" in
 	c*)
-		cleanup ${RAS_SOURCE_PATH} ${RAS_TARGET_PATH}
-		rebuild_mp4_catagory ${RAS_SOURCE_PATH} ${RAS_TARGET_PATH}
+		cleanup ${PI1_AP_SOURCE_PATH} ${PI1_AP_TARGET_PATH}
+		rebuild_mp4_catagory ${PI1_AP_SOURCE_PATH} ${PI1_AP_TARGET_PATH}
 	;;
 	*)
-		rebuild_mp4_catagory ${RAS_SOURCE_PATH} ${RAS_TARGET_PATH}
+		rebuild_mp4_catagory ${PI1_AP_SOURCE_PATH} ${PI1_AP_TARGET_PATH}
+	;;
+	esac
+}
+
+function rebuild_pi_ras() {
+	echo "[Rebuild `hostname -s`]"
+	case "${1}" in
+	c*)
+		cleanup ${PI1_RAS_SOURCE_PATH} ${PI1_RAS_TARGET_PATH}
+		rebuild_mp4_catagory ${PI1_RAS_SOURCE_PATH} ${PI1_RAS_TARGET_PATH}
+	;;
+	*)
+		rebuild_mp4_catagory ${PI1_RAS_SOURCE_PATH} ${PI1_RAS_TARGET_PATH}
 	;;
 	esac
 }
@@ -100,25 +117,30 @@ function rebuild_changmin() {
 	echo "[Rebuild `hostname -s`]"
 	case "${1}" in
 	r1c*)
-			cleanup ${TORRENT_SOURCE_PATH} ${TORRENT_TARGET_PATH}
-			rebuild_mp4_catagory ${TORRENT_SOURCE_PATH} ${TORRENT_TARGET_PATH}
+			cleanup ${MCM_AP_TORRENT_SOURCE_PATH} ${MCM_AP_TORRENT_TARGET_PATH}
+			rebuild_mp4_catagory ${MCM_AP_TORRENT_SOURCE_PATH} ${MCM_AP_TORRENT_TARGET_PATH}
+
+			cleanup ${MCM_RAS_TORRENT_SOURCE_PATH} ${MCM_RAS_TORRENT_TARGET_PATH}
+			rebuild_mp4_catagory ${MCM_RAS_TORRENT_SOURCE_PATH} ${MCM_RAS_TORRENT_TARGET_PATH}
 	;;
 	r1)
-			rebuild_mp4_catagory ${TORRENT_SOURCE_PATH} ${TORRENT_TARGET_PATH}
+			rebuild_mp4_catagory ${MCM_AP_TORRENT_SOURCE_PATH} ${MCM_AP_TORRENT_TARGET_PATH}
+			rebuild_mp4_catagory ${MCM_RAS_TORRENT_SOURCE_PATH} ${MCM_RAS_TORRENT_TARGET_PATH}
 	;;
+
 	c*)
-			cleanup ${MCM_SOURCE_PATH} ${MCM_TARGET_PATH}
-			rebuild_mp4_catagory ${MCM_SOURCE_PATH} ${MCM_TARGET_PATH}
+			cleanup ${MCM_IMAC_SOURCE_PATH} ${MCM_IMAC_TARGET_PATH}
+			rebuild_mp4_catagory ${MCM_IMAC_SOURCE_PATH} ${MCM_IMAC_TARGET_PATH}
 	;;
 	*)
-			rebuild_mp4_catagory ${MCM_SOURCE_PATH} ${MCM_TARGET_PATH}
+			rebuild_mp4_catagory ${MCM_IMAC_SOURCE_PATH} ${MCM_IMAC_TARGET_PATH}
 	;;
 	esac
 }
 
-HOSTNAME=$(hostname -s | cut -c 1-4)
-if [ "${HOSTNAME}" == "rasp" ]; then
-	rebuild_raspberryPi $@
+HOSTNAME=$(hostname -s | cut -c 1-3)
+if [ "${HOSTNAME}" == "ras" ]; then
+	[ "$(basename $0 | cut -d_ -f 1)" == "local" ] && rebuild_pi_ras $@ || rebuild_pi_ap $@
 else
 	rebuild_changmin $@
 fi
