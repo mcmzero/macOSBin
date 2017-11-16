@@ -15,20 +15,21 @@ fi
 
 if [ "$1" == "sync" ]; then
         SRC_PATH="$HOME/tor"
-
-        ssh root@r1 "tar cvzf ~pi/torrent/etc.tgz -C /etc ."
-        scp root@r1:~pi/torrent/etc.tgz $SRC_PATH
-        scp root@r1:/etc/cron.d/cron_torrent_* $SRC_PATH
-
-        rsync -arv --delete $SRC_PATH/ $HOME/bin/torrent/
-        rsync -arv -e ssh --delete $SRC_PATH/ pi@r1:torrent/
-
+        #ssh root@r1 "tar cvzf ~pi/torrent/etc.tgz -C /etc ."
+        #scp root@r1:~pi/torrent/etc.tgz $SRC_PATH
+        rsync -azv -e ssh --delete root@r1:/etc/ $HOME/Archives.localized/raspberryPi/etc/
+        rsync -azv -e ssh --delete root@r1:/etc/cron.d/cron_torrent_* $SRC_PATH/
+        rsync -azv -e ssh --delete $SRC_PATH/ pi@r1:torrent/
+        rsync -azv -e ssh --delete pi@r1:~/ $HOME/Archives.localized/raspberryPi/homePi/
+        rsync -azv --delete $SRC_PATH/ $HOME/bin/torrent/
+        . ~changmin/bin/backup_rsync.sh
         exit
 fi
 
 if [ "$1" == "synclink" ]; then
         link_file
         ssh root@r1 /usr/local/bin/download link
+        exit
 fi
 
 source /usr/local/bin/download_torrent.sh
