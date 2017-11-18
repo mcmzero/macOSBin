@@ -1,16 +1,16 @@
 #!/bin/bash
 
-PI1_1TB_SOURCE_PATH=/mnt/rasPi1tb/torrent
-PI1_1TB_TARGET_PATH=/mnt/rasPi1tb/torrent/동영상
+PI1_1TB_SOURCE_PATH=/mnt/rasPiBackup/torrent
+PI1_1TB_TARGET_PATH=/mnt/rasPiBackup/torrent/동영상
 
-PI1_4TB__SOURCE_PATH=/mnt/rasPi4tb/torrent
-PI1_4TB__TARGET_PATH=/mnt/rasPi4tb/torrent/동영상
+PI1_4TB__SOURCE_PATH=/mnt/rasPiTorrent/torrent
+PI1_4TB__TARGET_PATH=/mnt/rasPiTorrent/torrent/동영상
 
-MCM_1TB_TORRENT_SOURCE_PATH=/Share/rasPi1tb/torrent
-MCM_1TB_TORRENT_TARGET_PATH=/Share/rasPi1tb/torrent/동영상
+MCM_1TB_TORRENT_SOURCE_PATH=/Share/rasPiBackup/torrent
+MCM_1TB_TORRENT_TARGET_PATH=/Share/rasPiBackup/torrent/동영상
 
-MCM_4TB_TORRENT_SOURCE_PATH=/Share/rasPi4tb/torrent
-MCM_4TB_TORRENT_TARGET_PATH=/Share/rasPi4tb/torrent/동영상
+MCM_4TB_TORRENT_SOURCE_PATH=/Share/rasPiTorrent/torrent
+MCM_4TB_TORRENT_TARGET_PATH=/Share/rasPiTorrent/torrent/동영상
 
 MCM_IMAC_SOURCE_PATH=$HOME/Movies
 MCM_IMAC_TARGET_PATH=$HOME/Movies

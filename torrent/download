@@ -42,7 +42,7 @@ if [ "$1" == "sync" ]; then
         #rsync -azv -e ssh --delete pi@r1:~/ $HOME/Archives.localized/raspberryPi/homePi
         rsync -azv -e ssh --delete pi@r1:~/bin $HOME/Archives.localized/raspberryPi/homePi
         rsync -azv -e ssh --delete pi@r1:~/src $HOME/Archives.localized/raspberryPi/homePi
-        rsync -azv -e ssh --delete pi@r1:~/torrent $HOME/Archives.localized/raspberryPi/homePi
+        rsync -azv -e ssh --delete pi@r1:~/tor $HOME/Archives.localized/raspberryPi/homePi
 
         rsync -azv -e ssh "$SRC_PATH/cron_torrent_"* root@r1:/etc/cron.d/
         rsync -aCzv -e ssh --delete "$SRC_PATH/" root@r1:$TRG_PATH
@@ -51,6 +51,7 @@ if [ "$1" == "sync" ]; then
         rsync -aCzv --delete "$SRC_PATH/" $TRG_PATH
         rsync -aCzv --delete "$SRC_PATH/" $HOME/bin/torrent
 
+        ssh root@r1 "chown -v root:root /etc/cron.d/cron_torrent_*"
         . ~changmin/bin/backup_rsync.sh
 
         exit
