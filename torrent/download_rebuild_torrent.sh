@@ -1,14 +1,16 @@
 #!/bin/bash
 
-PI1_AP_SOURCE_PATH=/media/torrent
-PI1_AP_TARGET_PATH=/media/torrent/동영상
-PI1_RAS_SOURCE_PATH=/mnt/torrent
-PI1_RAS_TARGET_PATH=/mnt/torrent/동영상
+PI1_1TB_SOURCE_PATH=/mnt/rasPi1tb/torrent
+PI1_1TB_TARGET_PATH=/mnt/rasPi1tb/torrent/동영상
 
-MCM_AP_TORRENT_SOURCE_PATH=/Share/apTorrent
-MCM_AP_TORRENT_TARGET_PATH=/Share/apTorrent/동영상
-MCM_RAS_TORRENT_SOURCE_PATH=/Share/rasTorrent
-MCM_RAS_TORRENT_TARGET_PATH=/Share/rasTorrent/동영상
+PI1_4TB__SOURCE_PATH=/mnt/rasPi4tb/torrent
+PI1_4TB__TARGET_PATH=/mnt/rasPi4tb/torrent/동영상
+
+MCM_1TB_TORRENT_SOURCE_PATH=/Share/rasPi1tb/torrent
+MCM_1TB_TORRENT_TARGET_PATH=/Share/rasPi1tb/torrent/동영상
+
+MCM_4TB_TORRENT_SOURCE_PATH=/Share/rasPi4tb/torrent
+MCM_4TB_TORRENT_TARGET_PATH=/Share/rasPi4tb/torrent/동영상
 
 MCM_IMAC_SOURCE_PATH=$HOME/Movies
 MCM_IMAC_TARGET_PATH=$HOME/Movies
@@ -87,45 +89,45 @@ function rebuild_mp4_catagory() {
 	echo
 }
 
-function rebuild_pi_ap() {
+function rebuild_pi_ras_4tb() {
 	echo "[Rebuild `hostname -s`]"
 	case "${1}" in
 	c*)
-		cleanup ${PI1_AP_SOURCE_PATH} ${PI1_AP_TARGET_PATH}
-		rebuild_mp4_catagory ${PI1_AP_SOURCE_PATH} ${PI1_AP_TARGET_PATH}
+		cleanup ${PI1_1TB_SOURCE_PATH} ${PI1_1TB_TARGET_PATH}
+		rebuild_mp4_catagory ${PI1_1TB_SOURCE_PATH} ${PI1_1TB_TARGET_PATH}
 	;;
 	*)
-		rebuild_mp4_catagory ${PI1_AP_SOURCE_PATH} ${PI1_AP_TARGET_PATH}
+		rebuild_mp4_catagory ${PI1_1TB_SOURCE_PATH} ${PI1_1TB_TARGET_PATH}
 	;;
 	esac
 }
 
-function rebuild_pi_ras() {
+function rebuild_pi_ras_1tb() {
 	echo "[Rebuild `hostname -s`]"
 	case "${1}" in
 	c*)
-		cleanup ${PI1_RAS_SOURCE_PATH} ${PI1_RAS_TARGET_PATH}
-		rebuild_mp4_catagory ${PI1_RAS_SOURCE_PATH} ${PI1_RAS_TARGET_PATH}
+		cleanup ${PI1_4TB__SOURCE_PATH} ${PI1_4TB__TARGET_PATH}
+		rebuild_mp4_catagory ${PI1_4TB__SOURCE_PATH} ${PI1_4TB__TARGET_PATH}
 	;;
 	*)
-		rebuild_mp4_catagory ${PI1_RAS_SOURCE_PATH} ${PI1_RAS_TARGET_PATH}
+		rebuild_mp4_catagory ${PI1_4TB__SOURCE_PATH} ${PI1_4TB__TARGET_PATH}
 	;;
 	esac
 }
 
-function rebuild_changmin() {
+function rebuild_mcm_imac() {
 	echo "[Rebuild `hostname -s`]"
 	case "${1}" in
 	r1c*)
-			cleanup ${MCM_AP_TORRENT_SOURCE_PATH} ${MCM_AP_TORRENT_TARGET_PATH}
-			rebuild_mp4_catagory ${MCM_AP_TORRENT_SOURCE_PATH} ${MCM_AP_TORRENT_TARGET_PATH}
+			cleanup ${MCM_1TB_TORRENT_SOURCE_PATH} ${MCM_1TB_TORRENT_TARGET_PATH}
+			rebuild_mp4_catagory ${MCM_1TB_TORRENT_SOURCE_PATH} ${MCM_1TB_TORRENT_TARGET_PATH}
 
-			cleanup ${MCM_RAS_TORRENT_SOURCE_PATH} ${MCM_RAS_TORRENT_TARGET_PATH}
-			rebuild_mp4_catagory ${MCM_RAS_TORRENT_SOURCE_PATH} ${MCM_RAS_TORRENT_TARGET_PATH}
+			cleanup ${MCM_4TB_TORRENT_SOURCE_PATH} ${MCM_4TB_TORRENT_TARGET_PATH}
+			rebuild_mp4_catagory ${MCM_4TB_TORRENT_SOURCE_PATH} ${MCM_4TB_TORRENT_TARGET_PATH}
 	;;
 	r1)
-			rebuild_mp4_catagory ${MCM_AP_TORRENT_SOURCE_PATH} ${MCM_AP_TORRENT_TARGET_PATH}
-			rebuild_mp4_catagory ${MCM_RAS_TORRENT_SOURCE_PATH} ${MCM_RAS_TORRENT_TARGET_PATH}
+			rebuild_mp4_catagory ${MCM_1TB_TORRENT_SOURCE_PATH} ${MCM_1TB_TORRENT_TARGET_PATH}
+			rebuild_mp4_catagory ${MCM_4TB_TORRENT_SOURCE_PATH} ${MCM_4TB_TORRENT_TARGET_PATH}
 	;;
 
 	c*)
@@ -140,7 +142,9 @@ function rebuild_changmin() {
 
 HOSTNAME=$(hostname -s | cut -c 1-3)
 if [ "${HOSTNAME}" == "ras" ]; then
-	[ "$(basename $0 | cut -d_ -f 1)" == "local" ] && rebuild_pi_ras $@ || rebuild_pi_ap $@
+	#[ "$(basename $0 | cut -d_ -f 1)" == "local" ] && rebuild_pi_ras_1tb $@ || rebuild_pi_ras_4tb $@
+	rebuild_pi_ras_1tb $@
+	rebuild_pi_ras_4tb $@
 else
-	rebuild_changmin $@
+	rebuild_mcm_imac $@
 fi

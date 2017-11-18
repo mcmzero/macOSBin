@@ -1,12 +1,27 @@
 #!/bin/bash
 
+source /usr/local/torrent/download_torrent.sh
+[ "$(basename $0 | cut -d_ -f 1)" == "local" ] && set_server_local || set_server_config
+
 function link_file() {
-        cd /usr/local/bin
-        for FILE in download* *torrent*.sh; do
+        cd /usr/local/torrent
+        for FILE in download*; do
                 FILE=$(echo $FILE | sed -e 's/local_//g')
-                ln -sfv $FILE local_$FILE
+                ln -sfv /usr/local/torrent/$FILE /usr/local/bin/$FILE
         done
 }
+
+if [ "$1" == "purge" ]; then
+        shift
+        purge_torrent $@
+        exit
+fi
+
+if [ "$1" == "rebuild" ]; then
+        shift
+        . /usr/local/torrent/download_rebuild_torrent.sh $@
+        exit
+fi
 
 if [ "$1" == "link" ]; then
         link_file
@@ -14,26 +29,38 @@ if [ "$1" == "link" ]; then
 fi
 
 if [ "$1" == "sync" ]; then
-        SRC_PATH="$HOME/tor"
+        SRC_PATH="$HOME/Google Drive/ShellScript/TorrentBin"
+        TRG_PATH=/usr/local/torrent
+
         #ssh root@r1 "tar cvzf ~pi/torrent/etc.tgz -C /etc ."
-        #scp root@r1:~pi/torrent/etc.tgz $SRC_PATH
-        rsync -azv -e ssh --delete root@r1:/etc/ $HOME/Archives.localized/raspberryPi/etc/
-        rsync -azv -e ssh --delete root@r1:/etc/cron.d/cron_torrent_* $SRC_PATH/
-        rsync -azv -e ssh --delete $SRC_PATH/ pi@r1:torrent/
-        rsync -azv -e ssh --delete pi@r1:~/ $HOME/Archives.localized/raspberryPi/homePi/
-        rsync -azv --delete $SRC_PATH/ $HOME/bin/torrent/
+        #scp root@r1:~pi/torrent/etc.tgz $HOME/Archives.localized/raspberryPi/
+
+        #backup rasPi1 /etc
+        rsync -aCzv -e ssh --delete root@r1:/etc/ $HOME/Archives.localized/raspberryPi/etc
+
+        #backup pi@rasPi1:~/
+        #rsync -azv -e ssh --delete pi@r1:~/ $HOME/Archives.localized/raspberryPi/homePi
+        rsync -azv -e ssh --delete pi@r1:~/bin $HOME/Archives.localized/raspberryPi/homePi
+        rsync -azv -e ssh --delete pi@r1:~/src $HOME/Archives.localized/raspberryPi/homePi
+        rsync -azv -e ssh --delete pi@r1:~/torrent $HOME/Archives.localized/raspberryPi/homePi
+
+        rsync -azv -e ssh "$SRC_PATH/cron_torrent_"* root@r1:/etc/cron.d/
+        rsync -aCzv -e ssh --delete "$SRC_PATH/" root@r1:$TRG_PATH
+        rsync -aCzv -e ssh --delete "$SRC_PATH/" pi@r1:torrent
+
+        rsync -aCzv --delete "$SRC_PATH/" $TRG_PATH
+        rsync -aCzv --delete "$SRC_PATH/" $HOME/bin/torrent
+
         . ~changmin/bin/backup_rsync.sh
+
         exit
 fi
 
 if [ "$1" == "synclink" ]; then
         link_file
-        ssh root@r1 /usr/local/bin/download link
+        ssh root@r1 /usr/local/torrent/download link
         exit
 fi
-
-source /usr/local/bin/download_torrent.sh
-[ "$(basename $0 | cut -d_ -f 1)" == "local" ] && set_server_local || set_server_config
 
 if [ $# -eq 0 ]; then
         download_torrent_help

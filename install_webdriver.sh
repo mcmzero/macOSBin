@@ -83,6 +83,7 @@ function print_NVDARequiredOS() {
 function set_NVDARequiredOS() {
         sudo /usr/libexec/PlistBuddy -c "set :IOKitPersonalities:NVDAStartup:NVDARequiredOS $@" ${NVDASTARTUPWEB_INFO}
         sudo chown -R root:wheel ${NVDASTARTUPWEB_INFO}
+        #sudo codesign -f -s - ${NVDASTARTUPWEB_INFO}
 }
 
 if [ -f ${NVDASTARTUPWEB_INFO} ]; then

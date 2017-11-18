@@ -2,13 +2,12 @@
 
 function disable_agent {
 	echo "Disabling ${1}"
-	AGENT_PATH=/System/Library/LaunchAgents/${1}.plist
-	DAEMON_PATH=/System/Library/LaunchDaemons/${1}.plist
-	if [ -f ${AGENT_PATH} ]; then
-		launchctl unload -w ${AGENT_PATH} && echo OK
-	else
-		launchctl unload -w ${DAEMON_PATH} && echo OK
-	fi
+	AGENT_PATH="/Library/LaunchAgents/${1}.plist"
+	DAEMON_PATH="/Library/LaunchDaemons/${1}.plist"
+	[ -f ${AGENT_PATH} ] && launchctl unload -w ${AGENT_PATH} && echo unload ${AGENT_PATH}
+	[ -f ${DAEMON_PATH} ] && launchctl unload -w ${DAEMON_PATH} && echo unload ${DAEMON_PATH}
+	[ -f /System${AGENT_PATH} ] && launchctl unload -w /System${AGENT_PATH} && echo unload /System${AGENT_PATH}
+	[ -f /System${DAEMON_PATH} ] && launchctl unload -w /System${DAEMON_PATH} && echo unload /System${DAEMON_PATH}
 }
 
 #disable_agent com.apple.telephonyutilities.callservicesd
@@ -21,3 +20,6 @@ disable_agent com.apple.imfoundation.IMRemoteURLConnectionAgent
 disable_agent com.adobe.AAM.Updater-1.0
 disable_agent com.adobe.ARMDC.Communicator
 disable_agent com.adobe.ARMDC.SMJobBlessHelper
+
+disable_agent com.nprotect.kext.nProtectFW
+disable_agent com.nprotect.nosintgdmn

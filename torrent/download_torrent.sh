@@ -1,15 +1,20 @@
 #!/bin/bash
 
-TOR_AUTH=moon:123123212121
-TOR_SERVER=192.168.0.1:9191
+source /usr/local/torrent/download_server_address
+
+[ "$TOR_SERVER_IP" == "" ] && TOR_SERVER_IP="localhost"
+[ "$TOR_SERVER_PORT" == "" ] && TOR_SERVER_PORT=9191
+
+TOR_SERVER=$TOR_SERVER_IP:$TOR_SERVER_PORT
 TOR_SERVER_IMAC=192.168.0.3
+TOR_AUTH=moon:123123212121
 
 function set_server() {
 	TOR_SERVER="$@":9191
 }
 
 function set_server_local() {
-	TOR_SERVER=localhost:9191
+	TOR_SERVER=localhost:$TOR_SERVER_PORT
 }
 
 function set_server_config() {
@@ -25,7 +30,6 @@ function list_magnet() {
 
 function remove_magnet() {
 	transmission-remote ${TOR_SERVER} --auth ${TOR_AUTH} --torrent $TORRENT_ID_LIST --remove
-
 }
 
 function purge_torrent() {
