@@ -14,7 +14,7 @@ MAILTO=""
 # m h dom mon dow user  command
 
 # Look for and purge old sessions every 5 minutes
-*/30 *	* * *	pi	/usr/local/torrent/download_purge_torrent.sh
+*/3 *	* * *	pi	/usr/local/torrent/download_purge_torrent.sh
 */2 *	* * *	pi	/usr/local/torrent/download_rebuild_torrent.sh
 
 # 일일tv
@@ -25,8 +25,8 @@ MAILTO=""
 10 23	* * 6,0	pi	/usr/local/torrent/download	1 황금빛 내 인생
 20 5	* * 0	pi	/usr/local/torrent/download	2 황금빛 내 인생
 
-30 1	* * 6,0	pi	/usr/local/torrent/download	1 고백부부
-10 5	* * 0	pi	/usr/local/torrent/download	2 고백부부
+#30 1	* * 6,0	pi	/usr/local/torrent/download	1 고백부부
+#10 5	* * 0	pi	/usr/local/torrent/download	2 고백부부
 
 30 1	* * 6	pi	/usr/local/torrent/download	1 정글의 법칙
 30 5	* * 0	pi	/usr/local/torrent/download	1 정글의 법칙
@@ -43,14 +43,14 @@ MAILTO=""
 30 2	* * 6	pi	/usr/local/torrent/download	1 더 유닛
 30 1	* * 6	pi	/usr/local/torrent/download	1 알.쓸.신.잡
 
-30 1	* * 0	pi	/usr/local/torrent/download	1 SNL 코리아 9
+#30 1	* * 0	pi	/usr/local/torrent/download	1 SNL 코리아 9
 15 5	* * 0	pi	/usr/local/torrent/download	1 믹스나인
 
 # 월요일
 30 1	* * 2   pi	/usr/local/torrent/download 1 섬총사
 
 # 화요일
-#10 23   * * 2   pi	/usr/local/torrent/download 1 집밥 백선생 시즌3
+10 23   * * 2   pi	/usr/local/torrent/download 1 집밥 백선생 시즌3
 30 2	* * 3   pi	/usr/local/torrent/download 1 모란봉 클럽
 
 10 2	* * 3   pi	/usr/local/torrent/download 1 꽃보다 청춘 위너
@@ -65,8 +65,8 @@ MAILTO=""
 # 금요일
 10 2	* * 6   pi	/usr/local/torrent/download 1 백종원의 푸드트럭
 
-10 1	* * 2	pi	/usr/local/torrent/download	1 이번 생은 처음이라
-10 4	* * 3	pi	/usr/local/torrent/download	2 이번 생은 처음이라
+1 1	* * 2	pi	/usr/local/torrent/download	1 이번 생은 처음이라
+1 1	* * 3	pi	/usr/local/torrent/download	2 이번 생은 처음이라
 
 30 10   * * *   pi	/usr/local/torrent/download_ent 2
 30 15   * * *   pi	/usr/local/torrent/download_drama 2

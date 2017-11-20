@@ -1,6 +1,6 @@
 #!/bin/bash
-source /usr/local/torrent/download_server_address
 
+source /usr/local/torrent/download_server_address
 [ "$TOR_SERVER_IP" == "" ] && TOR_SERVER_IP="localhost"
 [ "$TOR_SERVER_PORT" == "" ] && TOR_SERVER_PORT=9191
 
@@ -106,57 +106,21 @@ function download_torrent() {
 	URL_LIST=""
 	for PAGE_NUM in $(eval echo {1..$PAGE_MAX_NUM}); do
 		URL="${URL_TYPE_ENT}&page=${PAGE_NUM}&stx=${SEARCH}"
-		URL_RET="$(curl -s "$URL"|grep -v 전편|grep -v 완결|grep media-list-subject|grep $QUALITY|head -n $COUNT|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//')"
+		URL_RET="$(curl -s "$URL"|sed -e 's/E01.E.*END/E01.END/'|grep -v E01.END|grep -v 전편|grep -v 완결|grep media-list-subject|grep $QUALITY|head -n $COUNT|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//')"
 		#echo E[$URL][$PAGE_NUM][$URL_RET][$COUNT]
 		[ "${URL_RET}" != "" ] && URL_LIST="$URL_LIST $URL_RET" && continue
 
 		URL="${URL_TYPE_DRAMA}&page=${PAGE_NUM}&stx=${SEARCH}"
-		URL_RET="$(curl -s "$URL"|grep -v 전편|grep -v 완결|grep media-list-subject|grep $QUALITY|head -n $COUNT|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//')"
+		URL_RET="$(curl -s "$URL"|sed -e 's/E01.E.*END/E01.END/'|grep -v E01.END|grep -v 전편|grep -v 완결|grep media-list-subject|grep $QUALITY|head -n $COUNT|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//')"
 		#echo D[$URL][$PAGE_NUM][$URL_RET][$COUNT] $COUNT
 		[ "${URL_RET}" != "" ] && URL_LIST="$URL_LIST $URL_RET" && continue
 
 		URL="${URL_TYPE_SOCIAL}&page=${PAGE_NUM}&stx=${SEARCH}"
-		URL_RET="$(curl -s "$URL"|grep -v 전편|grep -v 완결|grep media-list-subject|grep $QUALITY|head -n $COUNT|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//')"
+		URL_RET="$(curl -s "$URL"|sed -e 's/E01.E.*END/E01.END/'|grep -v E01.END|grep -v 전편|grep -v 완결|grep media-list-subject|grep $QUALITY|head -n $COUNT|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//')"
 		#echo S[$URL][$PAGE_NUM][$URL_RET][$COUNT] $COUNT
 		[ "${URL_RET}" != "" ] && URL_LIST="$URL_LIST $URL_RET" && continue
 	done
 
-	get_magnet_list ${URL_LIST}
-}
-
-function download_drama() {
-	# download_drama count page_num quality
-	COUNT=1
-	PAGE_MAX_NUM=2
-	QUALITY="720p-NEXT"
-	SEARCH=""
-
-	VAR=$1
-	if ((VAR > 0)) 2> /dev/null
-	then
-		COUNT=$1
-		shift
-		VAR=$1
-		if ((VAR > 0)) 2> /dev/null
-		then
-			PAGE_MAX_NUM=$1
-			shift
-			VAR=$1
-			if ((VAR > 0)) 2> /dev/null
-			then
-				QUALITY="${1}p-NEXT"
-				shift
-			fi
-		fi
-	fi
-
-	URL_LIST=""
-	for PAGE_NUM in $(eval echo {1..$PAGE_MAX_NUM}); do
-		URL="${URL_TYPE_DRAMA}&page=${PAGE_NUM}&stx=${SEARCH}"
-		URL_RET="$(curl -s "$URL"|grep -v 전편|grep -v 완결|grep media-list-subject|grep $QUALITY|head -n $COUNT|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//')"
-		echo D[$URL][$PAGE_NUM][$URL_RET][$COUNT] $COUNT
-		[ "${URL_RET}" != "" ] && URL_LIST="$URL_LIST $URL_RET" && continue
-	done
 	get_magnet_list ${URL_LIST}
 }
 
@@ -189,8 +153,44 @@ function download_ent() {
 	URL_LIST=""
 	for PAGE_NUM in $(eval echo {1..$PAGE_MAX_NUM}); do
 		URL="${URL_TYPE_ENT}&page=${PAGE_NUM}&stx=${SEARCH}"
-		URL_RET="$(curl -s "$URL"|grep -v 전편|grep -v 완결|grep media-list-subject|grep $QUALITY|head -n $COUNT|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//')"
+		URL_RET="$(curl -s "$URL"|sed -e 's/E01.E.*END/E01.END/'|grep -v E01.END|grep -v 전편|grep -v 완결|grep media-list-subject|grep $QUALITY|head -n $COUNT|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//')"
 		#echo E[$URL][$PAGE_NUM][$URL_RET][$COUNT]
+		[ "${URL_RET}" != "" ] && URL_LIST="$URL_LIST $URL_RET" && continue
+	done
+	get_magnet_list ${URL_LIST}
+}
+
+function download_drama() {
+	# download_drama count page_num quality
+	COUNT=1
+	PAGE_MAX_NUM=2
+	QUALITY="720p-NEXT"
+	SEARCH=""
+
+	VAR=$1
+	if ((VAR > 0)) 2> /dev/null
+	then
+		COUNT=$1
+		shift
+		VAR=$1
+		if ((VAR > 0)) 2> /dev/null
+		then
+			PAGE_MAX_NUM=$1
+			shift
+			VAR=$1
+			if ((VAR > 0)) 2> /dev/null
+			then
+				QUALITY="${1}p-NEXT"
+				shift
+			fi
+		fi
+	fi
+
+	URL_LIST=""
+	for PAGE_NUM in $(eval echo {1..$PAGE_MAX_NUM}); do
+		URL="${URL_TYPE_DRAMA}&page=${PAGE_NUM}&stx=${SEARCH}"
+		URL_RET="$(curl -s "$URL"|sed -e 's/E01.E.*END/E01.END/'|grep -v E01.END|grep -v 전편|grep -v 완결|grep media-list-subject|grep $QUALITY|head -n $COUNT|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//')"
+		echo D[$URL][$PAGE_NUM][$URL_RET][$COUNT] $COUNT
 		[ "${URL_RET}" != "" ] && URL_LIST="$URL_LIST $URL_RET" && continue
 	done
 	get_magnet_list ${URL_LIST}
@@ -225,7 +225,7 @@ function download_social() {
 	URL_LIST=""
 	for PAGE_NUM in $(eval echo {1..$PAGE_MAX_NUM}); do
 		URL="${URL_TYPE_SOCIAL}&page=${PAGE_NUM}&stx=${SEARCH}"
-		URL_RET="$(curl -s "$URL"|grep -v 전편|grep -v 완결|grep media-list-subject|grep $QUALITY|head -n $COUNT|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//')"
+		URL_RET="$(curl -s "$URL"|sed -e 's/E01.E.*END/E01.END/'|grep -v E01.END|grep -v 전편|grep -v 완결|grep media-list-subject|grep $QUALITY|head -n $COUNT|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/\">.*//')"
 		#echo S[$URL][$PAGE_NUM][$URL_RET][$COUNT] $COUNT
 		[ "${URL_RET}" != "" ] && URL_LIST="$URL_LIST $URL_RET" && continue
 	done

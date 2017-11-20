@@ -29,6 +29,8 @@ if [ "$1" == "link" ]; then
 fi
 
 if [ "$1" == "sync" ]; then
+        [ "$(hostname)" == "rasPi" ] && ssh changmin@192.168.0.7 "/usr/local/torrent/download sync" && exit
+
         SRC_PATH="$HOME/Google Drive/ShellScript/TorrentBin"
         TRG_PATH=/usr/local/torrent
 
@@ -44,9 +46,11 @@ if [ "$1" == "sync" ]; then
         rsync -azv -e ssh --delete pi@r1:~/src $HOME/Archives.localized/raspberryPi/homePi
         rsync -azv -e ssh --delete pi@r1:~/tor $HOME/Archives.localized/raspberryPi/homePi
 
-        rsync -azv -e ssh "$SRC_PATH/cron_torrent_"* root@r1:/etc/cron.d/
+        rsync -auzv -e ssh "$SRC_PATH/cron_torrent_"* root@r1:/etc/cron.d/
+        rsync -auzv -e ssh root@r1:/etc/cron.d/cron_torrent_* "$SRC_PATH"/
+
         rsync -aCzv -e ssh --delete "$SRC_PATH/" root@r1:$TRG_PATH
-        rsync -aCzv -e ssh --delete "$SRC_PATH/" pi@r1:torrent
+        rsync -aCzv -e ssh --delete "$SRC_PATH/" pi@r1:tor
 
         rsync -aCzv --delete "$SRC_PATH/" $TRG_PATH
         rsync -aCzv --delete "$SRC_PATH/" $HOME/bin/torrent
