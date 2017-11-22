@@ -38,22 +38,22 @@ if [ "$1" == "sync" ]; then
         #scp root@r1:~pi/torrent/etc.tgz $HOME/Archives.localized/raspberryPi/
 
         #backup rasPi1 /etc
-        rsync -aCzv -e ssh --delete root@r1:/etc/ $HOME/Archives.localized/raspberryPi/etc
+        rsync -aCzv -e ssh --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" --exclude=ssl/certs/* root@r1:/etc/ $HOME/Archives.localized/raspberryPi/etc
 
         #backup pi@rasPi1:~/
-        #rsync -azv -e ssh --delete pi@r1:~/ $HOME/Archives.localized/raspberryPi/homePi
-        rsync -azv -e ssh --delete pi@r1:~/bin $HOME/Archives.localized/raspberryPi/homePi
-        rsync -azv -e ssh --delete pi@r1:~/src $HOME/Archives.localized/raspberryPi/homePi
-        rsync -azv -e ssh --delete pi@r1:~/tor $HOME/Archives.localized/raspberryPi/homePi
+        #rsync -azv -e ssh --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" pi@r1:~/ $HOME/Archives.localized/raspberryPi/homePi
+        rsync -azv -e ssh --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" pi@r1:~/bin $HOME/Archives.localized/raspberryPi/homePi
+        rsync -azv -e ssh --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" pi@r1:~/src $HOME/Archives.localized/raspberryPi/homePi
+        rsync -azv -e ssh --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" pi@r1:~/tor $HOME/Archives.localized/raspberryPi/homePi
 
-        rsync -auzv -e ssh "$SRC_PATH/cron_torrent_"* root@r1:/etc/cron.d/
-        rsync -auzv -e ssh root@r1:/etc/cron.d/cron_torrent_* "$SRC_PATH"/
+        rsync -auzv -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/cron_torrent_"* root@r1:/etc/cron.d/
+        rsync -auzv -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" root@r1:/etc/cron.d/cron_torrent_* "$SRC_PATH"/
 
-        rsync -aCzv -e ssh --delete "$SRC_PATH/" root@r1:$TRG_PATH
-        rsync -aCzv -e ssh --delete "$SRC_PATH/" pi@r1:tor
+        rsync -aCzv -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" --delete "$SRC_PATH/" root@r1:$TRG_PATH
+        rsync -aCzv -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" --delete "$SRC_PATH/" pi@r1:tor
 
-        rsync -aCzv --delete "$SRC_PATH/" $TRG_PATH
-        rsync -aCzv --delete "$SRC_PATH/" $HOME/bin/torrent
+        rsync -aCzv --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/" $TRG_PATH
+        rsync -aCzv --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/" $HOME/bin/torrent
 
         ssh root@r1 "chown -v root:root /etc/cron.d/cron_torrent_*"
         . ~changmin/bin/backup_rsync.sh

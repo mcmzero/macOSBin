@@ -1,0 +1,23 @@
+.nflc_data
+.AppleDouble
+.AppleDB
+.AppleDesktop
+.NetworkTrashFolder
+Temporary Items
+Network Trash Folder
+Thumbs.db
+Desktop.ini
+icon?
+TheVolumeSettingsFolder
+.DS_Store
+.TemporaryItems
+TheFindByContentFolder
+.FBCindex
+.FBCIndexCopy
+.localized
+Network Trash Folder
+Temporary Items
+Cleanup At Startup
+.FBCLockFolder
+.Trashes
+._*

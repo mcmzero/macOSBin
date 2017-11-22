@@ -22,7 +22,8 @@ function rmdir_sub() {
 		cd "$1"
 		for FILE in *; do
 			if [ -d "$FILE" ] && [ "$(echo ${FILE}|cut -c 1)" != "[" ]; then
-				find "$FILE" \( -name ".DS_Store" -or -name ".Parent" -or -name ".AppleDouble" \) -delete
+				#find "$FILE" \( -name ".DS_Store" -or -name ".Parent" -or -name ".AppleDouble" \) -delete
+				find "$FILE" \( -name ".DS_Store" -or -name ".AppleDouble" -or -name "._*" \) -exec rm -rf {} \;
 				rmdir "$FILE" 2> /dev/null && echo "-[${FILE}]"
 			fi
 		done
@@ -58,7 +59,8 @@ function cleanup() {
 	# cleanup target's sub directories
 	for FILE in *; do
 		if [ -d "$FILE" ] && [ "$(echo ${FILE}|cut -c 1)" != "[" ]; then
-			find "$FILE" \( -name ".DS_Store" -or -name ".Parent" -or -name ".AppleDouble" \) -delete
+			#find "$FILE" \( -name ".DS_Store" -or -name ".Parent" -or -name ".AppleDouble" \) -delete
+			find "$FILE" \( -name ".DS_Store" -or -name ".AppleDouble" -or -name "._*" \) -exec rm -rf {} \;
 			rmdir "$FILE" 2> /dev/null && echo "-[${FILE}]" || rmdir_sub "$FILE"
 		fi
 	done
