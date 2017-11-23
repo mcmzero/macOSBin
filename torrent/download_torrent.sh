@@ -22,8 +22,12 @@ function set_server_config() {
 	fi
 }
 
+function list_magnet_tail() {
+	transmission-remote ${TOR_SERVER} --auth ${TOR_AUTH} --list | tail -n 1
+}
+
 function list_magnet() {
-	# tranmission-remote 192.168.0.3:9191 --auth moon:123123212121s --list
+	# transmission-remote 192.168.0.3:9191 --auth moon:123123212121 --list
 	transmission-remote ${TOR_SERVER} --auth ${TOR_AUTH} --list
 }
 
@@ -45,6 +49,12 @@ function purge_torrent() {
 		echo "transmission-remote ${TOR_SERVER} --auth ${TOR_AUTH} --torrent $TORRENT_ID_LIST --remove"
 		transmission-remote ${TOR_SERVER} --auth ${TOR_AUTH} --torrent $TORRENT_ID_LIST --remove
 	fi
+
+	# 다운로드 항목이 없을때만 폴더 정리
+	source /usr/local/torrent/download_rebuild_torrent.sh
+	TLT=$(cat ${TOR_LIST_TEMP}|tail -n 1)
+	[ "$(echo $TLT)" == "Sum: None 0.0 0.0" ] && cleanup_raspi_dropbox && rebuild_raspi_dropbox
+
 	rm -f ${TOR_LIST_TEMP}
 }
 
@@ -250,4 +260,57 @@ function download_torrent_help() {
 	echo "download 1 1 720 무한 도전"
 	echo "download 100 2 720 아는 형님"
 	echo
+}
+
+function download_torrent_kim() {
+	# download_torrent_kim count start_page end_page quality search
+	COUNT=1
+	PAGE_NUM_START=1
+	PAGE_NUM_END=1
+	QUALITY="720p-"
+	SEARCH=""
+
+	VAR=$1
+	if ((VAR > 0)) 2> /dev/null
+	then
+		COUNT=$1
+		shift
+		VAR=$1
+		if ((VAR > 0)) 2> /dev/null
+		then
+			PAGE_NUM_START=$1
+			shift
+			VAR=$1
+			if ((VAR > 0)) 2> /dev/null
+			then
+				PAGE_NUM_END=$1
+				shift
+				VAR=$1
+				if ((VAR > 0)) 2> /dev/null
+				then
+					QUALITY="${1}p-"
+					shift
+				fi
+			fi
+		fi
+	fi
+
+	SEARCH="$*"
+	PATTERN="$(echo "$SEARCH" | sed -e 's/ /+/g')"
+	echo $SEARCH
+	echo $PATTERN
+
+	MAGNET_COUNT=0
+	for PAGE_NUM in $(eval echo {$PAGE_NUM_START..$PAGE_NUM_END}); do
+		echo PAGENUM: $PAGE_NUM
+		MAGNET_LIST=""
+		for ITEM in $(curl -s "https://torrentkim10.net/bbs/s.php?k=$PATTERN&page=$PAGE_NUM"|grep href|grep torrent_|grep target=\'s\'|sed -e 's/.*href=...\/\(.*\)\/\([0-9]*\).html[^0-9]*/\1\&wr_id=\2/'); do
+			URL=$(curl -s "https://torrentkim10.net/bbs/magnet2.php?bo_table=$ITEM")
+			URL_RET=$(echo $URL|sed -e 's/E01.E.*END/E01.END/'|grep -v E01.END|grep -v 전편|grep -v 완결|grep "$SEARCH"|grep $QUALITY|sed -e 's/.*\(magnet.*\).dn.*/\1/')
+			[ "${URL_RET}" != "" ] && MAGNET_LIST="$MAGNET_LIST -a $URL_RET" && let MAGNET_COUNT=MAGNET_COUNT+1 && echo $ITEM $URL_RET
+			[ $MAGNET_COUNT -ge $COUNT ] && break;
+		done
+		[ "$MAGNET_LIST" != "" ] && add_magnet "${MAGNET_LIST}"
+	done
+	echo "검색 결과: 마그넷 ${MAGNET_COUNT}개 발견"
 }

@@ -8,6 +8,7 @@ Network Trash Folder
 Thumbs.db
 Desktop.ini
 icon?
+Icon?
 TheVolumeSettingsFolder
 .DS_Store
 .TemporaryItems

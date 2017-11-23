@@ -12,8 +12,8 @@ RASPI_MUSIC_TARGET_PATH="/mnt/rasPiMusic/torrent/동영상"
 MCM_MUSIC_SOURCE_PATH="/Share/rasPiMusic/torrent"
 MCM_MUSIC_TARGET_PATH="/Share/rasPiMusic/torrent/동영상"
 
-MCM_IMAC_SOURCE_PATH="$HOME/Movies"
-MCM_IMAC_TARGET_PATH="$HOME/Movies"
+MCM_IMAC_SOURCE_PATH="$HOME/Downloads"
+MCM_IMAC_TARGET_PATH="$HOME/Downloads"
 
 [ "$(hostname -s |cut -c 1-4)" == "iMac" ] && SAY_MODE=ON
 
@@ -45,6 +45,9 @@ function cleanup() {
 		TAR_PATH=$1
 	fi
 
+	[ -d "$SRC_PATH" ] || exit
+	[ -d "$TAR_PATH" ] || exit
+
 	cd "$TAR_PATH"
 	echo "[Cleanup ${TAR_PATH}]"
 	[ "$SAY_MODE" == "ON" ] && say "정리"
@@ -71,13 +74,15 @@ function cleanup() {
 function get_target_name() {
 	GET_TARGET_NAME=$(echo -n "$@"|sed -e 's/[[:space:]]*\[.*\][[:space:]]*//' -e 's/[[:space:]]*\「.*\」[[:space:]]*//' -e 's/[[:space:]]*\\(.*\\)[[:space:]]*//')
 	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/....[pP]-[nN][eE][xX][tT]//' -e 's/....[pP]-[wW][iI][tT][hH]//' -e 's/....[pP]-[cC][iI][nN][eE][bB][uU][sS]//')
+	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/....[pP]-[dD][wW][bB][hH]//' -e 's/\([0-9][0-9][0-9][0-9][0-9][0-9]\)-.*.m/\1.m/' -e 's/\([0-9][0-9][0-9][0-9][0-9][0-9]\)-.*.a/\1.a/')
 	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/\.[aA][aA][cC]//' -e 's/\.[hH][dD][tT][vV]//' -e 's/\.[hH]26[45]//' -e 's/\.[eE][nN][dD]//')
 	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/\.[hH][eE][vV][cC]//' -e 's/\.10[bB][iI][tT]//' -e 's/\.[xX]26[45]//' -e 's/\.[bB][lL][uU][rR][aA][yY]//')
 	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/\.[wW][eE][bB]-[dD][lL]//' -e 's/\.5\.1//' -e 's/\.[xX]26[45]//' -e 's/\.[bB][lL][uU][rR][aA][yY]//')
 	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/\.\.\./\./' -e 's/\.\./\./' -e 's/알\.쓸\.신\./알쓸신/' -e 's/AMZN//' -e 's/Game.of.Thrones/Game of Thrones/')
+	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/^[Cc]omedyTV_//' -e 's/^[Cc]omedy TV_//')
 	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/ .부\././' -e 's/\.[wW][eE][bB][rR][iI][pP]//')
 	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/\.1440[pP]//' -e 's/\.1080[pP]//' -e 's/\.720[pP]//' -e 's/\.360[pP]//')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/\(^[0-9]*\)\.\([^\.]*\.\)/\2\1./')
+	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/\(^[0-9]*\)\.\([^\.]*\.\)/\2\1./' -e 's/\ E\([0-9]*\)\ /.E\1./' -e 's/.\([0-9]*\)\ \([0-9]*\)p/.\1.\2p/')
 	#GET_TARGET_NAME=$(echo -n "${GET_TARGET_NAME}" | sed -e 's/-.*\././')
 	echo -n "$GET_TARGET_NAME"|sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's/[[:space:]]*\.E/\.E/'
 }
@@ -94,6 +99,9 @@ function rebuild_mp4_catagory() {
 		TAR_PATH=$1
 	fi
 
+	[ -d "$SRC_PATH" ] || exit
+	[ -d "$TAR_PATH" ] || exit
+
 	cd ${SRC_PATH}
 	echo "[Rebuild ${SRC_PATH}]"
 	[ "${SAY_MODE}" == "ON" ] && say "재생성"
@@ -106,7 +114,8 @@ function rebuild_mp4_catagory() {
 				echo "+[${DIR_NAME}]"
 				mkdir -p "$DIR_NAME"
 			fi
-			mv "${SRC_PATH}/$FILE" "${DIR_NAME}/$TARGET_NAME" 2> /dev/null
+			#mv "${SRC_PATH}/$FILE" "${DIR_NAME}/$TARGET_NAME" 2> /dev/null
+			[ -f "${SRC_PATH}/$FILE" ] && mv -fv "${SRC_PATH}/$FILE" "${DIR_NAME}/$TARGET_NAME"
 		fi
 	done
 	echo
@@ -125,9 +134,13 @@ function rebuild_raspi_music() {
 	esac
 }
 
+function cleanup_raspi_dropbox() {
+	echo "[Cleanup `hostname -s`: dropbox]"
+	cleanup "$RASPI_TORRENT_DROPBOX_PATH" "$RASPI_TORRENT_DROBOX_PATH"
+}
+
 function rebuild_raspi_dropbox() {
 	echo "[Rebuild `hostname -s`: dropbox]"
-	cleanup "$RASPI_TORRENT_DROPBOX_PATH" "$RASPI_TORRENT_DROBOX_PATH"
 	rebuild_mp4_catagory "$RASPI_TORRENT_DROPBOX_PATH" "$RASPI_TORRENT_TARGET_PATH"
 }
 
@@ -175,13 +188,16 @@ function rebuild_mcm_imac() {
 	esac
 }
 
-HOSTNAME=$(hostname -s | cut -c 1-3)
-if [ "${HOSTNAME}" == "ras" ]; then
-	#[ "$(basename $0 | cut -d_ -f 1)" == "local" ] && rebuild_raspi_music $@ || rebuild_raspi_torrent $@
-	#rebuild_raspi_music $@
-	rebuild_raspi_torrent $@
-	rebuild_raspi_dropbox
-else
-	rebuild_mcm_imac $@
-	rebuild_mcm_dropbox
-fi
+function rebuild_torrent() {
+	HOSTNAME=$(hostname -s | cut -c 1-4)
+	echo $HOSTNAME
+	if [ "${HOSTNAME}" != "iMac" ]; then
+		#[ "$(basename $0 | cut -d_ -f 1)" == "local" ] && rebuild_raspi_music $@ || rebuild_raspi_torrent $@
+		#rebuild_raspi_music $@
+		rebuild_raspi_torrent $@
+		rebuild_raspi_dropbox
+	else
+		rebuild_mcm_imac $@
+		rebuild_mcm_dropbox
+	fi
+}

@@ -1,7 +1,0 @@
-#!/bin/bash
-
-source /usr/local/bin/download_torrent.sh
-[ "$(basename $0 | cut -d_ -f 1)" == "local" ] && set_server_local || set_server_config
-
-[ $# -eq 0 ] && download_drama 100 1 720
-[ $# -eq 1 ] && download_drama 100 $1 720
