@@ -1,7 +1,7 @@
 #!/bin/sh
 
 EFI_DEV=rdisk0s1
-TARGET_PATH="$HOME/drv/컴퓨터/Clover"
+TARGET_PATH="$HOME/drv/Computer.localized/Clover"
 EXCLUDE_TAR="--exclude .Spotlight-V100 --exclude .Trashes --exclude .fseventsd --exclude .TemporaryItems --exclude .svn"
 
 DMD_UTC=$(date -u +%y%m%d-%H)

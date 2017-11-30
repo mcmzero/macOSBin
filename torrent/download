@@ -1,9 +1,9 @@
 #!/bin/bash
 
 if [ "$1" == "sync" ]; then
-        [ "$(hostname)" == "rasPi" ] && ssh changmin@192.168.0.7 "/usr/local/torrent/download sync" && exit
+        [ "$(hostname)" == "rasPi" ] && ssh changmin@192.168.0.8 "/usr/local/torrent/download sync" && exit
 
-        SRC_PATH="$HOME/Google Drive/ShellScript/TorrentBin"
+        SRC_PATH="$HOME/Google Drive/ShellScript.localized/TorrentBin"
         TRG_PATH="/usr/local/torrent"
 
         #ssh root@r1 "tar cvzf ~pi/torrent/etc.tgz -C /etc ."
@@ -84,7 +84,21 @@ fi
 
 if [ "$1" == "kim" ]; then
         shift
-        download_torrent_kim "$@"
+        if [ "$1" != "ep" ]; then
+                echo no episode
+                download_torrent_kim "$@"
+                purge_torrent
+                exit
+        fi
+        shift
+        NUM_START=$1
+        shift
+        NUM_END=$1
+        shift
+	for EPISODE_NUM in $(eval echo {$NUM_START..$NUM_END}); do
+                download_torrent_kim "${*}.E${EPISODE_NUM}"
+                download_torrent_kim "${*}.E0${EPISODE_NUM}"
+	done
         purge_torrent
         exit
 fi
@@ -107,6 +121,34 @@ if [ "$1" == "social" ]; then
         shift
         [ $# -eq 0 ] && download_social 100 1 720
         [ $# -eq 1 ] && download_social 100 $1 720
+        exit
+fi
+
+if [ "$1" == "localized" ]; then
+        for DIR in *; do
+                [ -d "$DIR" ] && rsync -av ~changmin/Documents/.localized ./"$DIR"/.localized
+        done
+        exit
+fi
+
+if [ "$1" == "ep" ]; then
+        shift
+        NUM_START=$1
+        shift
+        NUM_END=$1
+        shift
+	for EPISODE_NUM in $(eval echo {$NUM_START..$NUM_END}); do
+                download_torrent "${*}.E${EPISODE_NUM}"
+                download_torrent "${*}.E0${EPISODE_NUM}"
+	done
+        purge_torrent
+        exit
+fi
+
+if [ "$1" == "se" ]; then
+        shift
+        download_torrent_startend $@
+        purge_torrent
         exit
 fi
 

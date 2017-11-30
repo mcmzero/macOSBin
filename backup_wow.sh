@@ -1,6 +1,6 @@
 #!/bin/sh
 WOW_PATH="/Applications/Games/World of Warcraft"
-BAK_PATH="$HOME/drv/게임/wow"
+BAK_PATH="$HOME/drv/Games.localized/wow"
 
 EXCLUDE_TAR="--exclude .Spotlight-V100 --exclude .Trashes --exclude .fseventsd --exclude .TemporaryItems"
 tar cvzf "${BAK_PATH}/AccountBackup/Account.tgz" ${EXCLUDE_TAR} -C "${WOW_PATH}/WTF" Account
