@@ -7,7 +7,6 @@ Network Trash Folder
 Temporary Items
 Thumbs.db
 Desktop.ini
-icon?
 Icon?
 TheVolumeSettingsFolder
 TheFindByContentFolder

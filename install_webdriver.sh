@@ -1,6 +1,6 @@
 #!/bin/bash
-# simple script for downloading & installing nvidia webdriver 
-# changmin811@gmail.com
+# Simple script that download & install & patch(NVDARequiredOS) nvidia webdriver
+# 2017.11.6 <changmin811@gmail.com>
 
 PKG_FILE_VERSION_HIGH_SIERRA_17=378.10.10.10.20.109
 PKG_OSVERSION_HIGHT_SIERRA_17=17B1003
@@ -8,12 +8,11 @@ PKG_OSVERSION_HIGHT_SIERRA_17=17B1003
 PKG_FILE_VERSION_SIERRA_16=378.05.05.25f03
 PKG_OSVERSION_SIERRA_16=16G1036
 
-NVDASTARTUPWEB_INFO=/Library/Extensions/NVDAStartupWeb.kext/Contents/Info.plist
 SYSTEM_VERSION_FILE=/System/Library/CoreServices/SystemVersion.plist
+NVDASTARTUPWEB_INFO=/Library/Extensions/NVDAStartupWeb.kext/Contents/Info.plist
 
 OSVERSION=$(sw_vers -buildVersion)
 MAJOR_NUMBER=$(echo $OSVERSION|cut -c 1-2)
-
 if [ "$MAJOR_NUMBER" == "17" ]; then
         echo "macOS High Sierra ($OSVERSION)"
         PKG_FILE_VERSION=$PKG_FILE_VERSION_HIGH_SIERRA_17
@@ -92,7 +91,7 @@ if [ -f "$NVDASTARTUPWEB_INFO" ]; then
         BEFORE_NUMBER=$(print_NVDARequiredOS)
         set_NVDARequiredOS "$MAJOR_NUMBER"
         AFTER_NUMBER=$(print_NVDARequiredOS)
-        echo "Patch NVDAStartupWeb.kext: $BEFORE_NUMBER -> $AFTER_NUMBER" && echo                               
+        echo "Patch NVDAStartupWeb.kext:NVDARequiredOS: $BEFORE_NUMBER -> $AFTER_NUMBER" && echo                               
         echo "Rebuild kextcahe: sudo kextcache -Boot -i /" && sudo kextcache -Boot -i / && echo
         rm "$PKG_FILE"
 fi
