@@ -29,6 +29,8 @@ MAILTO=""
 # 화요일
 10 01		* * 3		pi	/usr/local/torrent/download 1 집밥 백선생 시즌3
 20 01		* * 3		pi	/usr/local/torrent/download 1 모란봉 클럽
+10 01		* * 3		pi	/usr/local/torrent/download 1 강식당
+30 01		* * 3		pi	/usr/local/torrent/download 1 1 1080 강식당
 
 # 수요일
 10 01		* * 4		pi	/usr/local/torrent/download 1 1 360 영재발굴단

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+[ -d /Volumes/Backup.localized/Sync.localized ] || mkdir -p /Volumes/Backup.localized/Sync.localized
 rsync -auzv --delete ~/Documents/ /Volumes/Backup.localized/Sync.localized/Documents
 rsync -auzv --delete ~/OneDrive/ /Volumes/Backup.localized/Sync.localized/OneDrive
 rsync -auzv --delete ~/"Google Drive"/ /Volumes/Backup.localized/Sync.localized/"Google Drive"

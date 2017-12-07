@@ -19,8 +19,8 @@ if [ "$1" == "sync" ]; then
         #rsync -azv -e ssh --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" pi@r1:~/src $HOME/Archives.localized/raspberryPi/homePi
         #rsync -azv -e ssh --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" pi@r1:~/tor $HOME/Archives.localized/raspberryPi/homePi
 
-        rsync -auzv -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/cron_torrent_"* root@r1:/etc/cron.d/
-        rsync -auzv -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" root@r1:/etc/cron.d/cron_torrent_* "$SRC_PATH"/
+        rsync -rlptDuzv -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/cron_torrent_"* root@r1:/etc/cron.d/
+        rsync -rlptDuzv -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" root@r1:/etc/cron.d/cron_torrent_* "$SRC_PATH"/
 
         rsync -aCzv --delete -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/" root@r1:$TRG_PATH
         rsync -aCzv --delete -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/" pi@r1:tor
@@ -28,7 +28,7 @@ if [ "$1" == "sync" ]; then
         rsync -aCzv --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/" $TRG_PATH
         rsync -aCzv --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/" $HOME/bin/torrent
 
-        ssh root@r1 "chown -v root:root /etc/cron.d/cron_torrent_*"
+        #ssh root@r1 "chown -v root:root /etc/cron.d/cron_torrent_*"
         source ~changmin/bin/backup_rsync.sh
 
         exit
@@ -96,8 +96,8 @@ if [ "$1" == "kim" ]; then
         NUM_END=$1
         shift
 	for EPISODE_NUM in $(eval echo {$NUM_START..$NUM_END}); do
-                download_torrent_kim "${*}.E${EPISODE_NUM}"
-                download_torrent_kim "${*}.E0${EPISODE_NUM}"
+                download_torrent_kim "${*}.E${EPISODE_NUM}."
+                download_torrent_kim "${*}.E0${EPISODE_NUM}."
 	done
         purge_torrent
         exit
@@ -138,8 +138,8 @@ if [ "$1" == "ep" ]; then
         NUM_END=$1
         shift
 	for EPISODE_NUM in $(eval echo {$NUM_START..$NUM_END}); do
-                download_torrent "${*}.E${EPISODE_NUM}"
-                download_torrent "${*}.E0${EPISODE_NUM}"
+                download_torrent "${*}.E${EPISODE_NUM}."
+                download_torrent "${*}.E0${EPISODE_NUM}."
 	done
         purge_torrent
         exit

@@ -2,8 +2,8 @@
 # Simple script that download & install & patch(NVDARequiredOS) nvidia webdriver
 # 2017.11.6 <changmin811@gmail.com>
 
-PKG_FILE_VERSION_HIGH_SIERRA_17=378.10.10.10.20.109
-PKG_OSVERSION_HIGHT_SIERRA_17=17B1003
+PKG_FILE_VERSION_HIGH_SIERRA_17=378.10.10.10.25.102
+PKG_OSVERSION_HIGHT_SIERRA_17=17C88
 
 PKG_FILE_VERSION_SIERRA_16=378.05.05.25f03
 PKG_OSVERSION_SIERRA_16=16G1036
@@ -78,13 +78,13 @@ if [ "$PKG_OSVERSION" != "$OSVERSION" ]; then
 fi
 
 function print_NVDARequiredOS() {
-        /usr/libexec/PlistBuddy -c "print IOKitPersonalities:NVDAStartup:NVDARequiredOS" $NVDASTARTUPWEB_INFO
+	/usr/libexec/PlistBuddy -c "print IOKitPersonalities:NVDAStartup:NVDARequiredOS" $NVDASTARTUPWEB_INFO
 }
 
 function set_NVDARequiredOS() {
-        sudo /usr/libexec/PlistBuddy -c "set :IOKitPersonalities:NVDAStartup:NVDARequiredOS $@" $NVDASTARTUPWEB_INFO
-        sudo chown -R root:wheel $NVDASTARTUPWEB_INFO
-        #sudo codesign -f -s - $NVDASTARTUPWEB_INFO
+	sudo /usr/libexec/PlistBuddy -c "set :IOKitPersonalities:NVDAStartup:NVDARequiredOS $@" $NVDASTARTUPWEB_INFO
+	sudo chown -R root:wheel $NVDASTARTUPWEB_INFO
+	#sudo codesign -f -s - $NVDASTARTUPWEB_INFO
 }
 
 if [ -f "$NVDASTARTUPWEB_INFO" ]; then
