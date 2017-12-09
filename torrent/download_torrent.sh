@@ -62,16 +62,20 @@ function add_magnet() {
 	transmission-remote ${TOR_SERVER} --auth moon:123123212121 $(echo "$@" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 }
 
+MAGNET_LIST_FILE="/usr/local/torrent/download_torrent_magnet_list.txt"
 function get_magnet_list() {
 	MAGNET_LIST=""
 	MAGNET_COUNT=0
-	for URL in $@
-	do
+	for URL in $@; do
 		MAGNET=$(curl -s "${URL}" | grep "magnet:" | sed -e "s/\" style.*//" -e "s/.*\"//")
+		if [ "$MAGNET" != "" ]; then
+			grep $MAGNET $MAGNET_LIST_FILE > /dev/null && MAGNET=""
 			if [ "$MAGNET" != "" ]; then
-			let MAGNET_COUNT=MAGNET_COUNT+1
-			MAGNET_LIST="$MAGNET_LIST -a $MAGNET"
-			echo $MAGNET
+				echo $MAGNET >> $MAGNET_LIST_FILE;
+				let MAGNET_COUNT=MAGNET_COUNT+1
+				MAGNET_LIST="$MAGNET_LIST -a $MAGNET"
+				echo +[$MAGNET]
+			fi
 		fi
 	done
 	echo "검색 결과: 마그넷 ${MAGNET_COUNT}개 발견"
@@ -306,13 +310,15 @@ function download_torrent_kim() {
 	echo $SEARCH
 	echo $PATTERN
 
+	TORRENT_KIM="torrentkim12.com"
 	MAGNET_COUNT=0
 	for PAGE_NUM in $(eval echo {$PAGE_NUM_START..$PAGE_NUM_END}); do
 		echo PAGENUM: $PAGE_NUM
 		MAGNET_LIST=""
-		for ITEM in $(curl -s "https://torrentkim10.net/bbs/s.php?k=$PATTERN&page=$PAGE_NUM"|grep href|grep torrent_|grep target=\'s\'|sed -e 's/.*href=...\/\(.*\)\/\([0-9]*\).html[^0-9]*/\1\&wr_id=\2/'); do
-			URL=$(curl -s "https://torrentkim10.net/bbs/magnet2.php?bo_table=$ITEM")
-			URL_RET=$(echo $URL|grep -veE01.E.*END -veE..-.. -ve전편 -ve완결|grep "$SEARCH"|grep $QUALITY|sed -e 's/.*\(magnet.*\).dn.*/\1/')
+		for ITEM in $(curl -s "https://${TORRENT_KIM}/bbs/s.php?k=${PATTERN}&page=${PAGE_NUM}"|grep href|grep torrent_|grep target=\'s\'|sed -e 's/.*href=...\/\(.*\)\/\([0-9]*\).html[^0-9]*/\1\&wr_id=\2/'); do
+			echo [$ITEM]
+			URL=$(curl -s "https://${TORRENT_KIM}/bbs/magnet2.php?bo_table=${ITEM}")
+			URL_RET=$(echo $URL|grep -veE01.E.*END -veE..-.. -ve전편 -ve완결|grep "$SEARCH"|grep "$QUALITY"|sed -e 's/.*\(magnet.*\).dn.*/\1/')
 			[ "${URL_RET}" != "" ] && MAGNET_LIST="$MAGNET_LIST -a $URL_RET" && let MAGNET_COUNT=MAGNET_COUNT+1 && echo $ITEM $URL_RET
 			[ $MAGNET_COUNT -ge $COUNT ] && break;
 		done
