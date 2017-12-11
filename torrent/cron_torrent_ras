@@ -13,52 +13,52 @@ MAILTO=""
 
 # m h dom mon dow user  command
 
+# Clean up magnet list
+#00 00		* * 2		pi	/bin/rm /usr/local/torrent/download_torrent_magnet_list.txt
+
 # Look for and purge old sessions every 5 minutes
 */10 *		* * *		pi	/usr/local/torrent/download purge
 */02 *		* * *		pi	/usr/local/torrent/download rebuild
 
-# Clean up magnet list
-#00 00		* * 2		pi	/bin/rm /usr/local/torrent/download_torrent_magnet_list.txt
-
 # 예능, 드라마
-10 */1		* * *		pi	/usr/local/torrent/download ent 3
-20 */1		* * *		pi	/usr/local/torrent/download drama 2
+*/10 *		* * *		pi	/usr/local/torrent/download ent 3
+*/10 *		* * *		pi	/usr/local/torrent/download drama 2
 
 # 일일
 01 13,23	* * 1-5		pi	/usr/local/torrent/download	1 1 360 TV소설
 02 13,23	* * 1-5		pi	/usr/local/torrent/download	1 인간극장
+00 00		* * 6		pi	/usr/local/torrent/download kim 1 맛있는 녀석들
 
 # 월요일
-00 00		* * 2		pi	/usr/local/torrent/download 1 섬총사
+#00 00		* * 2		pi	/usr/local/torrent/download 1 섬총사
 
 # 화요일
-00 00		* * 3		pi	/usr/local/torrent/download 1 집밥 백선생 시즌3
-01 00		* * 3		pi	/usr/local/torrent/download 1 모란봉 클럽
-02 00		* * 3		pi	/usr/local/torrent/download 1 강식당
-03 00		* * 3		pi	/usr/local/torrent/download 1 1 1080 강식당
+#00 00		* * 3		pi	/usr/local/torrent/download 1 집밥 백선생 시즌3
+#01 00		* * 3		pi	/usr/local/torrent/download 1 모란봉 클럽
+#02 00		* * 3		pi	/usr/local/torrent/download 1 강식당
+#03 00		* * 3		pi	/usr/local/torrent/download 1 1 1080 강식당
 
 # 수요일
-00 00		* * 4		pi	/usr/local/torrent/download 1 1 360 영재발굴단
-01 00		* * 4		pi	/usr/local/torrent/download 1 주간 아이돌
+#00 00		* * 4		pi	/usr/local/torrent/download 1 1 360 영재발굴단
+#01 00		* * 4		pi	/usr/local/torrent/download 1 주간 아이돌
 
 # 목요일
-00 00		* * 5		pi	/usr/local/torrent/download 1 어쩌다 어른
-01 00		* * 5		pi	/usr/local/torrent/download 1 슬기로운 감빵생활
-02 00		* * 5		pi	/usr/local/torrent/download 2 한국인의 밥상
+#00 00		* * 5		pi	/usr/local/torrent/download 1 어쩌다 어른
+#01 00		* * 5		pi	/usr/local/torrent/download 1 슬기로운 감빵생활
+#02 00		* * 5		pi	/usr/local/torrent/download 2 한국인의 밥상
 
 # 금요일
-00 00		* * 6		pi	/usr/local/torrent/download kim 1 맛있는 녀석들
-01 00		* * 6		pi	/usr/local/torrent/download 1 백종원의 푸드트럭
-03 00		* * 6		pi	/usr/local/torrent/download	1 정글의 법칙
-04 00		* * 6		pi	/usr/local/torrent/download	1 알.쓸.신.잡
-05 00		* * 6		pi	/usr/local/torrent/download	1 더 유닛
+#01 00		* * 6		pi	/usr/local/torrent/download 1 백종원의 푸드트럭
+#03 00		* * 6		pi	/usr/local/torrent/download	1 정글의 법칙
+#04 00		* * 6		pi	/usr/local/torrent/download	1 알.쓸.신.잡
+#05 00		* * 6		pi	/usr/local/torrent/download	1 더 유닛
 
 # 토요일
-00 00		* * 0,1		pi	/usr/local/torrent/download	1 황금빛 내 인생
-01 00		* * 0		pi	/usr/local/torrent/download	1 믹스나인
-02 00		* * 0		pi	/usr/local/torrent/download	1 무한도전
+#00 00		* * 0,1		pi	/usr/local/torrent/download	1 황금빛 내 인생
+#01 00		* * 0		pi	/usr/local/torrent/download	1 믹스나인
+#02 00		* * 0		pi	/usr/local/torrent/download	1 무한도전
 
 # 일요일
-00 00		* * 1		pi	/usr/local/torrent/download	1 런닝맨
-01 00		* * 1		pi	/usr/local/torrent/download	1 코미디 빅리그
-02 00		* * 1		pi	/usr/local/torrent/download	1 개그 콘서트
+#00 00		* * 1		pi	/usr/local/torrent/download	1 런닝맨
+#01 00		* * 1		pi	/usr/local/torrent/download	1 코미디 빅리그
+#02 00		* * 1		pi	/usr/local/torrent/download	1 개그 콘서트
