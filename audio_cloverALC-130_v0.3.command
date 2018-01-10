@@ -1802,4 +1802,5 @@ case $gDebug in
 esac
 
 echo "To save a Copy of this Terminal session: Terminal/Shell/Export Text As ..."
+rm 0
 exit 0

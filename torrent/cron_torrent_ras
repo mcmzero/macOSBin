@@ -15,6 +15,7 @@ MAILTO=""
 
 # Clean up magnet list
 #00 00		* * 2		pi	/bin/rm /usr/local/torrent/download_torrent_magnet_list.txt
+* */1		* * *		pi	/usr/local/torrent/build_bbc_news_m3u.sh
 
 # Look for and purge old sessions every 5 minutes
 */10 *		* * *		pi	/usr/local/torrent/download purge
