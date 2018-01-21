@@ -139,7 +139,6 @@ function get_target_path_name() {
 	TARGET_PATH_NAME=$(echo $TARGET_PATH_NAME | sed -e 's/.*판타스틱 듀오.*/판타스틱 듀오/')
 	TARGET_PATH_NAME=$(echo $TARGET_PATH_NAME | sed -e 's/.*유닛.*/더 유닛/')
 	TARGET_PATH_NAME=$(echo $TARGET_PATH_NAME | sed -e 's/.*집밥 백선생.*/집밥 백선생/')
-	TARGET_PATH_NAME=$(echo $TARGET_PATH_NAME | sed -e 's/.*윤식당.*/윤식당/')
 	TARGET_PATH_NAME=$(echo $TARGET_PATH_NAME | sed -e 's/.*초인가족.*/초인가족/')
 	TARGET_PATH_NAME=$(echo $TARGET_PATH_NAME | sed -e 's/.*삼시세끼.*/삼시세끼/')
 	TARGET_PATH_NAME=$(echo $TARGET_PATH_NAME | sed -e 's/.*[nN][eE][wW][sS].*/뉴스/')
