@@ -12,6 +12,7 @@
 MAILTO=""
 
 # m h dom mon dow user  command
+00 00		* * *		pi	/usr/local/bin/upgrade.sh
 
 # Clean up magnet list
 #00 00		* * 2		pi	/bin/rm /usr/local/torrent/download_torrent_magnet_list.txt
