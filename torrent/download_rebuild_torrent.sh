@@ -95,6 +95,7 @@ function get_target_name() {
 	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/일요일이 좋다 2부 런닝맨/런닝맨/')
 	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/TV 정보쇼/TV정보쇼/')
 	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/집밥 백선생 2/집밥 백선생 시즌2/')
+	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/효리네 민박 시즌2/효리네 민박 2/')
 
 	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/왕좌의 게임/Game of Thrones/')
 	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/Game.of.Thrones/Game of Thrones/')
