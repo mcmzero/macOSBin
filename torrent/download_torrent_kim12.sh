@@ -8,13 +8,17 @@ TOR_SERVER=$TOR_SERVER_IP:$TOR_SERVER_PORT
 TOR_SERVER_IMAC=192.168.0.3
 TOR_AUTH=moon:123123212121
 
-URL_SERVER="https://torrentkim12.com"
-ENT="torrent_variety"
-DRAMA="torrent_tv"
-DAQ="torrent_docu"
-URL_TYPE_ENT="${URL_SERVER}/bbs/s.php?b=${ENT}"
-URL_TYPE_DRAMA="${URL_SERVER}/bbs/s.php?b=${DRAMA}"
-URL_TYPE_SOCIAL="${URL_SERVER}/bbs/s.php?b=${DAQ}"
+#URL_TYPE_DRAMA="https://ttocorps.com/bbs/board.php?bo_table=torrent_kortv_drama"
+#URL_TYPE_ENT="https://ttocorps.com/bbs/board.php?bo_table=torrent_kortv_ent"
+#URL_TYPE_SOCIAL="https://ttocorps.com/bbs/board.php?bo_table=torrent_kortv_social"
+
+URL_SERVER="https://www.tcorea.com"
+ENT="torrent_kortv_ent"
+DRAMA="torrent_kortv_drama"
+DAQ="torrent_kortv_social"
+URL_TYPE_ENT="${URL_SERVER}/bbs/board.php?bo_table=${ENT}"
+URL_TYPE_DRAMA="${URL_SERVER}/bbs/board.php?bo_table=${DRAMA}"
+URL_TYPE_SOCIAL="${URL_SERVER}/bbs/board.php?bo_table=${DAQ}"
 
 function set_server() {
 	TOR_SERVER="$@":9191
@@ -74,11 +78,10 @@ MAGNET_LIST_FILE="/usr/local/torrent/download_torrent_magnet_list.txt"
 function get_magnet_list() {
 	MAGNET_LIST=""
 	MAGNET_COUNT=0
-	#for URL in $@; do
-	for MAGNET in $@; do
+	for URL in $@; do
 		[ "$(echo $URL | grep http)" == "" ] && URL="${URL_SERVER}/${URL}"
 		#echo $URL
-		#MAGNET=$(curl -s "${URL}"|grep "magnet:"|head -n 1|sed -e "s/\" style.*//" -e "s/.*\"//")
+		MAGNET=$(curl -s "${URL}"|grep "magnet:"|head -n 1|sed -e "s/\" style.*//" -e "s/.*\"//")
 		if [ "$MAGNET" != "" ]; then
 			MAGNET_EXIST=$MAGNET
 			grep $MAGNET $MAGNET_LIST_FILE > /dev/null && MAGNET=""
@@ -154,7 +157,7 @@ function download_torrent() {
 
 function download_ent() {
 	# download_ent count page_num quality
-	COUNT=100
+	COUNT=1
 	PAGE_MAX_NUM=2
 	QUALITY=""
 	SEARCH="720p-NEXT"
@@ -180,9 +183,9 @@ function download_ent() {
 
 	URL_LIST=""
 	for PAGE_NUM in $(eval echo {1..$PAGE_MAX_NUM}); do
-		URL="${URL_TYPE_ENT}&page=${PAGE_NUM}&k=${SEARCH}"
+		URL="${URL_TYPE_ENT}&page=${PAGE_NUM}&stx=${SEARCH}"
 		echo $URL
-		URL_RET="$(curl -s "$URL"|grep Mag_dn|grep href|head -n $COUNT|sed -e 's/.*(./magnet:?xt=urn:btih:/' -e 's/.).*//')"
+		URL_RET="$(curl -s "$URL"|grep -veE01.E.*END -veE..-.. -ve전편 -ve완결|grep stx|grep wr_id|grep "$QUALITY"|head -n $COUNT|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/.>.*//')"
 		#echo E[$URL][$PAGE_NUM][$URL_RET][$COUNT]
 		[ "${URL_RET}" != "" ] && URL_LIST="$URL_LIST $URL_RET" && continue
 	done
@@ -191,7 +194,7 @@ function download_ent() {
 
 function download_drama() {
 	# download_drama count page_num quality
-	COUNT=100
+	COUNT=1
 	PAGE_MAX_NUM=2
 	QUALITY=""
 	SEARCH="720p-NEXT"
@@ -217,9 +220,9 @@ function download_drama() {
 
 	URL_LIST=""
 	for PAGE_NUM in $(eval echo {1..$PAGE_MAX_NUM}); do
-		URL="${URL_TYPE_DRAMA}&page=${PAGE_NUM}&k=${SEARCH}"
+		URL="${URL_TYPE_DRAMA}&page=${PAGE_NUM}&stx=${SEARCH}"
 		echo SEARCH: $URL
-		URL_RET="$(curl -s "$URL"|grep Mag_dn|grep href|head -n $COUNT|sed -e 's/.*(./magnet:?xt=urn:btih:/' -e 's/.).*//')"
+		URL_RET="$(curl -s "$URL"|grep -veE01.E.*END -veE..-.. -ve전편 -ve완결|grep stx|grep wr_id|grep "$QUALITY"|head -n $COUNT|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/.>.*//')"
 		#echo D[$URL][$PAGE_NUM][$URL_RET][$COUNT] $COUNT
 		[ "${URL_RET}" != "" ] && URL_LIST="$URL_LIST $URL_RET" && continue
 	done
@@ -228,7 +231,7 @@ function download_drama() {
 
 function download_social() {
 	# download_social count page_num quality
-	COUNT=100
+	COUNT=1
 	PAGE_MAX_NUM=2
 	QUALITY=""
 	SEARCH="720p-NEXT"
@@ -254,9 +257,9 @@ function download_social() {
 
 	URL_LIST=""
 	for PAGE_NUM in $(eval echo {1..$PAGE_MAX_NUM}); do
-		URL="${URL_TYPE_SOCIAL}&page=${PAGE_NUM}&k=${SEARCH}"
+		URL="${URL_TYPE_SOCIAL}&page=${PAGE_NUM}&stx=${SEARCH}"
 		echo SEARCH: $URL
-		URL_RET="$(curl -s "$URL"|grep Mag_dn|grep href|head -n $COUNT|sed -e 's/.*(./magnet:?xt=urn:btih:/' -e 's/.).*//')"
+		URL_RET="$(curl -s "$URL"|grep -veE01.E.*END -veE..-.. -ve전편 -ve완결|grep stx|grep wr_id|grep "$QUALITY"|head -n $COUNT|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/.>.*//')"
 		#echo S[$URL][$PAGE_NUM][$URL_RET][$COUNT] $COUNT
 		[ "${URL_RET}" != "" ] && URL_LIST="$URL_LIST $URL_RET" && continue
 	done
