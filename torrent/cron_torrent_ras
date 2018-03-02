@@ -23,50 +23,59 @@ MAILTO=""
 */02 *		* * *		pi	/usr/local/torrent/download rebuild
 
 # 예능, 드라마
-*/30 *		* * *		pi	/usr/local/torrent/download ent 3
-*/30 *		* * *		pi	/usr/local/torrent/download drama 2
+00 */12		* * *		pi	/usr/local/torrent/download login
+
+00 18-04/1	* * 1-5		pi	/usr/local/torrent/download ent 3
+00 */1		* * 0,6		pi	/usr/local/torrent/download ent 3
+15 18-04/1	* * 1-5		pi	/usr/local/torrent/download drama 2
+15 */1		* * 0,6		pi	/usr/local/torrent/download drama 2
+
+30 18-04/1      * * 1-5         pi      /usr/local/torrent/download kim ent 3
+30 */1          * * 0,6         pi      /usr/local/torrent/download kim ent 3
+45 18-04/1      * * 1-5         pi      /usr/local/torrent/download kim drama 2
+45 */1          * * 0,6         pi      /usr/local/torrent/download kim drama 2
 
 # 일일
-#01 13,23	* * 1-5		pi	/usr/local/torrent/download	1 1 360 TV소설
-01 13,23	* * 1-5		pi	/usr/local/torrent/download kim	1 TV소설
-02 13,23	* * 1-5		pi	/usr/local/torrent/download kim	1 인간극장
-01 00		* * 2-6		pi	/usr/local/torrent/download kim 1 너의 등짝에 스매싱
+11 13,23	* * 1-5		pi	/usr/local/torrent/download 1 TV소설
+11 13,23	* * 1-5		pi	/usr/local/torrent/download kim	1 TV소설
+22 13,23	* * 1-5		pi	/usr/local/torrent/download 1 인간극장
+22 13,23	* * 1-5		pi	/usr/local/torrent/download kim	1 인간극장
 
 # 월요일(1)
-#00 00		* * 2		pi	/usr/local/torrent/download 1 섬총사
+#00 00		* * 2		pi	/usr/local/torrent/download kim 1 섬총사
 
 # 화요일(2)
-01 00		* * 3		pi	/usr/local/torrent/download kim 1 모란봉 클럽
-02 00		* * 3		pi	/usr/local/torrent/download kim 1 달팽이호텔
+#01 01		* * 3		pi	/usr/local/torrent/download kim 1 모란봉 클럽
+#02 02		* * 3		pi	/usr/local/torrent/download kim 1 달팽이호텔
 
 # 수요일(3)
-01 00		* * 4		pi	/usr/local/torrent/download kim 1 영재발굴단
-01 00		* * 4		pi	/usr/local/torrent/download kim 1 주간 아이돌
+#01 01		* * 4		pi	/usr/local/torrent/download kim 1 영재발굴단
+#01 01		* * 4		pi	/usr/local/torrent/download kim 1 주간 아이돌
 
 # 목요일(4)
-02 00		* * 5		pi	/usr/local/torrent/download kim 1 어쩌다 어른
-02 00		* * 5		pi	/usr/local/torrent/download kim 2 한국인의 밥상
-02 00		* * 5		pi	/usr/local/torrent/download kim 1 도시어부
-01 00		* * 5		pi	/usr/local/torrent/download kim 1 어서와 한국은 처음이지
+#02 02		* * 5		pi	/usr/local/torrent/download kim 1 어쩌다 어른
+#02 02		* * 5		pi	/usr/local/torrent/download kim 2 한국인의 밥상
+#02 02		* * 5		pi	/usr/local/torrent/download kim 1 도시어부
+#01 01		* * 5		pi	/usr/local/torrent/download kim 1 어서와 한국은 처음이지
 
 # 금요일(5)
-02 00		* * 6		pi	/usr/local/torrent/download kim	1 정글의 법칙
-02 00		* * 6		pi	/usr/local/torrent/download kim	1 윤식당
-02 00		* * 6		pi	/usr/local/torrent/download kim 1 맛있는 녀석들
-02 00		* * 6		pi	/usr/local/torrent/download kim 1 나 혼자 산다
+00 02		* * 6		pi	/usr/local/torrent/download kim 1 맛있는 녀석들
+#02 02		* * 6		pi	/usr/local/torrent/download kim	1 정글의 법칙
+#02 02		* * 6		pi	/usr/local/torrent/download kim	1 윤식당
+#02 02		* * 6		pi	/usr/local/torrent/download kim 1 나 혼자 산다
 
 # 토요일(6)
-01 00		* * 0,1		pi	/usr/local/torrent/download kim	1 황금빛 내 인생
-01 00		* * 0,1		pi	/usr/local/torrent/download kim	1 화유기
-01 00		* * 0		pi	/usr/local/torrent/download kim	1 무한도전
-01 00		* * 0		pi	/usr/local/torrent/download kim 1 짠내투어
+#01 01		* * 0,1		pi	/usr/local/torrent/download kim	1 황금빛 내 인생
+#01 01		* * 0,1		pi	/usr/local/torrent/download kim	1 화유기
+#01 01		* * 0		pi	/usr/local/torrent/download kim	1 무한도전
+#01 01		* * 0		pi	/usr/local/torrent/download kim 1 짠내투어
 
 # 일요일(0)
-01 00		* * 1		pi	/usr/local/torrent/download kim	1 런닝맨
-01 00		* * 1		pi	/usr/local/torrent/download kim	1 코미디 빅리그
-02 00		* * 1		pi	/usr/local/torrent/download kim	1 개그 콘서트
-02 00		* * 1		pi	/usr/local/torrent/download kim	1 효리네민박
-02 10		* * 1		pi	/usr/local/torrent/download kim	1 밤도깨비
-02 10		* * 1		pi	/usr/local/torrent/download kim	1 아는 형님
-02 20		* * 1		pi	/usr/local/torrent/download kim 1 미운 우리 새끼
-02 20		* * 1		pi	/usr/local/torrent/download kim 1 이제 만나러 갑니다
+#01 01		* * 1		pi	/usr/local/torrent/download kim	1 런닝맨
+#01 01		* * 1		pi	/usr/local/torrent/download kim	1 코미디 빅리그
+#02 02		* * 1		pi	/usr/local/torrent/download kim	1 개그 콘서트
+#02 02		* * 1		pi	/usr/local/torrent/download kim	1 효리네민박
+#02 02		* * 1		pi	/usr/local/torrent/download kim	1 밤도깨비
+#02 02		* * 1		pi	/usr/local/torrent/download kim	1 아는 형님
+#02 02		* * 1		pi	/usr/local/torrent/download kim 1 미운 우리 새끼
+#02 02		* * 1		pi	/usr/local/torrent/download kim 1 이제 만나러 갑니다
