@@ -2,13 +2,11 @@
 # Simple script that download & install & patch(NVDARequiredOS) nvidia webdriver
 # 2017.11.6 <changmin811@gmail.com>
 
-#PKG_FILE_VERSION_HIGH_SIERRA_17=387.10.10.10.25.159
-#PKG_OSVERSION_HIGHT_SIERRA_17=17D2102
-PKG_FILE_VERSION_HIGH_SIERRA_17=387.10.10.10.25.158
-PKG_OSVERSION_HIGHT_SIERRA_17=17D102
+PKG_OSVERSION_HIGH_SIERRA_17=( 17D102 17D2102 )
+PKG_FILE_VERSION_HIGH_SIERRA_17=( 387.10.10.10.25.158 387.10.10.10.25.159 )
 
-PKG_FILE_VERSION_SIERRA_16=378.05.05.25f06
 PKG_OSVERSION_SIERRA_16=16G1212
+PKG_FILE_VERSION_SIERRA_16=378.05.05.25f06
 
 SYSTEM_VERSION_FILE=/System/Library/CoreServices/SystemVersion.plist
 NVDASTARTUPWEB_INFO=/Library/Extensions/NVDAStartupWeb.kext/Contents/Info.plist
@@ -17,8 +15,16 @@ OSVERSION=$(sw_vers -buildVersion)
 MAJOR_NUMBER=$(echo $OSVERSION|cut -c 1-2)
 if [ "$MAJOR_NUMBER" == "17" ]; then
         echo "macOS High Sierra ($OSVERSION)"
-        PKG_FILE_VERSION=$PKG_FILE_VERSION_HIGH_SIERRA_17
-        PKG_OSVERSION=$PKG_OSVERSION_HIGHT_SIERRA_17
+        PKG_OSVERSION=${PKG_OSVERSION_HIGH_SIERRA_17[0]}
+        PKG_FILE_VERSION=${PKG_FILE_VERSION_HIGH_SIERRA_17[0]}
+        for NUM in $(eval echo {1..${#PKG_OSVERSION_HIGH_SIERRA_17[@]}}); do
+                ((NUM--))
+                if [ "$OSVERSION" == "${PKG_OSVERSION_HIGH_SIERRA_17[$NUM]}" ]; then
+                        PKG_OSVERSION=${PKG_OSVERSION_HIGH_SIERRA_17[$NUM]}
+                        PKG_FILE_VERSION=${PKG_FILE_VERSION_HIGH_SIERRA_17[$NUM]}
+                        break
+                fi
+        done
 elif [ "$MAJOR_NUMBER" == "16" ]; then
         echo "macOS Sierra ($OSVERSION)"
         NVDASTARTUPWEB_INFO=/System$NVDASTARTUPWEB_INFO
