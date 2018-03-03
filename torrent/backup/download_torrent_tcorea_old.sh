@@ -20,6 +20,12 @@ URL_TYPE_ENT="${URL_SERVER}/bbs/board.php?bo_table=${ENT}"
 URL_TYPE_DRAMA="${URL_SERVER}/bbs/board.php?bo_table=${DRAMA}"
 URL_TYPE_SOCIAL="${URL_SERVER}/bbs/board.php?bo_table=${DAQ}"
 
+COOKIE_TCOREA="/usr/local/torrent/cookie_tcorea"
+
+function login_tcorea() {
+	curl -s https://www.tcorea.com/bbs/login_check.php -c $COOKIE_TCOREA -d 'mb_id=mcmtor' -d 'mb_password=123123'
+}
+
 function set_server() {
 	TOR_SERVER="$@":9191
 }
