@@ -43,6 +43,13 @@ function download_torrent_help() {
 	echo "download ep 1 12 개그 콘서트"
 	echo "download kim ep 1 12 맛있는 녀석들"
 	echo
+	echo "download ent pagenum"
+	echo "download drama pagenum"
+	echo "download social pagenum"
+	echo
+	echo "download kim ent pagenum"
+	echo "download kim drama pagenum"
+	echo "download kim social pagenum"
 }
 
 function login_tcorea() {
@@ -104,16 +111,19 @@ function add_magnet() {
 	transmission-remote ${TOR_SERVER} --auth moon:123123212121 $(echo "$@" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
 }
 
-MAGNET_LIST_FILE="/usr/local/torrent/download_torrent_magnet_list.txt"
+MAGNET_LIST_FILE="/usr/local/torrent/magnet_list"
 function get_magnet_list() {
 	MAGNET_LIST=""
 	MAGNET_COUNT=0
+	MAGNET_LIST_DATE_FILE="${MAGNET_LIST_FILE}_$(date +%m)"
+	echo $MAGNET_LIST_DATE_FILE
 	for MAGNET in $@; do
 		if [ "$MAGNET" != "" ]; then
 			MAGNET_EXIST=$MAGNET
-			grep $MAGNET $MAGNET_LIST_FILE > /dev/null && MAGNET=""
+			grep $MAGNET ${MAGNET_LIST_FILE}_* > /dev/null && MAGNET=""
 			if [ "$MAGNET" != "" ]; then
-				echo $MAGNET >> $MAGNET_LIST_FILE;
+				echo "$MAGNET $(date +"%Y.%m.%d %T")" >> $MAGNET_LIST_DATE_FILE;
+				tail $MAGNET_LIST_DATE_FILE
 				let MAGNET_COUNT=MAGNET_COUNT+1
 				MAGNET_LIST="$MAGNET_LIST -a $MAGNET"
 				echo +[$MAGNET]
