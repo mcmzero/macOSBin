@@ -2,40 +2,68 @@
 # Simple script that download & install & patch(NVDARequiredOS) nvidia webdriver
 # 2017.11.6 <changmin811@gmail.com>
 
-PKG_OSVERSION_HIGH_SIERRA_17=( 17D102 17D2102 )
-PKG_FILE_VERSION_HIGH_SIERRA_17=( 387.10.10.10.25.158 387.10.10.10.25.159 )
+PKG_MACOS_17=( \
+        "387.10.10.10.25.159 17D2102" \
+        "387.10.10.10.25.158 17D102" \
+        "378.10.10.10.25.106 17C2205" \
+)
+PKG_DEFAULT_17=$((${#PKG_MACOS_17[@]} - 1))
 
-PKG_OSVERSION_SIERRA_16=16G1212
-PKG_FILE_VERSION_SIERRA_16=378.05.05.25f06
+PKG_MACOS_16=( \
+        "378.05.05.25f06 16G1212" \
+)
+PKG_DEFAULT_16=$((${#PKG_MACOS_16[@]} - 1))
 
 SYSTEM_VERSION_FILE=/System/Library/CoreServices/SystemVersion.plist
 NVDASTARTUPWEB_INFO=/Library/Extensions/NVDAStartupWeb.kext/Contents/Info.plist
 
 OSVERSION=$(sw_vers -buildVersion)
 MAJOR_NUMBER=$(echo $OSVERSION|cut -c 1-2)
+
 if [ "$MAJOR_NUMBER" == "17" ]; then
-        echo "macOS High Sierra ($OSVERSION)"
-        PKG_OSVERSION=${PKG_OSVERSION_HIGH_SIERRA_17[0]}
-        PKG_FILE_VERSION=${PKG_FILE_VERSION_HIGH_SIERRA_17[0]}
-        for NUM in $(eval echo {1..${#PKG_OSVERSION_HIGH_SIERRA_17[@]}}); do
-                ((NUM--))
-                if [ "$OSVERSION" == "${PKG_OSVERSION_HIGH_SIERRA_17[$NUM]}" ]; then
-                        PKG_OSVERSION=${PKG_OSVERSION_HIGH_SIERRA_17[$NUM]}
-                        PKG_FILE_VERSION=${PKG_FILE_VERSION_HIGH_SIERRA_17[$NUM]}
-                        break
-                fi
-        done
+        PKG_MACOS=("${PKG_MACOS_17[@]}")
+        PKG_DEFAULT=$PKG_DEFAULT_17
 elif [ "$MAJOR_NUMBER" == "16" ]; then
-        echo "macOS Sierra ($OSVERSION)"
+        PKG_MACOS=("${PKG_MACOS_16[@]}")
+        PKG_DEFAULT=$PKG_DEFAULT_16
         NVDASTARTUPWEB_INFO=/System$NVDASTARTUPWEB_INFO
-        PKG_FILE_VERSION=$PKG_FILE_VERSION_SIERRA_16
-        PKG_OSVERSION=$PKG_OSVERSION_SIERRA_16
 else
 	echo "Unsupported OS"
 	exit
 fi
+unset -v PKG_MACOS_16 PKG_MACOS_17
+unset PKG_DEFAULT_16 PKG_DEFAULT_17
 
-if [ "$1" != "" ]; then PKG_OSVERSION=$1; fi
+if [ "$1" == "-h" ]; then
+        echo [PKG Version] [OS Version]
+        echo [Install commands]
+        echo
+        for NUM in ${!PKG_MACOS[@]}; do
+                echo ${PKG_MACOS[NUM]}
+                echo \$ install_webdriver.sh $(echo ${PKG_MACOS[NUM]} | cut -d ' ' -f 1 | cut -d '.' -f 6)
+                echo
+        done
+        exit
+fi
+PKG_FILE_VERSION=$(echo ${PKG_MACOS[PKG_DEFAULT]} | cut -d ' ' -f 1)
+PKG_OSVERSION=$(echo ${PKG_MACOS[PKG_DEFAULT]} | cut -d ' ' -f 2)
+for NUM in ${!PKG_MACOS[@]}; do
+        if [ "$1" != "" ]; then
+                if [ "$1" == "$(echo ${PKG_MACOS[NUM]} | cut -d ' ' -f 1 | cut -d '.' -f 6)" ]; then
+                        PKG_FILE_VERSION=$(echo ${PKG_MACOS[NUM]} | cut -d ' ' -f 1)
+                        PKG_OSVERSION=$(echo ${PKG_MACOS[NUM]} | cut -d ' ' -f 2)
+                        break
+                fi
+        else
+                if [ "$OSVERSION" == "$(echo ${PKG_MACOS[NUM]} | cut -d ' ' -f 2)" ]; then
+                        PKG_FILE_VERSION=$(echo ${PKG_MACOS[NUM]} | cut -d ' ' -f 1)
+                        PKG_OSVERSION=$(echo ${PKG_MACOS[NUM]} | cut -d ' ' -f 2)
+                        break
+                fi
+        fi
+done
+echo "macOS ($OSVERSION) : $PKG_FILE_VERSION ($PKG_OSVERSION)"
+
 PKG_FILE=WebDriver-${PKG_FILE_VERSION}.pkg
 PKG_MAJOR_VERSION=$(echo $PKG_FILE_VERSION | cut -d . -f 1)
 PKG_URL=https://images.nvidia.com/mac/pkg/${PKG_MAJOR_VERSION}/${PKG_FILE}
@@ -56,9 +84,8 @@ function print_ProductBuildVersion() {
         /usr/libexec/PlistBuddy -c "print ProductBuildVersion" $SYSTEM_VERSION_FILE
 }
 
-SYSCTL_OSVERSION=$(sysctl kern.osversion | cut -d ' ' -f2)
 if [ "$OSVERSION" == "" ]; then
-        set_ProductBuildVersion "$SYSCTL_OSVERSION"
+        set_ProductBuildVersion $(sysctl kern.osversion | cut -d ' ' -f 2)
         OSVERSION=$(sw_vers -buildVersion)
 fi
 
