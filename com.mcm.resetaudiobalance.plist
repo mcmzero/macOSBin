@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+        <key>Label</key>
+        <string>com.mcm.resetaudiobalance.plist</string>
+        <key>ProgramArguments</key>
+        <array>
+        <string>/usr/bin/osascript</string>
+        <string>-e</string>
+        <string>set volume output volume (output volume of (get volume settings))</string>
+        <string>-e</string>
+        <string>set volume input volume (1)</string>
+        </array>
+        <key>RunAtLoad</key>
+        <true/>
+</dict>
+</plist>
