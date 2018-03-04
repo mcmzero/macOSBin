@@ -15,31 +15,31 @@ MAILTO=""
 00 00		* * *		pi	/usr/local/bin/upgrade.sh
 
 # Clean up magnet list
-#00 00		* * 2		pi	/bin/rm /usr/local/torrent/download_torrent_magnet_list.txt
-* */1		* * *		pi	/usr/local/torrent/build_bbc_news_m3u.sh
+#00 */6		* * *		pi	/usr/local/torrent/build_bbc_news_m3u.sh login
+00 */2		* * *		pi	/usr/local/torrent/build_bbc_news_m3u.sh
 
 # Look for and purge old sessions every 5 minutes
 */10 *		* * *		pi	/usr/local/torrent/download purge
-*/02 *		* * *		pi	/usr/local/torrent/download rebuild
+*/2  *		* * *		pi	/usr/local/torrent/download rebuild
 
 # 예능, 드라마
 00 */12		* * *		pi	/usr/local/torrent/download login
 
-00 18-06/1	* * 1-5		pi	/usr/local/torrent/download ent 3
-00 */1		* * 0,6		pi	/usr/local/torrent/download ent 3
-15 18-06/1	* * 1-5		pi	/usr/local/torrent/download drama 2
-15 */1		* * 0,6		pi	/usr/local/torrent/download drama 2
+00 16-23,0-8	* * 1-5		pi	/usr/local/torrent/download ent 3
+00 *		* * 6,7		pi	/usr/local/torrent/download ent 3
+15 16-23,0-8	* * 1-5		pi	/usr/local/torrent/download drama 2
+15 *		* * 6,7		pi	/usr/local/torrent/download drama 2
 
-30 18-06/1      * * 1-5         pi      /usr/local/torrent/download kim ent 3
-30 */1          * * 0,6         pi      /usr/local/torrent/download kim ent 3
-45 18-06/1      * * 1-5         pi      /usr/local/torrent/download kim drama 2
-45 */1          * * 0,6         pi      /usr/local/torrent/download kim drama 2
+30 16-23,0-8  	* * 1-5        	pi      /usr/local/torrent/download kim ent 3
+30 *          	* * 6,7        	pi      /usr/local/torrent/download kim ent 3
+45 16-23,0-8  	* * 1-5        	pi      /usr/local/torrent/download kim drama 2
+45 *          	* * 6,7        	pi      /usr/local/torrent/download kim drama 2
 
 # 일일
-11 13,23	* * 1-5		pi	/usr/local/torrent/download 1 TV소설
-11 13,23	* * 1-5		pi	/usr/local/torrent/download kim	1 TV소설
-22 13,23	* * 1-5		pi	/usr/local/torrent/download 1 인간극장
-22 13,23	* * 1-5		pi	/usr/local/torrent/download kim	1 인간극장
+10 11-14	* * 1-5		pi	/usr/local/torrent/download 2 TV소설
+20 11-14	* * 1-5		pi	/usr/local/torrent/download 2 인간극장
+30 11-14	* * 1-5		pi	/usr/local/torrent/download kim	2 TV소설
+40 11-14	* * 1-5		pi	/usr/local/torrent/download kim	2 인간극장
 
 # 월요일(1)
 #00 00		* * 2		pi	/usr/local/torrent/download kim 1 섬총사
@@ -59,18 +59,19 @@ MAILTO=""
 #01 01		* * 5		pi	/usr/local/torrent/download kim 1 어서와 한국은 처음이지
 
 # 금요일(5)
-00 02		* * 6		pi	/usr/local/torrent/download kim 1 맛있는 녀석들
+*/20 21-23	* * 5		pi	/usr/local/torrent/download kim 1 Comedy TV 맛있는 녀석들
+00 *		* * 6,7		pi	/usr/local/torrent/download kim 1 Comedy TV 맛있는 녀석들
 #02 02		* * 6		pi	/usr/local/torrent/download kim	1 정글의 법칙
 #02 02		* * 6		pi	/usr/local/torrent/download kim	1 윤식당
 #02 02		* * 6		pi	/usr/local/torrent/download kim 1 나 혼자 산다
 
 # 토요일(6)
-#01 01		* * 0,1		pi	/usr/local/torrent/download kim	1 황금빛 내 인생
-#01 01		* * 0,1		pi	/usr/local/torrent/download kim	1 화유기
-#01 01		* * 0		pi	/usr/local/torrent/download kim	1 무한도전
-#01 01		* * 0		pi	/usr/local/torrent/download kim 1 짠내투어
+#01 01		* * 7,1		pi	/usr/local/torrent/download kim	1 황금빛 내 인생
+#01 01		* * 7,1		pi	/usr/local/torrent/download kim	1 화유기
+#01 01		* * 7		pi	/usr/local/torrent/download kim	1 무한도전
+#01 01		* * 7		pi	/usr/local/torrent/download kim 1 짠내투어
 
-# 일요일(0)
+# 일요일(7)
 #01 01		* * 1		pi	/usr/local/torrent/download kim	1 런닝맨
 #01 01		* * 1		pi	/usr/local/torrent/download kim	1 코미디 빅리그
 #02 02		* * 1		pi	/usr/local/torrent/download kim	1 개그 콘서트
