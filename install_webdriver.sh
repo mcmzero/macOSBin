@@ -2,66 +2,73 @@
 # Simple script that download & install & patch(NVDARequiredOS) nvidia webdriver
 # 2017.11.6 <changmin811@gmail.com>
 
-PKG_MACOS_17=( \
+if [ "$1" == "-s" ]; then
+        [ "$2" != "" ] && sudo /usr/libexec/PlistBuddy -c "set :ProductBuildVersion $2" /System/Library/CoreServices/SystemVersion.plist
+        /usr/libexec/PlistBuddy -c "print ProductBuildVersion" /System/Library/CoreServices/SystemVersion.plist
+        exit
+fi
+
+OSVERSION=$(sw_vers -buildVersion)
+OS_MAJOR_NUMBER=$(echo $OSVERSION|cut -c 1-2)
+
+PKG_MACOS_BETA=( \
         "387.10.10.10.25.159 17E160g 17D2102" \
         "387.10.10.10.25.158 17E170c 17E160e 17D102" \
         "378.10.10.10.25.106 17C2205" \
 )
-PKG_DEFAULT_17=$((${#PKG_MACOS_17[@]} - 1))
 
-PKG_MACOS_16=( \
-        "378.05.05.25f06 16G1212" \
-)
-PKG_DEFAULT_16=$((${#PKG_MACOS_16[@]} - 1))
+echo "Downloading webdriver list from https://gfe.nvidia.com/mac-update"
+tempfile=`mktemp -q -t gfe_nvidia_mac_update`
+curl -s https://gfe.nvidia.com/mac-update > $tempfile
+declare -a gfe_version=($(/usr/libexec/PlistBuddy -c "print updates" $tempfile |grep version|cut -d '=' -f 2))
+declare -a gfe_os=($(/usr/libexec/PlistBuddy -c "print updates" $tempfile |grep OS|cut -d '=' -f 2))
+rm -f $tempfile
 
-SYSTEM_VERSION_FILE=/System/Library/CoreServices/SystemVersion.plist
-NVDASTARTUPWEB_INFO=/Library/Extensions/NVDAStartupWeb.kext/Contents/Info.plist
+declare -a PKG_MACOS
+for idx in ${!gfe_os[@]}; do
+    PKG_MACOS[idx]="${gfe_version[idx]} ${gfe_os[idx]}"
+done
+PKG_MACOS=("${PKG_MACOS[@]}" "${PKG_MACOS_BETA[@]}")
+unset -v gfe_version gfe_os PKG_MACOS_BETA
+PKG_DEFAULT=${#PKG_MACOS[@]}
+echo
 
-OSVERSION=$(sw_vers -buildVersion)
-MAJOR_NUMBER=$(echo $OSVERSION|cut -c 1-2)
-
-if [ "$MAJOR_NUMBER" == "17" ]; then
-        PKG_MACOS=("${PKG_MACOS_17[@]}")
-        PKG_DEFAULT=$PKG_DEFAULT_17
-elif [ "$MAJOR_NUMBER" == "16" ]; then
-        PKG_MACOS=("${PKG_MACOS_16[@]}")
-        PKG_DEFAULT=$PKG_DEFAULT_16
-        NVDASTARTUPWEB_INFO=/System$NVDASTARTUPWEB_INFO
-else
-	echo "Unsupported OS"
-	exit
+if [ "$1" == "-l" ]; then
+        for pkg in ${!PKG_MACOS[@]}; do
+            echo ${PKG_MACOS[pkg]}
+        done
+        exit
 fi
-unset -v PKG_MACOS_16 PKG_MACOS_17
-unset PKG_DEFAULT_16 PKG_DEFAULT_17
-
-#help
 if [ "$1" == "-h" ]; then
         echo [PKG Version] [OS Version]
         echo [Install commands]
         echo
-        for NUM in ${!PKG_MACOS[@]}; do
-                echo ${PKG_MACOS[NUM]}
-                echo \$ install_webdriver.sh $(echo ${PKG_MACOS[NUM]} | cut -d ' ' -f 1 | cut -d '.' -f 6)
+        for idx in ${!PKG_MACOS[@]}; do
+                echo ${PKG_MACOS[idx]}
+                echo \$ install_webdriver.sh $(echo ${PKG_MACOS[idx]} | cut -d ' ' -f 1 | cut -d '.' -f 6)
                 echo
         done
         exit
 fi
 
-PKG_FILE_VERSION=$(echo ${PKG_MACOS[PKG_DEFAULT]} | cut -d ' ' -f 1)
-PKG_OSVERSION=$(echo ${PKG_MACOS[PKG_DEFAULT]} | cut -d ' ' -f 2)
-for NUM in ${!PKG_MACOS[@]}; do
-        W=($(echo ${PKG_MACOS[NUM]}|wc -w))
+#default value
+lastIdx=($(echo ${PKG_MACOS[PKG_DEFAULT-2]}|wc -w))
+PKG_FILE_VERSION=$(echo ${PKG_MACOS[PKG_DEFAULT-2]} | cut -d ' ' -f 1)
+PKG_OSVERSION=$(echo ${PKG_MACOS[PKG_DEFAULT-2]} | cut -d ' ' -f $lastIdx)
+
+for idx in ${!PKG_MACOS[@]}; do
+        lastIdx=($(echo ${PKG_MACOS[idx]}|wc -w))
         if [ "$1" != "" ]; then
-                if [ "$1" == "$(echo ${PKG_MACOS[NUM]} | cut -d ' ' -f 1 | cut -d '.' -f 6)" ]; then
-                        PKG_FILE_VERSION=$(echo ${PKG_MACOS[NUM]} | cut -d ' ' -f 1)
-                        PKG_OSVERSION=$(echo ${PKG_MACOS[NUM]} | cut -d ' ' -f $W)
+                if [ "$1" == "$(echo ${PKG_MACOS[idx]} | cut -d ' ' -f 1 | cut -d '.' -f 6)" ]; then
+                        PKG_FILE_VERSION=$(echo ${PKG_MACOS[idx]} | cut -d ' ' -f 1)
+                        PKG_OSVERSION=$(echo ${PKG_MACOS[idx]} | cut -d ' ' -f $lastIdx)
                         break
                 fi
         else
-                for FNUM in $(eval echo {2..$W}); do
-                        if [ "$OSVERSION" == "$(echo ${PKG_MACOS[NUM]} | cut -d ' ' -f $FNUM)" ]; then
-                                PKG_FILE_VERSION=$(echo ${PKG_MACOS[NUM]} | cut -d ' ' -f 1)
-                                PKG_OSVERSION=$(echo ${PKG_MACOS[NUM]} | cut -d ' ' -f $W)
+                for fieldIdx in $(eval echo {2..$lastIdx}); do
+                        if [ "$OSVERSION" == "$(echo ${PKG_MACOS[idx]} | cut -d ' ' -f $fieldIdx)" ]; then
+                                PKG_FILE_VERSION=$(echo ${PKG_MACOS[idx]} | cut -d ' ' -f 1)
+                                PKG_OSVERSION=$(echo ${PKG_MACOS[idx]} | cut -d ' ' -f $lastIdx)
                                 break
                         fi
                 done
@@ -83,11 +90,11 @@ if ! pkgutil --check-signature $PKG_FILE &> /dev/null; then
 fi
 
 function set_ProductBuildVersion() {
-        sudo /usr/libexec/PlistBuddy -c "set :ProductBuildVersion $@" $SYSTEM_VERSION_FILE
+        sudo /usr/libexec/PlistBuddy -c "set :ProductBuildVersion $@" /System/Library/CoreServices/SystemVersion.plist
 }
 
 function print_ProductBuildVersion() {
-        /usr/libexec/PlistBuddy -c "print ProductBuildVersion" $SYSTEM_VERSION_FILE
+        /usr/libexec/PlistBuddy -c "print ProductBuildVersion" /System/Library/CoreServices/SystemVersion.plist
 }
 
 if [ "$OSVERSION" == "" ]; then
@@ -116,19 +123,26 @@ if [ -f "$PKG_FILE" ]; then
         fi
 fi
 
+NVDASTARTUPWEB_INFO=/Library/Extensions/NVDAStartupWeb.kext/Contents/Info.plist
 function print_NVDARequiredOS() {
+        if [ ! -f "$NVDASTARTUPWEB_INFO" ]; then
+                [ -f "/System$NVDASTARTUPWEB_INFO" ] && NVDASTARTUPWEB_INFO=/System$NVDASTARTUPWEB_INFO
+        fi
 	/usr/libexec/PlistBuddy -c "print IOKitPersonalities:NVDAStartup:NVDARequiredOS" $NVDASTARTUPWEB_INFO
 }
 
 function set_NVDARequiredOS() {
+        if [ ! -f "$NVDASTARTUPWEB_INFO" ]; then
+                [ -f "/System$NVDASTARTUPWEB_INFO" ] && NVDASTARTUPWEB_INFO=/System$NVDASTARTUPWEB_INFO
+        fi
 	sudo /usr/libexec/PlistBuddy -c "set :IOKitPersonalities:NVDAStartup:NVDARequiredOS $@" $NVDASTARTUPWEB_INFO
 	sudo chown -R root:wheel $NVDASTARTUPWEB_INFO
 	#sudo codesign -f -s - $NVDASTARTUPWEB_INFO
 }
 
+BEFORE_NUMBER=$(print_NVDARequiredOS)
 if [ -f "$NVDASTARTUPWEB_INFO" ]; then
-        BEFORE_NUMBER=$(print_NVDARequiredOS)
-        set_NVDARequiredOS "$MAJOR_NUMBER"
+        set_NVDARequiredOS "$OS_MAJOR_NUMBER"
         AFTER_NUMBER=$(print_NVDARequiredOS)
         echo "Patch NVDAStartupWeb.kext:NVDARequiredOS: $BEFORE_NUMBER -> $AFTER_NUMBER" && echo                               
         echo "Rebuild kextcahe: sudo kextcache -Boot -i /" && sudo kextcache -Boot -i / && echo
