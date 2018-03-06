@@ -20,8 +20,8 @@ PKG_MACOS_BETA=( \
 echo "Downloading webdriver list from https://gfe.nvidia.com/mac-update"
 tempfile=`mktemp -q -t gfe_nvidia_mac_update`
 curl -s https://gfe.nvidia.com/mac-update > $tempfile
-declare -a gfe_version=($(/usr/libexec/PlistBuddy -c "print updates" $tempfile |grep version|cut -d '=' -f 2))
-declare -a gfe_os=($(/usr/libexec/PlistBuddy -c "print updates" $tempfile |grep OS|cut -d '=' -f 2))
+declare -a gfe_version=($(/usr/libexec/PlistBuddy -c "print updates" $tempfile | grep version | cut -d '=' -f 2))
+declare -a gfe_os=($(/usr/libexec/PlistBuddy -c "print updates" $tempfile | grep OS | cut -d '=' -f 2))
 rm -f $tempfile
 
 declare -a PKG_MACOS
@@ -52,12 +52,12 @@ if [ "$1" == "-h" ]; then
 fi
 
 #default value
-lastIdx=($(echo ${PKG_MACOS[PKG_DEFAULT-2]}|wc -w))
+lastIdx=($(echo ${PKG_MACOS[PKG_DEFAULT-2]} | wc -w))
 PKG_FILE_VERSION=$(echo ${PKG_MACOS[PKG_DEFAULT-2]} | cut -d ' ' -f 1)
 PKG_OSVERSION=$(echo ${PKG_MACOS[PKG_DEFAULT-2]} | cut -d ' ' -f $lastIdx)
 
 for idx in ${!PKG_MACOS[@]}; do
-        lastIdx=($(echo ${PKG_MACOS[idx]}|wc -w))
+        lastIdx=($(echo ${PKG_MACOS[idx]} | wc -w))
         if [ "$1" != "" ]; then
                 if [ "$1" == "$(echo ${PKG_MACOS[idx]} | cut -d ' ' -f 1 | cut -d '.' -f 6)" ]; then
                         PKG_FILE_VERSION=$(echo ${PKG_MACOS[idx]} | cut -d ' ' -f 1)
