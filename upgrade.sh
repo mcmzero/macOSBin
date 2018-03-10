@@ -1,4 +1,4 @@
-diskutil mount disk0s1
+diskutil mount $(diskutil list|grep EFI|head -n 1|cut -d 'B' -f 2)
 audio_cloverALC-130_v0.3.command << __EOF__
 y
 y
