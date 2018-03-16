@@ -506,7 +506,7 @@ function download_torrent_kim() {
 		done
 		unset -v magnet_array name_array
 	done
-echo $URL_LIST
+
 	get_magnet_list ${URL_LIST}
 }
 
