@@ -102,23 +102,28 @@ if [ "$1" == "kim" ]; then
                 [ $# -eq 1 ] && download_social_kim 100 $1 720
                 exit
         fi
+        if [ "$1" == "ep" ]; then
+                shift
+                EP_START=$1
+                shift
+                EP_END=$1
+                shift
+                EP_QUALITY=$1
+                shift
+                EP_NAME="$*"
+                for EP_NUM in $(eval echo {$EP_START..$EP_END}); do
+                        download_torrent_kim 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E${EP_NUM}."
+                        download_torrent_kim 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E0${EP_NUM}."
+                done
+                purge_torrent
+                exit
+        fi
         if [ "$1" != "ep" ]; then
                 echo no episode
                 download_torrent_kim "$@"
                 purge_torrent
                 exit
         fi
-        shift
-        NUM_START=$1
-        shift
-        NUM_END=$1
-        shift
-	for EPISODE_NUM in $(eval echo {$NUM_START..$NUM_END}); do
-                download_torrent_kim "${*}.E${EPISODE_NUM}."
-                download_torrent_kim "${*}.E0${EPISODE_NUM}."
-	done
-        purge_torrent
-        exit
 fi
 
 if [ "$1" == "login" ]; then
@@ -157,21 +162,24 @@ fi
 
 if [ "$1" == "ep" ]; then
         shift
-        NUM_START=$1
+        EP_START=$1
         shift
-        NUM_END=$1
+        EP_END=$1
         shift
-	for EPISODE_NUM in $(eval echo {$NUM_START..$NUM_END}); do
-                download_torrent "${*}.E${EPISODE_NUM}."
-                download_torrent "${*}.E0${EPISODE_NUM}."
+        EP_QUALITY=$1
+        shift
+        EP_NAME="$*"
+	for EP_NUM in $(eval echo {$EP_START..$EP_END}); do
+                download_torrent_cor 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E${EP_NUM}."
+                download_torrent_cor 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E0${EP_NUM}."
 	done
         purge_torrent
         exit
 fi
 
-if [ "$1" == "se" ]; then
+if [ "$1" == "cor" ]; then
         shift
-        download_torrent_startend $@
+        download_torrent_cor $@
         purge_torrent
         exit
 fi

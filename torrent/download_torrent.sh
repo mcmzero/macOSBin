@@ -8,6 +8,8 @@ TOR_SERVER=$TOR_SERVER_IP:$TOR_SERVER_PORT
 TOR_SERVER_IMAC=192.168.0.3
 TOR_AUTH=moon:123123212121
 
+# curl -s "https://torrentpong.com/bbs/board.php?bo_table=ent&page=1&stx=720p-NEXT"|grep magnet|grep 720p-NEXT
+
 URL_SERVER="https://www.tcorea.com"
 URL_TYPE_ENT="${URL_SERVER}/bbs/board.php?bo_table=torrent_kortv_ent"
 URL_TYPE_DRAMA="${URL_SERVER}/bbs/board.php?bo_table=torrent_kortv_drama"
@@ -23,7 +25,20 @@ COOKIE_TCOREA="/usr/local/torrent/cookie_tcorea"
 function download_torrent_help() {
 	#download_torrent count page_max_num quality(360 720 1080) search text
 	echo "기본 사용법:"
-	echo "download se 개수 시작페이지 최대페이지 화질(360 720 1080) 검색어"
+	echo "download cor 개수 시작페이지 최대페이지 화질(360 720 1080) 검색어"
+	echo "download kim 개수 시작페이지 최대페이지 화질(360 720 1080) 검색어"
+	echo
+	echo "download ep 에피소드시작 에피소드끝 화질(360 720 1080) 제목"
+	echo "download kim ep 에피소드시작 에피소드끝 화질(360 720 1080) 제목"
+	echo
+	echo "download ent pagenum"
+	echo "download drama pagenum"
+	echo "download social pagenum"
+	echo
+	echo "download kim ent pagenum"
+	echo "download kim drama pagenum"
+	echo "download kim social pagenum"
+	echo
 	echo "download 개수 최대페이지 화질(360 720 1080) 검색어"
 	echo "download 개수 최대페이지 화질(360 720 1080)"
 	echo "download 개수 최대페이지 검색어"
@@ -31,8 +46,6 @@ function download_torrent_help() {
 	echo "download 개수 검색어"
 	echo "download 개수"
 	echo "download 검색어"
-	echo "download ep 에피소드시작 에피소드끝 제목"
-	echo "download kim ep 에피소드시작 에피소드끝 제목"
 	echo
 	echo "예제:"
 	echo "download 100 5 720 동상이몽2"
@@ -43,13 +56,6 @@ function download_torrent_help() {
 	echo "download ep 1 12 개그 콘서트"
 	echo "download kim ep 1 12 맛있는 녀석들"
 	echo
-	echo "download ent pagenum"
-	echo "download drama pagenum"
-	echo "download social pagenum"
-	echo
-	echo "download kim ent pagenum"
-	echo "download kim drama pagenum"
-	echo "download kim social pagenum"
 }
 
 function login_tcorea() {
@@ -85,8 +91,16 @@ function remove_magnet() {
 }
 
 function purge_torrent() {
-	[ "${1}" != "" ] && TOR_SERVER=${1} || 
-	TOR_LIST_TEMP=`mktemp -q`
+	local PURGE_TOR_SERVER=$TOR_SERVER
+	[ "$1" != "" ] && PURGE_TOR_SERVER=$1
+
+	tempfoo=`basename $0`
+	echo $tempfoo
+	TOR_LIST_TEMP=`mktemp -q -t ${tempfoo}.XXX`
+	if [ $? -ne 0 ]; then
+		echo "$0: Can't create temp file, exiting..."
+		return 1
+	fi
 
 	list_magnet >& ${TOR_LIST_TEMP}
 	cat ${TOR_LIST_TEMP}
@@ -95,8 +109,8 @@ function purge_torrent() {
 	TORRENT_ID_LIST=`echo ${TORRENT_ID_LIST} | sed -e 's/ /,/g'`
 
 	if [ "$TORRENT_ID_LIST" != "" ]; then
-		echo "transmission-remote ${TOR_SERVER} --auth ${TOR_AUTH} --torrent $TORRENT_ID_LIST --remove"
-		transmission-remote ${TOR_SERVER} --auth ${TOR_AUTH} --torrent $TORRENT_ID_LIST --remove
+		echo "transmission-remote ${PURGE_TOR_SERVER} --auth ${TOR_AUTH} --torrent $TORRENT_ID_LIST --remove"
+		transmission-remote ${PURGE_TOR_SERVER} --auth ${TOR_AUTH} --torrent $TORRENT_ID_LIST --remove
 	fi
 
 	# 다운로드 항목이 없을때만 폴더 정리
@@ -146,27 +160,82 @@ function print_magnet() {
 	echo $MAGNET_RET
 }
 
+function download_torrent_cor() {
+	# download_torrent_cor count start_page end_page quality search
+	local COUNT=1
+	local PAGE_NUM_START=1
+	local PAGE_NUM_END=1
+	local QUALITY="720p-NEXT"
+	local SEARCH=""
+	local VAR=$1
+
+	if ((VAR > 0)) 2> /dev/null; then
+		COUNT=$1
+		shift
+		VAR=$1
+		if ((VAR > 0)) 2> /dev/null; then
+			PAGE_NUM_START=$1
+			shift
+			VAR=$1
+			if ((VAR > 0)) 2> /dev/null; then
+				PAGE_NUM_END=$1
+				shift
+				VAR=$1
+				if ((VAR > 0)) 2> /dev/null; then
+					QUALITY="${1}p-NEXT"
+					shift
+				fi
+			fi
+		fi
+	fi
+
+	SEARCH="$(echo "$*" | sed -e 's/ /+/g')"
+	echo "검색 [$SEARCH]"
+
+	# grep -v 제외 문자열
+	URL_LIST=""
+	for PAGE_NUM in $(eval echo {$PAGE_NUM_START..$PAGE_NUM_END}); do
+		URL="${URL_TYPE_ENT}&page=${PAGE_NUM}&stx=${SEARCH}"
+		echo SEARCH: $URL
+		URL_RET=$(print_magnet $QUALITY $COUNT $URL)
+		#echo E[$URL][$PAGE_NUM][$URL_RET][$COUNT]
+		#[ "${URL_RET}" != "" ] && URL_LIST="$URL_LIST $URL_RET" && continue
+		[ "${URL_RET}" != "" ] && URL_LIST="$URL_LIST $URL_RET"
+
+		URL="${URL_TYPE_DRAMA}&page=${PAGE_NUM}&stx=${SEARCH}"
+		echo SEARCH: $URL
+		URL_RET=$(print_magnet $QUALITY $COUNT $URL)
+		#echo D[$URL][$PAGE_NUM][$URL_RET][$COUNT] $COUNT
+		[ "${URL_RET}" != "" ] && URL_LIST="$URL_LIST $URL_RET" && continue
+
+		URL="${URL_TYPE_SOCIAL}&page=${PAGE_NUM}&stx=${SEARCH}"
+		echo SEARCH: $URL
+		URL_RET=$(print_magnet $QUALITY $COUNT $URL)
+		#echo S[$URL][$PAGE_NUM][$URL_RET][$COUNT] $COUNT
+		[ "${URL_RET}" != "" ] && URL_LIST="$URL_LIST $URL_RET" && continue
+	done
+
+	get_magnet_list ${URL_LIST}
+}
+
 function download_torrent() {
 	# download_torrent count page quality search
-	COUNT=1
-	PAGE_MAX_NUM=1
-	QUALITY="720p-NEXT"
-	SEARCH=""
+	local COUNT=1
+	local PAGE_MAX_NUM=1
+	local QUALITY="720p-NEXT"
+	local SEARCH=""
+	local VAR=$1
 
-	VAR=$1
-	if ((VAR > 0)) 2> /dev/null
-	then
+	if ((VAR > 0)) 2> /dev/null; then
 		#COUNT=$((${1}+1))
 		COUNT=$1
 		shift
 		VAR=$1
-		if ((VAR > 0)) 2> /dev/null
-		then
+		if ((VAR > 0)) 2> /dev/null; then
 			PAGE_MAX_NUM=$1
 			shift
 			VAR=$1
-			if ((VAR > 0)) 2> /dev/null
-			then
+			if ((VAR > 0)) 2> /dev/null; then
 				QUALITY="${1}p-NEXT"
 				shift
 			fi
@@ -204,24 +273,21 @@ function download_torrent() {
 
 function download_ent() {
 	# download_ent count page_num quality
-	COUNT=1
-	PAGE_MAX_NUM=2
-	QUALITY="720p-NEXT"
-	SEARCH="720p-NEXT"
+	local COUNT=1
+	local PAGE_MAX_NUM=2
+	local QUALITY="720p-NEXT"
+	local SEARCH="720p-NEXT"
+	local VAR=$1
 
-	VAR=$1
-	if ((VAR > 0)) 2> /dev/null
-	then
+	if ((VAR > 0)) 2> /dev/null; then
 		COUNT=$1
 		shift
 		VAR=$1
-		if ((VAR > 0)) 2> /dev/null
-		then
+		if ((VAR > 0)) 2> /dev/null; then
 			PAGE_MAX_NUM=$1
 			shift
 			VAR=$1
-			if ((VAR > 0)) 2> /dev/null
-			then
+			if ((VAR > 0)) 2> /dev/null; then
 				SEARCH="${1}p-NEXT"
 				shift
 			fi
@@ -241,24 +307,21 @@ function download_ent() {
 
 function download_drama() {
 	# download_drama count page_num quality
-	COUNT=1
-	PAGE_MAX_NUM=2
-	QUALITY="720p-NEXT"
-	SEARCH="720p-NEXT"
+	local COUNT=1
+	local PAGE_MAX_NUM=2
+	local QUALITY="720p-NEXT"
+	local SEARCH="720p-NEXT"
+	local VAR=$1
 
-	VAR=$1
-	if ((VAR > 0)) 2> /dev/null
-	then
+	if ((VAR > 0)) 2> /dev/null; then
 		COUNT=$1
 		shift
 		VAR=$1
-		if ((VAR > 0)) 2> /dev/null
-		then
+		if ((VAR > 0)) 2> /dev/null; then
 			PAGE_MAX_NUM=$1
 			shift
 			VAR=$1
-			if ((VAR > 0)) 2> /dev/null
-			then
+			if ((VAR > 0)) 2> /dev/null; then
 				SEARCH="${1}p-NEXT"
 				shift
 			fi
@@ -278,24 +341,21 @@ function download_drama() {
 
 function download_social() {
 	# download_social count page_num quality
-	COUNT=1
-	PAGE_MAX_NUM=2
-	QUALITY="720p-NEXT"
-	SEARCH="720p-NEXT"
-
-	VAR=$1
-	if ((VAR > 0)) 2> /dev/null
-	then
+	local COUNT=1
+	local PAGE_MAX_NUM=2
+	local QUALITY="720p-NEXT"
+	local SEARCH="720p-NEXT"
+	local VAR=$1
+	
+	if ((VAR > 0)) 2> /dev/null; then
 		COUNT=$1
 		shift
 		VAR=$1
-		if ((VAR > 0)) 2> /dev/null
-		then
+		if ((VAR > 0)) 2> /dev/null; then
 			PAGE_MAX_NUM=$1
 			shift
 			VAR=$1
-			if ((VAR > 0)) 2> /dev/null
-			then
+			if ((VAR > 0)) 2> /dev/null; then
 				SEARCH="${1}p-NEXT"
 				shift
 			fi
@@ -313,97 +373,31 @@ function download_social() {
 	get_magnet_list ${URL_LIST}
 }
 
-function download_torrent_startend() {
-	# download_torrent count start_page end_page quality search
-	COUNT=1
-	PAGE_NUM_START=1
-	PAGE_NUM_END=1
-	QUALITY="720p-NEXT"
-	SEARCH=""
-
-	VAR=$1
-	if ((VAR > 0)) 2> /dev/null
-	then
-		COUNT=$1
-		shift
-		VAR=$1
-		if ((VAR > 0)) 2> /dev/null
-		then
-			PAGE_NUM_START=$1
-			shift
-			VAR=$1
-			if ((VAR > 0)) 2> /dev/null
-			then
-				PAGE_NUM_END=$1
-				shift
-				VAR=$1
-				if ((VAR > 0)) 2> /dev/null
-				then
-					QUALITY="${1}p-NEXT"
-					shift
-				fi
-			fi
-		fi
-	fi
-
-	SEARCH="$(echo "$*" | sed -e 's/ /+/g')"
-	echo "검색 [$SEARCH]"
-
-	# grep -v 제외 문자열
-	URL_LIST=""
-	for PAGE_NUM in $(eval echo {$PAGE_NUM_START..$PAGE_NUM_END}); do
-		URL="${URL_TYPE_ENT}&page=${PAGE_NUM}&stx=${SEARCH}"
-		echo SEARCH: $URL
-		URL_RET=$(print_magnet $QUALITY $COUNT $URL)
-		#echo E[$URL][$PAGE_NUM][$URL_RET][$COUNT]
-		#[ "${URL_RET}" != "" ] && URL_LIST="$URL_LIST $URL_RET" && continue
-		[ "${URL_RET}" != "" ] && URL_LIST="$URL_LIST $URL_RET"
-
-		URL="${URL_TYPE_DRAMA}&page=${PAGE_NUM}&stx=${SEARCH}"
-		echo SEARCH: $URL
-		URL_RET=$(print_magnet $QUALITY $COUNT $URL)
-		#echo D[$URL][$PAGE_NUM][$URL_RET][$COUNT] $COUNT
-		[ "${URL_RET}" != "" ] && URL_LIST="$URL_LIST $URL_RET" && continue
-
-		URL="${URL_TYPE_SOCIAL}&page=${PAGE_NUM}&stx=${SEARCH}"
-		echo SEARCH: $URL
-		URL_RET=$(print_magnet $QUALITY $COUNT $URL)
-		#echo S[$URL][$PAGE_NUM][$URL_RET][$COUNT] $COUNT
-		[ "${URL_RET}" != "" ] && URL_LIST="$URL_LIST $URL_RET" && continue
-	done
-
-	get_magnet_list ${URL_LIST}
-}
-
 ###############
 ## torrent kim
 ##
 function download_torrent_kim() {
 	# download_torrent_kim count start_page end_page quality search
-	COUNT=1
-	PAGE_NUM_START=1
-	PAGE_NUM_END=1
-	QUALITY="720p-"
-	SEARCH=""
+	local COUNT=1
+	local PAGE_NUM_START=1
+	local PAGE_NUM_END=1
+	local QUALITY="720p-"
+	local SEARCH=""
+	local VAR=$1
 
-	VAR=$1
-	if ((VAR > 0)) 2> /dev/null
-	then
+	if ((VAR > 0)) 2> /dev/null; then
 		COUNT=$1
 		shift
 		VAR=$1
-		if ((VAR > 0)) 2> /dev/null
-		then
+		if ((VAR > 0)) 2> /dev/null; then
 			PAGE_NUM_START=$1
 			shift
 			VAR=$1
-			if ((VAR > 0)) 2> /dev/null
-			then
+			if ((VAR > 0)) 2> /dev/null; then
 				PAGE_NUM_END=$1
 				shift
 				VAR=$1
-				if ((VAR > 0)) 2> /dev/null
-				then
+				if ((VAR > 0)) 2> /dev/null; then
 					QUALITY="${1}p-"
 					shift
 				fi
@@ -443,24 +437,21 @@ function print_magnet_kim() {
 
 function download_ent_kim() {
 	# download_ent count page_num quality
-	COUNT=100
-	PAGE_MAX_NUM=2
-	QUALITY="720p-NEXT"
-	SEARCH="720p-NEXT"
-
-	VAR=$1
-	if ((VAR > 0)) 2> /dev/null
-	then
+	local COUNT=100
+	local PAGE_MAX_NUM=2
+	local QUALITY="720p-NEXT"
+	local SEARCH="720p-NEXT"
+	local VAR=$1
+	
+	if ((VAR > 0)) 2> /dev/null; then
 		COUNT=$1
 		shift
 		VAR=$1
-		if ((VAR > 0)) 2> /dev/null
-		then
+		if ((VAR > 0)) 2> /dev/null; then
 			PAGE_MAX_NUM=$1
 			shift
 			VAR=$1
-			if ((VAR > 0)) 2> /dev/null
-			then
+			if ((VAR > 0)) 2> /dev/null; then
 				SEARCH="${1}p-NEXT"
 				shift
 			fi
@@ -480,24 +471,21 @@ function download_ent_kim() {
 
 function download_drama_kim() {
 	# download_drama count page_num quality
-	COUNT=100
-	PAGE_MAX_NUM=2
-	QUALITY="720p-NEXT"
-	SEARCH="720p-NEXT"
-
-	VAR=$1
-	if ((VAR > 0)) 2> /dev/null
-	then
+	local COUNT=100
+	local PAGE_MAX_NUM=2
+	local QUALITY="720p-NEXT"
+	local SEARCH="720p-NEXT"
+	local VAR=$1
+	
+	if ((VAR > 0)) 2> /dev/null; then
 		COUNT=$1
 		shift
 		VAR=$1
-		if ((VAR > 0)) 2> /dev/null
-		then
+		if ((VAR > 0)) 2> /dev/null; then
 			PAGE_MAX_NUM=$1
 			shift
 			VAR=$1
-			if ((VAR > 0)) 2> /dev/null
-			then
+			if ((VAR > 0)) 2> /dev/null; then
 				SEARCH="${1}p-NEXT"
 				shift
 			fi
@@ -517,24 +505,21 @@ function download_drama_kim() {
 
 function download_social_kim() {
 	# download_social count page_num quality
-	COUNT=100
-	PAGE_MAX_NUM=2
-	QUALITY="720p-NEXT"
-	SEARCH="720p-NEXT"
-
-	VAR=$1
-	if ((VAR > 0)) 2> /dev/null
-	then
+	local COUNT=100
+	local PAGE_MAX_NUM=2
+	local QUALITY="720p-NEXT"
+	local SEARCH="720p-NEXT"
+	local VAR=$1
+	
+	if ((VAR > 0)) 2> /dev/null; then
 		COUNT=$1
 		shift
 		VAR=$1
-		if ((VAR > 0)) 2> /dev/null
-		then
+		if ((VAR > 0)) 2> /dev/null; then
 			PAGE_MAX_NUM=$1
 			shift
 			VAR=$1
-			if ((VAR > 0)) 2> /dev/null
-			then
+			if ((VAR > 0)) 2> /dev/null; then
 				SEARCH="${1}p-NEXT"
 				shift
 			fi

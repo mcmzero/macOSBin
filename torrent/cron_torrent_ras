@@ -12,27 +12,27 @@
 MAILTO=""
 
 # m h dom mon dow user  command
-00 00		* * *		pi	/usr/local/bin/upgrade.sh
+51 */6		* * *		pi	/usr/local/bin/upgrade.sh
 
 # Clean up magnet list
-#00 */6		* * *		pi	/usr/local/torrent/build_bbc_news_m3u.sh login
-00 */2		* * *		pi	/usr/local/torrent/build_bbc_news_m3u.sh
+#07 */6		* * *		pi	/usr/local/torrent/build_bbc_news_m3u.sh login
+07 */2		* * *		pi	/usr/local/torrent/build_bbc_news_m3u.sh
 
 # Look for and purge old sessions every 5 minutes
-*/10 *		* * *		pi	/usr/local/torrent/download purge
+*/2 *		* * *		pi	/usr/local/torrent/download purge
 */2  *		* * *		pi	/usr/local/torrent/download rebuild
 
 # 예능, 드라마
 00 */12		* * *		pi	/usr/local/torrent/download login
 
-00 16-23,0-8	* * 1-5		pi	/usr/local/torrent/download ent 3
+00 16-23,0-9	* * 1-5		pi	/usr/local/torrent/download ent 3
 00 *		* * 6,7		pi	/usr/local/torrent/download ent 3
-15 16-23,0-8	* * 1-5		pi	/usr/local/torrent/download drama 2
+15 16-23,0-9	* * 1-5		pi	/usr/local/torrent/download drama 2
 15 *		* * 6,7		pi	/usr/local/torrent/download drama 2
 
-30 16-23,0-8  	* * 1-5        	pi      /usr/local/torrent/download kim ent 3
+30 16-23,0-9  	* * 1-5        	pi      /usr/local/torrent/download kim ent 3
 30 *          	* * 6,7        	pi      /usr/local/torrent/download kim ent 3
-45 16-23,0-8  	* * 1-5        	pi      /usr/local/torrent/download kim drama 2
+45 16-23,0-9  	* * 1-5        	pi      /usr/local/torrent/download kim drama 2
 45 *          	* * 6,7        	pi      /usr/local/torrent/download kim drama 2
 
 # 일일
@@ -49,7 +49,9 @@ MAILTO=""
 #02 02		* * 3		pi	/usr/local/torrent/download kim 1 달팽이호텔
 
 # 수요일(3)
-#01 01		* * 4		pi	/usr/local/torrent/download kim 1 영재발굴단
+# download kim count start_page end_page quality search
+00 01		* * 4,5		pi	/usr/local/torrent/download cor 2 1 1 360 영재발굴단
+10 01		* * 4,5		pi	/usr/local/torrent/download kim 2 1 1 360 영재발굴단
 #01 01		* * 4		pi	/usr/local/torrent/download kim 1 주간 아이돌
 
 # 목요일(4)
