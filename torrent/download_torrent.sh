@@ -26,20 +26,22 @@ URL_TYPE_SOCIAL_PONG="${URL_SERVER_PONG}/bbs/board.php?bo_table=dacu"
 
 function download_torrent_help() {
 	#download_torrent count page_max_num quality(360 720 1080) search text
-	echo "기본 사용법:"
+	echo "사용법:"
 	echo "download cor 개수 시작페이지 최대페이지 화질(360 720 1080) 검색어"
 	echo "download kim 개수 시작페이지 최대페이지 화질(360 720 1080) 검색어"
+	echo "download pong 개수 시작페이지 최대페이지 화질(360 720 1080) 검색어"
 	echo
-	echo "download ep 에피소드시작 에피소드끝 화질(360 720 1080) 제목"
+	echo "download cor ep 에피소드시작 에피소드끝 화질(360 720 1080) 제목"
 	echo "download kim ep 에피소드시작 에피소드끝 화질(360 720 1080) 제목"
+	echo "download pong ep 에피소드시작 에피소드끝 화질(360 720 1080) 제목"
 	echo
 	echo "download ent pagenum"
 	echo "download drama pagenum"
 	echo "download social pagenum"
 	echo
-	echo "download kim ent pagenum"
-	echo "download kim drama pagenum"
-	echo "download kim social pagenum"
+	echo "download 사이트(cor kim pong) ent pagenum"
+	echo "download 사이트(cor kim pong) drama pagenum"
+	echo "download 사이트(cor kim pong) social pagenum"
 	echo
 	echo "download 개수 최대페이지 화질(360 720 1080) 검색어"
 	echo "download 개수 최대페이지 화질(360 720 1080)"
@@ -55,8 +57,10 @@ function download_torrent_help() {
 	echo "download 1 1 720 황금빛 내 인생"
 	echo "download 1 1 720 무한 도전"
 	echo "download 100 2 720 아는 형님"
-	echo "download ep 1 12 개그 콘서트"
-	echo "download kim ep 1 12 맛있는 녀석들"
+	echo
+	echo "download cor ep 1 12 720 개그 콘서트"
+	echo "download kim ep 1 12 360 맛있는 녀석들"
+	echo "download pong ep 1 12 1080 맛있는 녀석들"
 	echo
 }
 

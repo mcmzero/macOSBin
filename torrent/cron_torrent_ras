@@ -25,15 +25,20 @@ MAILTO=""
 # 예능, 드라마
 00 */12		* * *		pi	/usr/local/torrent/download login
 
-00 16-23,0-9	* * 1-5		pi	/usr/local/torrent/download ent 3
-00 *		* * 6,7		pi	/usr/local/torrent/download ent 3
-15 16-23,0-9	* * 1-5		pi	/usr/local/torrent/download drama 2
-15 *		* * 6,7		pi	/usr/local/torrent/download drama 2
+00,30 16-23,0-9	* * 1-5		pi	/usr/local/torrent/download cor ent 1
+00,30 *		* * 6,7		pi	/usr/local/torrent/download cor ent 1
+00,30 16-23,0-9	* * 1-5		pi	/usr/local/torrent/download cor drama 1
+00,30 *		* * 6,7		pi	/usr/local/torrent/download cor drama 1
 
-30 16-23,0-9  	* * 1-5        	pi      /usr/local/torrent/download kim ent 3
-30 *          	* * 6,7        	pi      /usr/local/torrent/download kim ent 3
-45 16-23,0-9  	* * 1-5        	pi      /usr/local/torrent/download kim drama 2
-45 *          	* * 6,7        	pi      /usr/local/torrent/download kim drama 2
+10,40 16-23,0-9    * * 1-5         pi      /usr/local/torrent/download kim ent 1
+10,40 *            * * 6,7         pi      /usr/local/torrent/download kim ent 1
+10,40 16-23,0-9    * * 1-5         pi      /usr/local/torrent/download kim drama 1
+10,40 *            * * 6,7         pi      /usr/local/torrent/download kim drama 1
+
+20,50 16-23,0-9    * * 1-5         pi      /usr/local/torrent/download pong ent 1
+20,50 *            * * 6,7         pi      /usr/local/torrent/download pong ent 1
+20,50 16-23,0-9    * * 1-5         pi      /usr/local/torrent/download pong drama 1
+20,50 *            * * 6,7         pi      /usr/local/torrent/download pong drama 1
 
 # 일일
 10 11-14	* * 1-5		pi	/usr/local/torrent/download 2 TV소설
@@ -51,7 +56,8 @@ MAILTO=""
 # 수요일(3)
 # download kim count start_page end_page quality search
 00 01		* * 4,5		pi	/usr/local/torrent/download cor 2 1 1 360 영재발굴단
-10 01		* * 4,5		pi	/usr/local/torrent/download kim 2 1 1 360 영재발굴단
+05 01		* * 4,5		pi	/usr/local/torrent/download kim 2 1 1 360 영재발굴단
+10 01		* * 4,5		pi	/usr/local/torrent/download pong 2 1 1 360 영재발굴단
 #01 01		* * 4		pi	/usr/local/torrent/download kim 1 주간 아이돌
 
 # 목요일(4)
