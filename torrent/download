@@ -86,20 +86,23 @@ if [ "$1" == "kim" ]; then
         shift
         if [ "$1" == "drama" ]; then
                 shift
-                [ $# -eq 0 ] && download_drama_kim 100 1 720
-                [ $# -eq 1 ] && download_drama_kim 100 $1 720
+                PG_NUM=1
+                [ $# -eq 1 ] && PG_NUM=$1
+                download_drama_kim 100 $PG_NUM 720
                 exit
         fi
         if [ "$1" == "ent" ]; then
                 shift
-                [ $# -eq 0 ] && download_ent_kim 100 1 720
-                [ $# -eq 1 ] && download_ent_kim 100 $1 720
+                PG_NUM=1
+                [ $# -eq 1 ] && PG_NUM=$1
+                download_ent_kim 100 $PG_NUM 720
                 exit
         fi
         if [ "$1" == "social" ]; then
                 shift
-                [ $# -eq 0 ] && download_social_kim 100 1 720
-                [ $# -eq 1 ] && download_social_kim 100 $1 720
+                PG_NUM=1
+                [ $# -eq 1 ] && PG_NUM=$1
+                download_social_kim 100 $PG_NUM 720
                 exit
         fi
         if [ "$1" == "ep" ]; then
@@ -126,6 +129,101 @@ if [ "$1" == "kim" ]; then
         fi
 fi
 
+if [ "$1" == "pong" ]; then
+        shift
+        if [ "$1" == "drama" ]; then
+                shift
+                PG_NUM=1
+                [ $# -eq 1 ] && PG_NUM=$1
+                download_drama_pong 100 $PG_NUM 720
+                exit
+        fi
+        if [ "$1" == "ent" ]; then
+                echo pong ent
+                shift
+                PG_NUM=1
+                [ $# -eq 1 ] && PG_NUM=$1
+                download_ent_pong 100 $PG_NUM 720
+                exit
+        fi
+        if [ "$1" == "social" ]; then
+                shift
+                PG_NUM=1
+                [ $# -eq 1 ] && PG_NUM=$1
+                download_social_pong 100 $PG_NUM 720
+                exit
+        fi
+        if [ "$1" == "ep" ]; then
+                shift
+                EP_START=$1
+                shift
+                EP_END=$1
+                shift
+                EP_QUALITY=$1
+                shift
+                EP_NAME="$*"
+                for EP_NUM in $(eval echo {$EP_START..$EP_END}); do
+                        download_torrent_pong 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E${EP_NUM}."
+                        download_torrent_pong 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E0${EP_NUM}."
+                done
+                purge_torrent
+                exit
+        fi
+        if [ "$1" != "ep" ]; then
+                echo no episode
+                download_torrent_pong "$@"
+                purge_torrent
+                exit
+        fi
+fi
+
+if [ "$1" == "cor" ]; then
+        shift
+        if [ "$1" == "drama" ]; then
+                shift
+                PG_NUM=1
+                [ $# -eq 1 ] && PG_NUM=$1
+                download_drama_cor 100 $PG_NUM 720
+                exit
+        fi
+        if [ "$1" == "ent" ]; then
+                shift
+                PG_NUM=1
+                [ $# -eq 1 ] && PG_NUM=$1
+                download_ent_cor 100 $PG_NUM 720
+                exit
+        fi
+        if [ "$1" == "social" ]; then
+                shift
+                PG_NUM=1
+                [ $# -eq 1 ] && PG_NUM=$1
+                download_social_cor 100 $PG_NUM 720
+                exit
+        fi
+        if [ "$1" == "ep" ]; then
+                shift
+                EP_START=$1
+                shift
+                EP_END=$1
+                shift
+                EP_QUALITY=$1
+                shift
+                EP_NAME="$*"
+                for EP_NUM in $(eval echo {$EP_START..$EP_END}); do
+                        download_torrent_cor 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E${EP_NUM}."
+                        download_torrent_cor 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E0${EP_NUM}."
+                done
+                purge_torrent
+                exit
+        fi
+        if [ "$1" != "ep" ]; then
+                echo no episode
+                download_torrent_cor "$@"
+                purge_torrent
+                exit
+        fi
+fi
+
 if [ "$1" == "login" ]; then
         shift
         login_tcorea
@@ -134,22 +232,31 @@ fi
 
 if [ "$1" == "drama" ]; then
         shift
-        [ $# -eq 0 ] && download_drama 100 1 720
-        [ $# -eq 1 ] && download_drama 100 $1 720
+        PG_NUM=1
+        [ $# -eq 1 ] && PG_NUM=$1
+        download_drama_cor 100 $PG_NUM 720
+        download_drama_kim 100 $PG_NUM 720
+        download_drama_pong 100 $PG_NUM 720
         exit
 fi
 
 if [ "$1" == "ent" ]; then
         shift
-        [ $# -eq 0 ] && download_ent 100 1 720
-        [ $# -eq 1 ] && download_ent 100 $1 720
+        PG_NUM=1
+        [ $# -eq 1 ] && PG_NUM=$1
+        download_ent_cor 100 $PG_NUM 720
+        download_ent_kim 100 $PG_NUM 720
+        download_ent_pong 100 $PG_NUM 720
         exit
 fi
 
 if [ "$1" == "social" ]; then
         shift
-        [ $# -eq 0 ] && download_social 100 1 720
-        [ $# -eq 1 ] && download_social 100 $1 720
+        PG_NUM=1
+        [ $# -eq 1 ] && PG_NUM=$1
+        download_social_cor 100 $PG_NUM 720
+        download_social_kim 100 $PG_NUM 720
+        download_social_pong 100 $PG_NUM 720
         exit
 fi
 
