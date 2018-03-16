@@ -1,7 +1,7 @@
 #!/bin/bash
 cd ~
 for n in 1 2 3; do
-    curl https://raw.githubusercontent.com/mcmZero/macOSBin/master/Dictionaries/EngKor${n}.zip --output EngKor${n}.zip
+    [ -f EngKor${n}.zip ] || curl https://raw.githubusercontent.com/mcmZero/macOSBin/master/Dictionaries/EngKor${n}.zip --output EngKor${n}.zip
 done
 for n in 1 2 3; do
     unzip EngKor${n}.zip
