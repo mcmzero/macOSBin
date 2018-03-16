@@ -22,7 +22,7 @@ if [ "$1" == "sync" ]; then
         rsync -auzv --no-g --no-o -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/cron_torrent_"* root@r1:/etc/cron.d/
         rsync -auzv --no-g --no-o -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" root@r1:/etc/cron.d/cron_torrent_* "$SRC_PATH"/
 
-        rsync -aCzv --no-g --no-o -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/" root@r1:$TRG_PATH
+        rsync -aCzv --no-g --no-o -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/" pi@r1:$TRG_PATH
         rsync -aCzv --no-g --no-o --delete -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/" pi@r1:tor
 
         rsync -aCzv --no-g --no-o --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/" $TRG_PATH
@@ -122,7 +122,6 @@ if [ "$1" == "kim" ]; then
                 exit
         fi
         if [ "$1" != "ep" ]; then
-                echo no episode
                 download_torrent_kim "$@"
                 purge_torrent
                 exit
@@ -170,7 +169,6 @@ if [ "$1" == "pong" ]; then
                 exit
         fi
         if [ "$1" != "ep" ]; then
-                echo no episode
                 download_torrent_pong "$@"
                 purge_torrent
                 exit
@@ -217,7 +215,6 @@ if [ "$1" == "cor" ]; then
                 exit
         fi
         if [ "$1" != "ep" ]; then
-                echo no episode
                 download_torrent_cor "$@"
                 purge_torrent
                 exit

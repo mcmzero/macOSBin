@@ -41,10 +41,12 @@ MAILTO=""
 20,50 *            * * 6,7         pi      /usr/local/torrent/download pong drama 1
 
 # 일일
-10 11-14	* * 1-5		pi	/usr/local/torrent/download 2 TV소설
-20 11-14	* * 1-5		pi	/usr/local/torrent/download 2 인간극장
-30 11-14	* * 1-5		pi	/usr/local/torrent/download kim	2 TV소설
-40 11-14	* * 1-5		pi	/usr/local/torrent/download kim	2 인간극장
+00 11-14	* * 1-5		pi	/usr/local/torrent/download cor 2 TV소설
+10 11-14	* * 1-5		pi	/usr/local/torrent/download cor 2 인간극장
+20 11-14	* * 1-5		pi	/usr/local/torrent/download kim	2 TV소설
+30 11-14	* * 1-5		pi	/usr/local/torrent/download kim	2 인간극장
+40 11-14	* * 1-5		pi	/usr/local/torrent/download pong 2 TV소설
+50 11-14	* * 1-5		pi	/usr/local/torrent/download pong 2 인간극장
 
 # 월요일(1)
 #00 00		* * 2		pi	/usr/local/torrent/download kim 1 섬총사
@@ -58,7 +60,10 @@ MAILTO=""
 00 01		* * 4,5		pi	/usr/local/torrent/download cor 2 1 1 360 영재발굴단
 05 01		* * 4,5		pi	/usr/local/torrent/download kim 2 1 1 360 영재발굴단
 10 01		* * 4,5		pi	/usr/local/torrent/download pong 2 1 1 360 영재발굴단
+
+#01 01		* * 4		pi	/usr/local/torrent/download cor 1 주간 아이돌
 #01 01		* * 4		pi	/usr/local/torrent/download kim 1 주간 아이돌
+#01 01		* * 4		pi	/usr/local/torrent/download pong 1 주간 아이돌
 
 # 목요일(4)
 #02 02		* * 5		pi	/usr/local/torrent/download kim 1 어쩌다 어른
@@ -67,8 +72,11 @@ MAILTO=""
 #01 01		* * 5		pi	/usr/local/torrent/download kim 1 어서와 한국은 처음이지
 
 # 금요일(5)
-*/20 21-23	* * 5		pi	/usr/local/torrent/download kim 1 Comedy TV 맛있는 녀석들
-00 *		* * 6,7		pi	/usr/local/torrent/download kim 1 Comedy TV 맛있는 녀석들
+*/20 21-23	* * 5		pi	/usr/local/torrent/download kim 3 Comedy TV 맛있는 녀석들
+00 01-02	* * 6,7		pi	/usr/local/torrent/download kim 3 Comedy TV 맛있는 녀석들
+*/20 21-23	* * 5		pi	/usr/local/torrent/download pong 3 Comedy TV 맛있는 녀석들
+10 01-02	* * 6,7		pi	/usr/local/torrent/download pong 3 Comedy TV 맛있는 녀석들
+
 #02 02		* * 6		pi	/usr/local/torrent/download kim	1 정글의 법칙
 #02 02		* * 6		pi	/usr/local/torrent/download kim	1 윤식당
 #02 02		* * 6		pi	/usr/local/torrent/download kim 1 나 혼자 산다
