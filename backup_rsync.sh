@@ -17,3 +17,4 @@ rsync -auzv $TARGET_VOLUME/Archives.localized/ $SOURCE_VOLUME/Users/changmin/Arc
 # 카라비너 설정 백업
 rsync -auzv ~/.config/karabiner ~/Archives.localized/macOS/Karabiner
 rsync -auzv ~/.config/karabiner ~/Google\ Drive/Computer.localized/macOS
+rsync -auzv ~/.config/karabiner ~/bin
