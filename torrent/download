@@ -128,7 +128,7 @@ if [ "$1" == "kim" ]; then
         fi
 fi
 
-if [ "$1" == "pong" ]; then
+if [ "$1" == "pong" ] || [ "$1" == "pon" ]; then
         shift
         if [ "$1" == "drama" ]; then
                 shift

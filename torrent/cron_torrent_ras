@@ -35,18 +35,19 @@ MAILTO=""
 10,40 16-23,0-9    * * 1-5         pi      /usr/local/torrent/download kim drama 1
 10,40 *            * * 6,7         pi      /usr/local/torrent/download kim drama 1
 
-20,50 16-23,0-9    * * 1-5         pi      /usr/local/torrent/download pong ent 1
-20,50 *            * * 6,7         pi      /usr/local/torrent/download pong ent 1
-20,50 16-23,0-9    * * 1-5         pi      /usr/local/torrent/download pong drama 1
-20,50 *            * * 6,7         pi      /usr/local/torrent/download pong drama 1
+20,50 16-23,0-9    * * 1-5         pi      /usr/local/torrent/download pon ent 1
+20,50 *            * * 6,7         pi      /usr/local/torrent/download pon ent 1
+20,50 16-23,0-9    * * 1-5         pi      /usr/local/torrent/download pon drama 1
+20,50 *            * * 6,7         pi      /usr/local/torrent/download pon drama 1
 
 # 일일
 00 11-14	* * 1-5		pi	/usr/local/torrent/download cor 2 TV소설
-10 11-14	* * 1-5		pi	/usr/local/torrent/download cor 2 인간극장
 20 11-14	* * 1-5		pi	/usr/local/torrent/download kim	2 TV소설
+40 11-14	* * 1-5		pi	/usr/local/torrent/download pon 2 TV소설
+
+10 11-14	* * 1-5		pi	/usr/local/torrent/download cor 2 인간극장
 30 11-14	* * 1-5		pi	/usr/local/torrent/download kim	2 인간극장
-40 11-14	* * 1-5		pi	/usr/local/torrent/download pong 2 TV소설
-50 11-14	* * 1-5		pi	/usr/local/torrent/download pong 2 인간극장
+50 11-14	* * 1-5		pi	/usr/local/torrent/download pon 2 인간극장
 
 # 월요일(1)
 #00 00		* * 2		pi	/usr/local/torrent/download kim 1 섬총사
@@ -59,11 +60,9 @@ MAILTO=""
 # download kim count start_page end_page quality search
 00 01		* * 4,5		pi	/usr/local/torrent/download cor 2 1 1 360 영재발굴단
 05 01		* * 4,5		pi	/usr/local/torrent/download kim 2 1 1 360 영재발굴단
-10 01		* * 4,5		pi	/usr/local/torrent/download pong 2 1 1 360 영재발굴단
+10 01		* * 4,5		pi	/usr/local/torrent/download pon 2 1 1 360 영재발굴단
 
 #01 01		* * 4		pi	/usr/local/torrent/download cor 1 주간 아이돌
-#01 01		* * 4		pi	/usr/local/torrent/download kim 1 주간 아이돌
-#01 01		* * 4		pi	/usr/local/torrent/download pong 1 주간 아이돌
 
 # 목요일(4)
 #02 02		* * 5		pi	/usr/local/torrent/download kim 1 어쩌다 어른
@@ -74,25 +73,24 @@ MAILTO=""
 # 금요일(5)
 */20 21-23	* * 5		pi	/usr/local/torrent/download kim 3 Comedy TV 맛있는 녀석들
 00 01-02	* * 6,7		pi	/usr/local/torrent/download kim 3 Comedy TV 맛있는 녀석들
-*/20 21-23	* * 5		pi	/usr/local/torrent/download pong 3 Comedy TV 맛있는 녀석들
-10 01-02	* * 6,7		pi	/usr/local/torrent/download pong 3 Comedy TV 맛있는 녀석들
+*/20 21-23	* * 5		pi	/usr/local/torrent/download pon 3 Comedy TV 맛있는 녀석들
+10 01-02	* * 6,7		pi	/usr/local/torrent/download pon 3 Comedy TV 맛있는 녀석들
 
 #02 02		* * 6		pi	/usr/local/torrent/download kim	1 정글의 법칙
 #02 02		* * 6		pi	/usr/local/torrent/download kim	1 윤식당
 #02 02		* * 6		pi	/usr/local/torrent/download kim 1 나 혼자 산다
 
 # 토요일(6)
-#01 01		* * 7,1		pi	/usr/local/torrent/download kim	1 황금빛 내 인생
-#01 01		* * 7,1		pi	/usr/local/torrent/download kim	1 화유기
 #01 01		* * 7		pi	/usr/local/torrent/download kim	1 무한도전
-#01 01		* * 7		pi	/usr/local/torrent/download kim 1 짠내투어
 
 # 일요일(7)
 #01 01		* * 1		pi	/usr/local/torrent/download kim	1 런닝맨
 #01 01		* * 1		pi	/usr/local/torrent/download kim	1 코미디 빅리그
 #02 02		* * 1		pi	/usr/local/torrent/download kim	1 개그 콘서트
-#02 02		* * 1		pi	/usr/local/torrent/download kim	1 효리네민박
 #02 02		* * 1		pi	/usr/local/torrent/download kim	1 밤도깨비
 #02 02		* * 1		pi	/usr/local/torrent/download kim	1 아는 형님
 #02 02		* * 1		pi	/usr/local/torrent/download kim 1 미운 우리 새끼
 #02 02		* * 1		pi	/usr/local/torrent/download kim 1 이제 만나러 갑니다
+
+# 토,일(6,7)
+#01 01		* * 7,1		pi	/usr/local/torrent/download kim	1 황금빛 내 인생
