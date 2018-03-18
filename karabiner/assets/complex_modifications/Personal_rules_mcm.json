@@ -1,0 +1,878 @@
+{
+	"title": "Personal rules (@mcm)",
+	"rules": [
+			  {
+			  "description": "Toggle profile 🖥⌥⌘",
+			  "manipulators": [
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "pause",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '🎮⌘⌥'"
+									  }
+									  ]
+							   }
+							   ]
+			  },
+			  {
+			  "description": "Toggle profile 🎮⌘⌥",
+			  "manipulators": [
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "pause",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '🖥⌥⌘'"
+									  }
+									  ]
+							   }
+							   ]
+			  },
+			  {
+			  "description": "Swap ⌥ and ⌘ in wow or dia3",
+			  "manipulators": [
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "left_option",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "left_command"
+									  }
+									  ],
+							   "conditions": [
+											  {
+											  "type": "frontmost_application_if",
+											  "bundle_identifiers": [
+																	 "^com\\.blizzard\\.worldofwarcraft\\..*"
+																	 ]
+											  },
+											  {
+											  "type": "frontmost_application_if",
+											  "bundle_identifiers": [
+																	 "^com\\.blizzard\\.diablo3\\..*"
+																	 ]
+											  }
+											  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "left_command",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "left_option"
+									  }
+									  ],
+							   "conditions": [
+											  {
+											  "type": "frontmost_application_if",
+											  "bundle_identifiers": [
+																	 "^com\\.blizzard\\.worldofwarcraft\\..*"
+																	 ]
+											  },
+											  {
+											  "type": "frontmost_application_if",
+											  "bundle_identifiers": [
+																	 "^com\\.blizzard\\.diablo3\\..*"
+																	 ]
+											  }
+											  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "right_option",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "right_command"
+									  }
+									  ],
+							   "conditions": [
+											  {
+											  "type": "frontmost_application_if",
+											  "bundle_identifiers": [
+																	 "^com\\.blizzard\\.worldofwarcraft\\..*"
+																	 ]
+											  },
+											  {
+											  "type": "frontmost_application_if",
+											  "bundle_identifiers": [
+																	 "^com\\.blizzard\\.diablo3\\..*"
+																	 ]
+											  }
+											  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "right_command",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "right_option"
+									  }
+									  ],
+							   "conditions": [
+											  {
+											  "type": "frontmost_application_if",
+											  "bundle_identifiers": [
+																	 "^com\\.blizzard\\.worldofwarcraft\\..*"
+																	 ]
+											  },
+											  {
+											  "type": "frontmost_application_if",
+											  "bundle_identifiers": [
+																	 "^com\\.blizzard\\.diablo3\\..*"
+																	 ]
+											  }
+											  ]
+							   }
+							   ]
+			  },
+			  {
+			  "description": "Keypad keys",
+			  "manipulators": [
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "keypad_0",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "dashboard",
+									  "_modifiers": [
+													 "left_command"
+													 ]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "keypad_period",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "launchpad",
+									  "_modifiers": [
+													 "fn"
+													 ]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "keypad_plus",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "n",
+									  "modifiers": [
+													"left_command"
+													]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "keypad_hyphen",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "t",
+									  "modifiers": [
+													"left_command"
+													]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "keypad_slash",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "tab",
+									  "modifiers": [
+													"left_option"
+													]
+									  },
+									  {
+									  "key_code": "tab",
+									  "modifiers": [
+													"left_option"
+													]
+									  },
+									  {
+									  "key_code": "tab",
+									  "modifiers": [
+													"left_option"
+													]
+									  },
+									  {
+									  "key_code": "tab",
+									  "modifiers": [
+													"left_option"
+													]
+									  },
+									  {
+									  "key_code": "tab",
+									  "modifiers": [
+													"left_option"
+													]
+									  },
+									  {
+									  "key_code": "return_or_enter"
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "keypad_asterisk",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "tab",
+									  "modifiers": [
+													"left_option"
+													]
+									  },
+									  {
+									  "key_code": "tab",
+									  "modifiers": [
+													"left_option"
+													]
+									  },
+									  {
+									  "key_code": "tab",
+									  "modifiers": [
+													"left_option"
+													]
+									  },
+									  {
+									  "key_code": "tab",
+									  "modifiers": [
+													"left_option"
+													]
+									  },
+									  {
+									  "key_code": "return_or_enter"
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "keypad_2",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "c",
+									  "modifiers": [
+													"left_control",
+													"left_option"
+													]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "keypad_4",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "e",
+									  "modifiers": [
+													"left_control",
+													"left_option"
+													]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "keypad_6",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "t",
+									  "modifiers": [
+													"left_control",
+													"left_option"
+													]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "keypad_8",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "f",
+									  "modifiers": [
+													"left_control",
+													"left_command"
+													]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "keypad_5",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "return_or_enter",
+									  "modifiers": [
+													"left_control",
+													"left_option"
+													]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "keypad_1",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "left_arrow",
+									  "modifiers": [
+													"left_control",
+													"left_option"
+													]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "keypad_3",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "right_arrow",
+									  "modifiers": [
+													"left_control",
+													"left_option"
+													]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "keypad_7",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "left_arrow",
+									  "modifiers": [
+													"left_control",
+													"left_command"
+													]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "keypad_9",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "right_arrow",
+									  "modifiers": [
+													"left_control",
+													"left_command"
+													]
+									  }
+									  ]
+							   }
+							   ]
+			  },
+			  {
+			  "description": "Function keys",
+			  "manipulators": [
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "f1",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "_shell_command": "open '/System/Library/CoreServices/Finder.app'",
+									  "key_code": "2",
+									  "modifiers": [
+													"left_control", "left_shift"
+													]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "f2",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "c",
+									  "modifiers": [
+													"left_command"
+													]
+									  },
+									  {
+									  "key_code": "w",
+									  "modifiers": [
+													"left_control"
+													]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "f3",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "w",
+									  "modifiers": [
+													"left_control"
+													]
+									  },
+									  {
+									  "key_code": "y",
+									  "modifiers": [
+													"left_control"
+													]
+									  },
+									  {
+									  "key_code": "x",
+									  "modifiers": [
+													"left_control"
+													]
+									  },
+									  {
+									  "key_code": "m",
+									  "modifiers": [
+													"left_control"
+													]
+									  },
+									  {
+									  "key_code": "c",
+									  "modifiers": [
+													"left_command"
+													]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "f4",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "y",
+									  "modifiers": [
+													"left_control"
+													]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "f5",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "_shell_command": "open '/Applications/Google Chrome.app'",
+									  "key_code": "delete_or_backspace",
+									  "modifiers": [
+													"left_command"
+													]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "f6",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "_shell_command": "open '/Applications/Safari.app'",
+									  "key_code": "k",
+									  "modifiers": [
+													"left_control"
+													]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "f7",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "a",
+									  "modifiers": [
+													"left_control"
+													]
+									  },
+									  {
+									  "key_code": "k",
+									  "modifiers": [
+													"left_control"
+													]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "f8",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "y",
+									  "modifiers": [
+													"left_control"
+													]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "f9",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "shell_command": "open '/Applications/Safari.app'",
+									  "_key_code": "equal_sign",
+									  "_modifiers": [
+													 "left_command"
+													 ]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "f10",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "shell_command": "open '/Applications/Google Chrome.app'",
+									  "_key_code": "hyphen",
+									  "_modifiers": [
+													 "left_command"
+													 ]
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "f11",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "shell_command": "open '/Applications/Visual Studio Code.app'"
+									  }
+									  ]
+							   },
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "f12",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "shell_command": "open '/Applications/Utilities/Terminal.app'"
+									  }
+									  ]
+							   }
+							   ]
+			  },
+			  {
+			  "description": "⌘⎋ to ⌘`",
+			  "manipulators": [
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "escape",
+							   "modifiers": {
+							   "mandatory": [
+											 "left_command"
+											 ]
+							   }
+							   },
+							   "to": [
+									  {
+									  "key_code": "grave_accent_and_tilde",
+									  "modifiers": [
+													"left_command"
+													]
+									  }
+									  ]
+							   }
+							   ]
+			  },
+			  {
+			  "description": "⇧⎋ to run 🖥",
+			  "manipulators": [
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "escape",
+							   "modifiers": {
+							   "mandatory": [
+											 "left_shift"
+											 ]
+							   }
+							   },
+							   "to": [
+									  {
+									  "shell_command": "open '/Applications/Utilities/Terminal.app'"
+									  },
+									  {
+									  "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '🎮⌘⌥'"
+									  }
+									  ]
+							   }
+							   ]
+			  },
+			  {
+			  "description": "PrtScr to system shutdown",
+			  "manipulators": [
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "print_screen",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "shell_command": "osascript -e 'tell app \"System Events\" to shut down'"
+									  }
+									  ]
+							   }
+							   ]
+			  },
+			  {
+			  "description": "ScrLock to system sleep",
+			  "manipulators": [
+							   {
+							   "type": "basic",
+							   "from": {
+							   "key_code": "scroll_lock",
+							   "modifiers": {
+							   "optional": [
+											"any"
+											]
+							   }
+							   },
+							   "to": [
+									  {
+									  "shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
+									  }
+									  ]
+							   }
+							   ]
+			  }
+
+			  ]
+}
