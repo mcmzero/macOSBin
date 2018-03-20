@@ -71,6 +71,32 @@ function cleanup() {
 	echo
 }
 
+function trim_episode_number_greater_than_1000() {
+	IFS=$'.'
+	declare -a filename=($@)
+	IFS=$' \t\n'
+	if [ "${filename[1]:0:1}" == "E" ]; then
+		local val=$(expr ${filename[1]:1} % 1000)
+		if ((val < 10)); then
+			val=0$val
+		fi
+		filename[1]="E$val"
+		local filename_new=""
+		for n in ${!filename[@]}; do
+			if (( ${#filename[@]} == n + 1 )); then
+				filename_new="$filename_new${filename[n]}"
+			else
+				filename_new="$filename_new${filename[n]}."
+			fi
+		done
+		echo $filename_new
+    else
+        echo "$@"
+    fi
+
+	unset -v filename
+}
+
 function get_target_name() {
 	GET_TARGET_NAME=$(echo -n "$@"|sed -e 's/[[:space:]]*\[.*\][[:space:]]*//' -e 's/[[:space:]]*\「.*\」[[:space:]]*//' -e 's/[[:space:]]*\\(.*\\)[[:space:]]*//')
 	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/....[pP]-[nN][eE][xX][tT]//' -e 's/....[pP]-[wW][iI][tT][hH]//' -e 's/....[pP]-[cC][iI][nN][eE][bB][uU][sS]//')
@@ -105,7 +131,10 @@ function get_target_name() {
 	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/\.1440[pP]//' -e 's/\.1080[pP]//' -e 's/\.720[pP]//' -e 's/\.360[pP]//')
 	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/\(^[0-9]*\)\.\([^\.]*\.\)/\2\1./' -e 's/\ E\([0-9]*\)\ /.E\1./' -e 's/.\([0-9]*\)\ \([0-9]*\)p/.\1.\2p/')
 	#GET_TARGET_NAME=$(echo -n "${GET_TARGET_NAME}" | sed -e 's/-.*\././')
-	echo -n "$GET_TARGET_NAME"|sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's/[[:space:]]*\.E/\.E/'
+	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's/[[:space:]]*\.E/\.E/')
+
+    GET_TARGET_NAME=$(trim_episode_number_greater_than_1000 "$GET_TARGET_NAME")
+    echo $GET_TARGET_NAME
 }
 
 function get_target_path_name() {
