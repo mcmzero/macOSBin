@@ -28,6 +28,8 @@ if [ "$1" == "sync" ]; then
         rsync -aCzv --no-g --no-o --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/" $TRG_PATH
         rsync -aCzv --no-g --no-o --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/" $HOME/bin/torrent
 
+        rsync -aCzv --no-g --no-o -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" pi@r1:$TRG_PATH/magnet_list_* "$TRG_PATH/" 
+
         #ssh root@r1 "chown -v root:root /etc/cron.d/cron_torrent_*"
         source ~changmin/bin/backup_rsync.sh
 
