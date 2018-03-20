@@ -15,16 +15,18 @@ MCM_MUSIC_TARGET_PATH="/Share/rasPiMusic/torrent/동영상"
 MCM_IMAC_SOURCE_PATH="$HOME/Downloads"
 MCM_IMAC_TARGET_PATH="$HOME/Downloads"
 
-[ "$(hostname -s |cut -c 1-4)" == "iMac" ] && SAY_MODE=ON
+[ "${HOSTNAME::4}" == "iMac" ] && SAY_MODE=ON
 
 function rmdir_sub() {
 	if [ -d "$1" ]; then
 		cd "$1"
-		for FILE in *; do
-			if [ -d "$FILE" ] && [ "$(echo ${FILE}|cut -c 1)" != "[" ]; then
-				#find "$FILE" \( -name ".DS_Store" -or -name ".Parent" -or -name ".AppleDouble" \) -delete
-				find "$FILE" \( -name ".DS_Store" -or -name ".AppleDouble" -or -name "._*" \) -exec rm -rf {} \;
-				rmdir "$FILE" 2> /dev/null && echo "-[${FILE}]"
+		for file in $(ls -a 2> /dev/null); do
+			if [ "$file" == "." ] || [ "$file" == ".." ]; then
+				continue
+			fi
+			if [ -d "$file" ] && [ "${file::1}" != "[" ]; then
+				find "$file" \( -name ".DS_Store" -or -name ".AppleDouble" -or -name "._*" \) -exec rm -rf {} \;
+				rmdir "$file" 2> /dev/null && echo "-[${file}]"
 			fi
 		done
 		cd ..
@@ -32,17 +34,12 @@ function rmdir_sub() {
 	fi
 }
 
-function mv_file() {
-	[ -f "$1" ] && mv "$1" "$2"
-}
-
 function cleanup() {
 	# cleanup target to source
-	SRC_PATH=$1
+	local SRC_PATH=$1
+	local TAR_PATH=$1
 	if [ "$2" != "" ]; then
 		TAR_PATH=$2
-	else
-		TAR_PATH=$1
 	fi
 
 	[ -d "$SRC_PATH" ] || exit
@@ -53,20 +50,24 @@ function cleanup() {
 	[ "$SAY_MODE" == "ON" ] && say "정리"
 
 	# move target to source
+	local REPLSTR="-I"
 	if [ "$(uname)" == "Darwin" ]; then
-		find "$TAR_PATH" \( -name "*.mp4" -or -name "*.mkv" -or -name "*.avi" -or -name "*.smi" -or -name "*.sup" \) -print0 | xargs -0 -J % echo "[ -f \"%\" ] && mv \"%\" \"$SRC_PATH\"" | bash
-	else
-		find "$TAR_PATH" \( -name "*.mp4" -or -name "*.mkv" -or -name "*.avi" -or -name "*.smi" -or -name "*.sup" \) -print0 | xargs -0 -I % echo "[ -f \"%\" ] && mv \"%\" \"$SRC_PATH\"" | bash
+		REPLSTR="-J"
 	fi
+	find "$TAR_PATH" \( -name "*.mp4" -or -name "*.mkv" -or -name "*.avi" -or -name "*.smi" -or -name "*.sup" \) -print0 | xargs -0 $REPLSTR % echo "[ -f \"%\" ] && mv \"%\" \"$SRC_PATH\"" | bash
 
 	# cleanup target's sub directories
-	for FILE in *; do
-		if [ -d "$FILE" ] && [ "$(echo ${FILE}|cut -c 1)" != "[" ]; then
-			#find "$FILE" \( -name ".DS_Store" -or -name ".Parent" -or -name ".AppleDouble" \) -delete
-			find "$FILE" \( -name ".DS_Store" -or -name ".AppleDouble" -or -name "._*" \) -exec rm -rf {} \;
-			rmdir "$FILE" 2> /dev/null && echo "-[${FILE}]" || rmdir_sub "$FILE"
+	IFS=$'\n'
+	for file in $(ls -a 2> /dev/null); do
+		if [ "$file" == "." ] || [ "$file" == ".." ]; then
+			continue
+		fi
+		if [ -d "$file" ] && [ "${file::1}" != "[" ]; then
+			find "$file" \( -name ".DS_Store" -or -name ".AppleDouble" -or -name "._*" \) -exec rm -rf {} \;
+			rmdir "$file" 2> /dev/null && echo "-[${file}]" || rmdir_sub "$file"
 		fi
 	done
+	IFS=$' \t\n'
 
 	echo
 }
@@ -98,51 +99,53 @@ function trim_episode_number_greater_than_1000() {
 }
 
 function get_target_name() {
-	GET_TARGET_NAME=$(echo -n "$@"|sed -e 's/[[:space:]]*\[.*\][[:space:]]*//' -e 's/[[:space:]]*\「.*\」[[:space:]]*//' -e 's/[[:space:]]*\\(.*\\)[[:space:]]*//')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/....[pP]-[nN][eE][xX][tT]//' -e 's/....[pP]-[wW][iI][tT][hH]//' -e 's/....[pP]-[cC][iI][nN][eE][bB][uU][sS]//')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/....[pP]-[dD][wW][bB][hH]//' -e 's/\([0-9][0-9][0-9][0-9][0-9][0-9]\)-.*.m/\1.m/' -e 's/\([0-9][0-9][0-9][0-9][0-9][0-9]\)-.*.a/\1.a/')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/-[uU][nN][kK][nN][oO][wW][nN]//')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/-[nN][uU][rR][iI]//')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/-[mM][iI][rR][aA][cC][lL][eE]//')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/\.[aA][aA][cC]//' -e 's/\.[hH][dD][tT][vV]//' -e 's/\.[hH]26[45]//' -e 's/\.[eE][nN][dD]//')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/\.[hH][eE][vV][cC]//' -e 's/\.10[bB][iI][tT]//' -e 's/\.[xX]26[45]//' -e 's/\.[bB][lL][uU][rR][aA][yY]//')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/\.[wW][eE][bB]-[dD][lL]//' -e 's/\.5\.1//' -e 's/\.[xX]26[45]//' -e 's/\.[bB][lL][uU][rR][aA][yY]//')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/\.\.\./\./' -e 's/\.\./\./' -e 's/AMZN//')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/^[Cc]omedyTV_//' -e 's/^[Cc]omedy TV_//')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/2부작 //' -e 's/추석특집 //' -e 's/설특집 //')
+	local target_name="$*"
+	target_name=$(echo -n "$target_name"|sed -e 's/[[:space:]]*\[.*\][[:space:]]*//' -e 's/[[:space:]]*\「.*\」[[:space:]]*//' -e 's/[[:space:]]*\\(.*\\)[[:space:]]*//')
+	target_name=$(echo -n "$target_name"|sed -e 's/....[pP]-[nN][eE][xX][tT]//' -e 's/....[pP]-[wW][iI][tT][hH]//' -e 's/....[pP]-[cC][iI][nN][eE][bB][uU][sS]//')
+	target_name=$(echo -n "$target_name"|sed -e 's/....[pP]-[dD][wW][bB][hH]//' -e 's/\([0-9][0-9][0-9][0-9][0-9][0-9]\)-.*.m/\1.m/' -e 's/\([0-9][0-9][0-9][0-9][0-9][0-9]\)-.*.a/\1.a/')
+	target_name=$(echo -n "$target_name"|sed -e 's/-[uU][nN][kK][nN][oO][wW][nN]//')
+	target_name=$(echo -n "$target_name"|sed -e 's/-[nN][uU][rR][iI]//')
+	target_name=$(echo -n "$target_name"|sed -e 's/-[mM][iI][rR][aA][cC][lL][eE]//')
+	target_name=$(echo -n "$target_name"|sed -e 's/\.[aA][aA][cC]//' -e 's/\.[hH][dD][tT][vV]//' -e 's/\.[hH]26[45]//' -e 's/\.[eE][nN][dD]//')
+	target_name=$(echo -n "$target_name"|sed -e 's/\.[hH][eE][vV][cC]//' -e 's/\.10[bB][iI][tT]//' -e 's/\.[xX]26[45]//' -e 's/\.[bB][lL][uU][rR][aA][yY]//')
+	target_name=$(echo -n "$target_name"|sed -e 's/\.[wW][eE][bB]-[dD][lL]//' -e 's/\.5\.1//' -e 's/\.[xX]26[45]//' -e 's/\.[bB][lL][uU][rR][aA][yY]//')
+	target_name=$(echo -n "$target_name"|sed -e 's/\.\.\./\./' -e 's/\.\./\./' -e 's/AMZN//')
+	target_name=$(echo -n "$target_name"|sed -e 's/^[Cc]omedyTV_//' -e 's/^[Cc]omedy TV_//')
+	target_name=$(echo -n "$target_name"|sed -e 's/2부작 //' -e 's/추석특집 //' -e 's/설특집 //')
 
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/2016드라마 스페셜 /2016 드라마 스페셜 /')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/2016드라마스페셜 /2016 드라마 스페셜 /')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/2016 드라마스페셜 /2016 드라마 스페셜 /')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/2016 드라마 스페셜 - /2016 드라마 스페셜 /')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/2016 드라마 스페셜-/2016 드라마 스페셜 /')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/더 마스터-음악의 공존/더 마스터 - 음악의 공존/')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/알\.쓸\.신\./알쓸신/')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/일요일이 좋다 2부 런닝맨/런닝맨/')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/TV 정보쇼/TV정보쇼/')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/집밥 백선생 2/집밥 백선생 시즌2/')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/효리네 민박 시즌2/효리네 민박 2/')
+	target_name=$(echo -n "$target_name"|sed -e 's/2016드라마 스페셜 /2016 드라마 스페셜 /')
+	target_name=$(echo -n "$target_name"|sed -e 's/2016드라마스페셜 /2016 드라마 스페셜 /')
+	target_name=$(echo -n "$target_name"|sed -e 's/2016 드라마스페셜 /2016 드라마 스페셜 /')
+	target_name=$(echo -n "$target_name"|sed -e 's/2016 드라마 스페셜 - /2016 드라마 스페셜 /')
+	target_name=$(echo -n "$target_name"|sed -e 's/2016 드라마 스페셜-/2016 드라마 스페셜 /')
+	target_name=$(echo -n "$target_name"|sed -e 's/더 마스터-음악의 공존/더 마스터 - 음악의 공존/')
+	target_name=$(echo -n "$target_name"|sed -e 's/알\.쓸\.신\./알쓸신/')
+	target_name=$(echo -n "$target_name"|sed -e 's/일요일이 좋다 2부 런닝맨/런닝맨/')
+	target_name=$(echo -n "$target_name"|sed -e 's/TV 정보쇼/TV정보쇼/')
+	target_name=$(echo -n "$target_name"|sed -e 's/집밥 백선생 2/집밥 백선생 시즌2/')
+	target_name=$(echo -n "$target_name"|sed -e 's/효리네 민박 시즌2/효리네 민박 2/')
 
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/왕좌의 게임/Game of Thrones/')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/Game.of.Thrones/Game of Thrones/')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/WANNA ONE GO- ZERO BASE/WANNA ONE GO - ZERO BASE/')
+	target_name=$(echo -n "$target_name"|sed -e 's/왕좌의 게임/Game of Thrones/')
+	target_name=$(echo -n "$target_name"|sed -e 's/Game.of.Thrones/Game of Thrones/')
+	target_name=$(echo -n "$target_name"|sed -e 's/WANNA ONE GO- ZERO BASE/WANNA ONE GO - ZERO BASE/')
 
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/ .부\././' -e 's/\.[wW][eE][bB][rR][iI][pP]//')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/\.1440[pP]//' -e 's/\.1080[pP]//' -e 's/\.720[pP]//' -e 's/\.360[pP]//')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/\(^[0-9]*\)\.\([^\.]*\.\)/\2\1./' -e 's/\ E\([0-9]*\)\ /.E\1./' -e 's/.\([0-9]*\)\ \([0-9]*\)p/.\1.\2p/')
-	#GET_TARGET_NAME=$(echo -n "${GET_TARGET_NAME}" | sed -e 's/-.*\././')
-	GET_TARGET_NAME=$(echo -n "$GET_TARGET_NAME"|sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's/[[:space:]]*\.E/\.E/')
+	target_name=$(echo -n "$target_name"|sed -e 's/ .부\././' -e 's/\.[wW][eE][bB][rR][iI][pP]//')
+	target_name=$(echo -n "$target_name"|sed -e 's/\.1440[pP]//' -e 's/\.1080[pP]//' -e 's/\.720[pP]//' -e 's/\.360[pP]//')
+	target_name=$(echo -n "$target_name"|sed -e 's/\(^[0-9]*\)\.\([^\.]*\.\)/\2\1./' -e 's/\ E\([0-9]*\)\ /.E\1./' -e 's/.\([0-9]*\)\ \([0-9]*\)p/.\1.\2p/')
 
-    GET_TARGET_NAME=$(trim_episode_number_greater_than_1000 "$GET_TARGET_NAME")
-    echo $GET_TARGET_NAME
+	#trim space
+	target_name=$(echo -n "$target_name"|sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's/[[:space:]]*\.E/\.E/')
+
+    target_name=$(trim_episode_number_greater_than_1000 "$target_name")
+    echo $target_name
 }
 
 function get_target_path_name() {
-	TARGET_PATH_NAME=$(echo "$*" | cut -d . -f 1)
+	TARGET_PATH_NAME=$(echo "$*" | cut -d '.' -f 1)
+	#trim space
 	TARGET_PATH_NAME=$(echo $TARGET_PATH_NAME | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's/[[:space:]]*스페셜$//')
 	TARGET_PATH_NAME=$(echo $TARGET_PATH_NAME | sed -e 's/제..회 //')
 	TARGET_PATH_NAME=$(echo $TARGET_PATH_NAME | sed -e 's/ 미리보기//')
-#	TARGET_PATH_NAME=$(echo $TARGET_PATH_NAME | sed -e 's/.*정글의 법칙.*/정글의 법칙/')
 	TARGET_PATH_NAME=$(echo $TARGET_PATH_NAME | sed -e 's/.*드라마 스페셜.*/KBS 드라마 스페셜/')
 	TARGET_PATH_NAME=$(echo $TARGET_PATH_NAME | sed -e 's/.*드라마 스테이지.*/드라마 스테이지/')
 	TARGET_PATH_NAME=$(echo $TARGET_PATH_NAME | sed -e 's/.*TV정보쇼.*/TV정보쇼/')
@@ -185,11 +188,10 @@ function get_target_path_name() {
 }
 
 function rebuild_mp4_catagory() {
-	SRC_PATH=$1
+	local SRC_PATH=$1
+	local TAR_PATH=$1
 	if [ "${2}" != "" ]; then
 		TAR_PATH=$2
-	else
-		TAR_PATH=$1
 	fi
 
 	[ -d "$SRC_PATH" ] || exit
@@ -199,18 +201,18 @@ function rebuild_mp4_catagory() {
 	echo "[Rebuild ${SRC_PATH}]"
 	[ "${SAY_MODE}" == "ON" ] && say "재생성"
 
-	for FILE in *.{mp4,mkv,avi,smi,sup}; do
-		if [ -f "$FILE" ] && [ "$FILE" != "*.mp4" ] && [ "$FILE" != "*.mkv" ] && [ "$FILE" != "*.avi" ] && [ "$FILE" != "*.smi" ] && [ "$FILE" != "*.sup" ]; then
-			TARGET_NAME=$(get_target_name "$FILE")
-			DIR_NAME="$TAR_PATH"/$(get_target_path_name "$TARGET_NAME")
-			if [ ! -d "$DIR_NAME" ]; then
-				echo "+[${DIR_NAME}]"
-				mkdir -p "$DIR_NAME"
-			fi
-			#mv "${SRC_PATH}/$FILE" "${DIR_NAME}/$TARGET_NAME" 2> /dev/null
-			[ -f "${SRC_PATH}/$FILE" ] && mv -fv "${SRC_PATH}/$FILE" "${DIR_NAME}/$TARGET_NAME"
+	IFS=$'\n'
+	for file in $(ls *.{mp4,mkv,avi,smi,sup} 2> /dev/null); do
+		local target_file=$(get_target_name "$file")
+		local target_dir="$TAR_PATH"/$(get_target_path_name "$target_file")
+		if [ ! -d "$target_dir" ]; then
+			echo "+[${target_dir}]"
+			mkdir -p "$target_dir"
 		fi
+		[ -f "${SRC_PATH}/$file" ] && mv -fv "${SRC_PATH}/$file" "${target_dir}/$target_file"
 	done
+	IFS=$' \t\n'
+
 	echo
 }
 
@@ -282,9 +284,7 @@ function rebuild_mcm_imac() {
 }
 
 function rebuild_torrent() {
-	HOSTNAME=$(hostname -s | cut -c 1-4)
-	#echo $HOSTNAME
-	if [ "${HOSTNAME}" != "iMac" ]; then
+	if [ "${HOSTNAME::4}" != "iMac" ]; then
 		#[ "$(basename $0 | cut -d_ -f 1)" == "local" ] && rebuild_raspi_music $@ || rebuild_raspi_torrent $@
 		#rebuild_raspi_music $@
 		rebuild_raspi_torrent $@
