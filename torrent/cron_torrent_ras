@@ -41,13 +41,13 @@ MAILTO=""
 20,50 *            * * 6,7         pi      /usr/local/torrent/download pon drama 1
 
 # 일일
-00 11-14	* * 1-5		pi	/usr/local/torrent/download cor 2 TV소설
-20 11-14	* * 1-5		pi	/usr/local/torrent/download kim	2 TV소설
-40 11-14	* * 1-5		pi	/usr/local/torrent/download pon 2 TV소설
+00 11-15	* * 1-5		pi	/usr/local/torrent/download cor 20 1 1 720 TV소설
+20 11-15	* * 1-5		pi	/usr/local/torrent/download kim	20 1 1 720 TV소설
+40 11-15	* * 1-5		pi	/usr/local/torrent/download pon 20 1 1 720 TV소설
 
-10 11-14	* * 1-5		pi	/usr/local/torrent/download cor 2 인간극장
-30 11-14	* * 1-5		pi	/usr/local/torrent/download kim	2 인간극장
-50 11-14	* * 1-5		pi	/usr/local/torrent/download pon 2 인간극장
+10 11-15	* * 1-5		pi	/usr/local/torrent/download cor 20 1 1 720 인간극장.E
+30 11-15	* * 1-5		pi	/usr/local/torrent/download kim	20 1 1 720 인간극장.E
+50 11-15	* * 1-5		pi	/usr/local/torrent/download pon 20 1 1 720 인간극장.E
 
 # 월요일(1)
 #00 00		* * 2		pi	/usr/local/torrent/download kim 1 섬총사
@@ -58,9 +58,9 @@ MAILTO=""
 
 # 수요일(3)
 # download kim count start_page end_page quality search
-00 01		* * 4,5		pi	/usr/local/torrent/download cor 2 1 1 360 영재발굴단
-05 01		* * 4,5		pi	/usr/local/torrent/download kim 2 1 1 360 영재발굴단
-10 01		* * 4,5		pi	/usr/local/torrent/download pon 2 1 1 360 영재발굴단
+00 01		* * 4,5		pi	/usr/local/torrent/download cor 20 1 1 360 영재발굴단
+05 01		* * 4,5		pi	/usr/local/torrent/download kim 20 1 1 360 영재발굴단
+10 01		* * 4,5		pi	/usr/local/torrent/download pon 20 1 1 360 영재발굴단
 
 #01 01		* * 4		pi	/usr/local/torrent/download cor 1 주간 아이돌
 
@@ -71,10 +71,10 @@ MAILTO=""
 #01 01		* * 5		pi	/usr/local/torrent/download kim 1 어서와 한국은 처음이지
 
 # 금요일(5)
-*/20 21-23	* * 5		pi	/usr/local/torrent/download kim 3 Comedy TV 맛있는 녀석들
-00 01-02	* * 6,7		pi	/usr/local/torrent/download kim 3 Comedy TV 맛있는 녀석들
-*/20 21-23	* * 5		pi	/usr/local/torrent/download pon 3 Comedy TV 맛있는 녀석들
-10 01-02	* * 6,7		pi	/usr/local/torrent/download pon 3 Comedy TV 맛있는 녀석들
+*/20 21-23	* * 5		pi	/usr/local/torrent/download kim 20 1 1 720 Comedy TV 맛있는 녀석들.E
+00 01-02	* * 6,7		pi	/usr/local/torrent/download kim 20 1 1 720 Comedy TV 맛있는 녀석들.E
+*/20 21-23	* * 5		pi	/usr/local/torrent/download pon 20 1 1 720 Comedy TV 맛있는 녀석들.E
+10 01-02	* * 6,7		pi	/usr/local/torrent/download pon 20 1 1 720 Comedy TV 맛있는 녀석들.E
 
 #02 02		* * 6		pi	/usr/local/torrent/download kim	1 정글의 법칙
 #02 02		* * 6		pi	/usr/local/torrent/download kim	1 윤식당
