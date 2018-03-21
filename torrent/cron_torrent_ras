@@ -45,7 +45,7 @@ MAILTO=""
 40 11-15	* * 1-5		pi	/usr/local/torrent/download pon 4 1 1 720 TV소설
 
 10 11-15	* * 1-5		pi	/usr/local/torrent/download cor 4 1 1 720 인간극장.E
-30 11-15	* * 1-5		pi	/usr/local/torrent/download kim	4 1 1 720 인간극장.E
+#30 11-15	* * 1-5		pi	/usr/local/torrent/download kim	4 1 1 720 인간극장.E
 50 11-15	* * 1-5		pi	/usr/local/torrent/download pon 4 1 1 720 인간극장.E
 
 # 월요일(1)

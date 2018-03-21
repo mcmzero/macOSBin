@@ -92,9 +92,30 @@ function trim_episode_number_greater_than_1000() {
 		done
 		echo $filename_new
     else
-        echo "$@"
-    fi
+		local val=$(expr ${filename[1]})
+		if (( val > 180101 )); then
+			local year=$(expr ${filename[1]} / 10000)
+			local month=$(expr ${filename[1]} % 10000 / 100)
+			local day=$(expr ${filename[1]} % 100)
 
+			val=$(($year * 10 + $month * 31 + $day))
+			if ((val < 10)); then
+				val=0$val
+			fi
+
+			local filename_new=${filename[0]}.E$val.
+			for n in $(seq 2 ${#filename[@]}); do
+				if (( ${#filename[@]} == n)); then
+					filename_new="$filename_new${filename[n-1]}"
+				else
+					filename_new="$filename_new${filename[n-1]}."
+				fi
+			done
+			echo $filename_new
+		else
+			echo "$@"
+		fi
+    fi
 	unset -v filename
 }
 
@@ -130,17 +151,13 @@ function get_target_name() {
 	target_name=$(echo -n "$target_name"|sed -e 's/ .부\././' -e 's/\.[wW][eE][bB][rR][iI][pP]//')
 	target_name=$(echo -n "$target_name"|sed -e 's/\.1440[pP]//' -e 's/\.1080[pP]//' -e 's/\.720[pP]//' -e 's/\.360[pP]//')
 	target_name=$(echo -n "$target_name"|sed -e 's/\(^[0-9]*\)\.\([^\.]*\.\)/\2\1./' -e 's/\ E\([0-9]*\)\ /.E\1./' -e 's/.\([0-9]*\)\ \([0-9]*\)p/.\1.\2p/')
-
-	#trim space
 	target_name=$(echo -n "$target_name"|sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's/[[:space:]]*\.E/\.E/')
-
     target_name=$(trim_episode_number_greater_than_1000 "$target_name")
     echo $target_name
 }
 
 function get_target_path_name() {
 	local target_path=$(echo "$*" | cut -d '.' -f 1)
-	#trim space
 	target_path=$(echo $target_path | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's/[[:space:]]*스페셜$//')
 	target_path=$(echo $target_path | sed -e 's/제..회 //')
 	target_path=$(echo $target_path | sed -e 's/ 미리보기//')
@@ -173,17 +190,16 @@ function get_target_path_name() {
 	target_path=$(echo $target_path | sed -e 's/.*초인가족.*/초인가족/')
 	target_path=$(echo $target_path | sed -e 's/.*삼시세끼.*/삼시세끼/')
 	target_path=$(echo $target_path | sed -e 's/.*[nN][eE][wW][sS].*/뉴스/')
-	target_path=$(echo $target_path | sed -e 's/.*뉴스.*/뉴스/')
-	target_path=$(echo $target_path | sed -e 's/.*드림콘서트.*/콘서트/')
-	target_path=$(echo $target_path | sed -e 's/.*가요제.*/콘서트/')
-	target_path=$(echo $target_path | sed -e 's/.*슈퍼쇼.*/콘서트/')
-	target_path=$(echo $target_path | sed -e 's/.*컴백 스페셜.*/콘서트/')
-	target_path=$(echo $target_path | sed -e 's/.*comeback.*/콘서트/')
-	target_path=$(echo $target_path | sed -e 's/.*MAMA Red Carpet.*/시상식/')
-	target_path=$(echo $target_path | sed -e 's/.*Mnet Asian Music Awards.*/시상식/')
-	target_path=$(echo $target_path | sed -e 's/.*시상식.*/시상식/')
-
-	echo $target_path
+	target_path=$(echo $target_path | sed -e 's/.*뉴스.*/뉴스/')
+	target_path=$(echo $target_path | sed -e 's/.*드림콘서트.*/콘서트/')
+	target_path=$(echo $target_path | sed -e 's/.*가요제.*/콘서트/')
+	target_path=$(echo $target_path | sed -e 's/.*슈퍼쇼.*/콘서트/')
+	target_path=$(echo $target_path | sed -e 's/.*컴백 스페셜.*/콘서트/')
+	target_path=$(echo $target_path | sed -e 's/.*comeback.*/콘서트/')
+	target_path=$(echo $target_path | sed -e 's/.*MAMA Red Carpet.*/시상식/')
+	target_path=$(echo $target_path | sed -e 's/.*Mnet Asian Music Awards.*/시상식/')
+	target_path=$(echo $target_path | sed -e 's/.*시상식.*/시상식/')
+	echo $target_path
 }
 
 function rebuild_mp4_catagory() {
