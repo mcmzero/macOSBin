@@ -113,20 +113,20 @@ function download_site() {
                 login)
                         download_login_$site
                 ;;
-                drama)
-                        shift
-                        [ $# -eq 1 ] && page_number=$1
-                        download_drama_$site $DEFAULT_COUNT $page_number $DEFAULT_QUALITY
-                ;;
                 ent)
                         shift
                         [ $# -eq 1 ] && page_number=$1
-                        download_ent_$site $DEFAULT_COUNT $page_number $DEFAULT_QUALITY
+                        download_$site ent $DEFAULT_COUNT $page_number $DEFAULT_QUALITY
+                ;;
+                drama)
+                        shift
+                        [ $# -eq 1 ] && page_number=$1
+                        download_$site drama $DEFAULT_COUNT $page_number $DEFAULT_QUALITY
                 ;;
                 social)
                         shift
                         [ $# -eq 1 ] && page_number=$1
-                        download_social_$site $DEFAULT_COUNT $page_number $DEFAULT_QUALITY
+                        download_$site social $DEFAULT_COUNT $page_number $DEFAULT_QUALITY
                 ;;
                 ep)
                         shift
@@ -150,25 +150,26 @@ function download_site() {
 
 case $1 in
 	kim|cor|pon)
-                download_site $@
-                purge_torrent
+		download_site $@
+		purge_torrent
 	;;
-        drama|ent|social|ep)
-                download_site cor $@
-                download_site kim $@
-                download_site pon $@
-                purge_torrent
-        ;;
+	drama|ent|social|ep)
+		download_site cor $@
+		download_site kim $@
+		download_site pon $@
+		purge_torrent
+	;;
 	*)
-                download_magnet $@
-                download_utility $@
-                if [ $# -eq 0 ]; then
-                        download_torrent_help
-                        read -p "검색할 토렌트 이름을 입력하세요:" searchTorrent
-                        [ "$searchTorrent" != "" ] && download_torrent "$searchTorrent"
-                else
-                        download_torrent $@
-                fi
-                purge_torrent
+		download_magnet $@
+		download_utility $@
+		if [ $# -eq 0 ]; then
+			download_torrent_help
+			read -p "검색할 토렌트 이름을 입력하세요:" searchTorrent
+			[ "$searchTorrent" != "" ] && download_torrent "$searchTorrent"
+		else
+			download_torrent $@
+		fi
+		purge_torrent
 	;;
 esac
+
