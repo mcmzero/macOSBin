@@ -3,6 +3,9 @@
 source /usr/local/torrent/download_torrent.sh
 [ "$(basename $0 | cut -d_ -f 1)" == "local" ] && set_server_local || set_server_config
 
+DEFUALT_QUALITY=720
+DEFAULT_COUNT=100
+
 function download_sync() {
         [ "$(hostname)" == "rasPi" ] && ssh changmin@192.168.0.8 "/usr/local/torrent/download sync" && exit
 
@@ -102,211 +105,70 @@ function download_magnet() {
         esac
 }
 
-function download_kim() {
-        case $1 in
-                drama)
-                        shift
-                        PG_NUM=1
-                        [ $# -eq 1 ] && PG_NUM=$1
-                        download_drama_kim 100 $PG_NUM 720
-                ;;
-                ent)
-                        shift
-                        PG_NUM=1
-                        [ $# -eq 1 ] && PG_NUM=$1
-                        download_ent_kim 100 $PG_NUM 720
-                        exit
-                ;;
-                social)
-                        shift
-                        PG_NUM=1
-                        [ $# -eq 1 ] && PG_NUM=$1
-                        download_social_kim 100 $PG_NUM 720
-                        exit
-                ;;
-                ep)
-                        shift
-                        EP_START=$1
-                        shift
-                        EP_END=$1
-                        shift
-                        EP_QUALITY=$1
-                        shift
-                        EP_NAME="$*"
-                        for EP_NUM in $(eval echo {$EP_START..$EP_END}); do
-                                download_torrent_kim 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E${EP_NUM}."
-                                download_torrent_kim 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E0${EP_NUM}."
-                        done
-                        purge_torrent
-                        exit
-                ;;
-                *)
-                        download_torrent_kim "$@"
-                        purge_torrent
-                        exit
-                ;;
-        esac
-}
-
-function download_pong() {
-        case $1 in
-                drama)
-                        shift
-                        PG_NUM=1
-                        [ $# -eq 1 ] && PG_NUM=$1
-                        download_drama_pong 100 $PG_NUM 720
-                ;;
-                ent)
-                        shift
-                        PG_NUM=1
-                        [ $# -eq 1 ] && PG_NUM=$1
-                        download_ent_pong 100 $PG_NUM 720
-                ;;
-                social)
-                        shift
-                        PG_NUM=1
-                        [ $# -eq 1 ] && PG_NUM=$1
-                        download_social_pong 100 $PG_NUM 720
-                ;;
-                ep)
-                        shift
-                        EP_START=$1
-                        shift
-                        EP_END=$1
-                        shift
-                        EP_QUALITY=$1
-                        shift
-                        EP_NAME="$*"
-                        for EP_NUM in $(eval echo {$EP_START..$EP_END}); do
-                                download_torrent_pong 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E${EP_NUM}."
-                                download_torrent_pong 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E0${EP_NUM}."
-                        done
-                        purge_torrent
-                ;;
-                *)
-                        download_torrent_pong "$@"
-                        purge_torrent
-                        exit
-                ;;
-        esac
-}
-
-function download_cor() {
+function download_site() {
+        local page_number=1
+        local site=$1
+        shift
         case $1 in
                 login)
-                        login_tcorea
+                        download_login_$site
                 ;;
                 drama)
                         shift
-                        PG_NUM=1
-                        [ $# -eq 1 ] && PG_NUM=$1
-                        download_drama_cor 100 $PG_NUM 720
+                        [ $# -eq 1 ] && page_number=$1
+                        download_drama_$site $DEFAULT_COUNT $page_number $DEFAULT_QUALITY
                 ;;
                 ent)
                         shift
-                        PG_NUM=1
-                        [ $# -eq 1 ] && PG_NUM=$1
-                        download_ent_cor 100 $PG_NUM 720
+                        [ $# -eq 1 ] && page_number=$1
+                        download_ent_$site $DEFAULT_COUNT $page_number $DEFAULT_QUALITY
                 ;;
                 social)
                         shift
-                        PG_NUM=1
-                        [ $# -eq 1 ] && PG_NUM=$1
-                        download_social_cor 100 $PG_NUM 720
+                        [ $# -eq 1 ] && page_number=$1
+                        download_social_$site $DEFAULT_COUNT $page_number $DEFAULT_QUALITY
                 ;;
                 ep)
                         shift
-                        EP_START=$1
+                        local ep_start=$1
                         shift
-                        EP_END=$1
+                        local ep_end=$1
                         shift
-                        EP_QUALITY=$1
+                        local ep_quality=$1
                         shift
-                        EP_NAME="$*"
-                        for EP_NUM in $(eval echo {$EP_START..$EP_END}); do
-                                download_torrent_cor 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E${EP_NUM}."
-                                download_torrent_cor 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E0${EP_NUM}."
+                        local ep_name="$*"
+                        for ep_number in $(seq $ep_start $ep_end); do
+                                download_torrent_$site 1 1 1 "${ep_quality}" "${ep_name}.E${ep_number}."
+                                download_torrent_$site 1 1 1 "${ep_quality}" "${ep_name}.E0${ep_number}."
                         done
-                        purge_torrent
                 ;;
                 *)
-                        download_torrent_cor "$@"
-                        purge_torrent
-                ;;
-        esac
-}
-
-function download_default() {
-        case $1 in
-                drama)
-                        shift
-                        PG_NUM=1
-                        [ $# -eq 1 ] && PG_NUM=$1
-                        download_drama_cor 100 $PG_NUM 720
-                        download_drama_kim 100 $PG_NUM 720
-                        download_drama_pong 100 $PG_NUM 720
-                ;;
-                ent)
-                        shift
-                        PG_NUM=1
-                        [ $# -eq 1 ] && PG_NUM=$1
-                        download_ent_cor 100 $PG_NUM 720
-                        download_ent_kim 100 $PG_NUM 720
-                        download_ent_pong 100 $PG_NUM 720
-                ;;
-                social)
-                        shift
-                        PG_NUM=1
-                        [ $# -eq 1 ] && PG_NUM=$1
-                        download_social_cor 100 $PG_NUM 720
-                        download_social_kim 100 $PG_NUM 720
-                        download_social_pong 100 $PG_NUM 720
-                ;;
-                ep)
-                        shift
-                        EP_START=$1
-                        shift
-                        EP_END=$1
-                        shift
-                        EP_QUALITY=$1
-                        shift
-                        EP_NAME="$*"
-                        for EP_NUM in $(eval echo {$EP_START..$EP_END}); do
-                                download_torrent_cor 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E${EP_NUM}."
-                                download_torrent_cor 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E0${EP_NUM}."
-                        done
-                        purge_torrent
-                ;;
-                *)
-                        if [ $# -eq 0 ]; then
-                                download_torrent_help
-                                read -p "검색할 토렌트 이름을 입력하세요:" searchTorrent
-                                [ "$searchTorrent" != "" ] && download_torrent "$searchTorrent"
-                                purge_torrent
-                        else
-                                download_torrent $@
-                                purge_torrent
-                        fi
+                        download_torrent_$site "$@"
                 ;;
         esac
 }
 
 case $1 in
-	kim)
-                shift
-                download_kim $@
+	kim|cor|pon)
+                download_site $@
+                purge_torrent
 	;;
-	pon*)
-	shift
-                download_pong $@
-	;;
-        cor)
-                shift
-                download_cor $@
+        drama|ent|social|ep)
+                download_site cor $@
+                download_site kim $@
+                download_site pon $@
+                purge_torrent
         ;;
 	*)
                 download_magnet $@
                 download_utility $@
-                download_default $@
+                if [ $# -eq 0 ]; then
+                        download_torrent_help
+                        read -p "검색할 토렌트 이름을 입력하세요:" searchTorrent
+                        [ "$searchTorrent" != "" ] && download_torrent "$searchTorrent"
+                else
+                        download_torrent $@
+                fi
+                purge_torrent
 	;;
 esac

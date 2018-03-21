@@ -67,9 +67,18 @@ function download_torrent_help() {
 	echo
 }
 
-function login_tcorea() {
+function download_login_cor() {
+	echo login to cor
 	curl -s https://www.tcorea.com/bbs/login_check.php -c $COOKIE_TCOREA -d 'mb_id=mcmtor' -d 'mb_password=123123'
 	cat $COOKIE_TCOREA
+}
+
+function download_login_kim() {
+	echo login to kim
+}
+
+function download_login_pon() {
+	echo login to pong
 }
 
 function set_server() {
@@ -110,7 +119,7 @@ function purge_torrent() {
 		return 1
 	fi
 
-	local torrent_id_list=$(list_magnet | tee ${temp_maglist} | grep "Stopped\|Seeding\|Finished\|Idle" | grep "100%" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' | cut -d ' ' -f 1)
+	local torrent_id_list=$(list_magnet | tee ${temp_maglist} | grep "Stopped\|Seeding\|Finished\|Idle" | grep "100%" | sed -e's/^[[:space:]]*//' -e's/[[:space:]]*$//' | cut -d ' ' -f 1)
 	if [ "$torrent_id_list" != "" ]; then
 		echo "transmission-remote ${purge_tor_server} --auth ${TOR_AUTH} --torrent ${torrent_id_list// /,} --remove"
 		transmission-remote ${purge_tor_server} --auth ${TOR_AUTH} --torrent ${torrent_id_list// /,} --remove
@@ -127,7 +136,7 @@ function purge_torrent() {
 }
 
 function add_magnet() {
-	transmission-remote ${TOR_SERVER} --auth moon:123123212121 $(echo "$@" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+	transmission-remote ${TOR_SERVER} --auth moon:123123212121 $(echo "$@" | sed -e's/^[[:space:]]*//' -e's/[[:space:]]*$//')
 }
 
 function get_magnet_list() {
@@ -164,7 +173,7 @@ function print_magnet_cor() {
 	shift
 	local count="$1"
 	shift
-	curl -s "$*" -b "$COOKIE_TCOREA"|grep -veE01.E.*END -veE..-.. -ve전편 -ve완결|grep magnet:|grep "$quality"|head -n "$count"|sed -e 's/.*href=.//' -e 's/\" id=.*//' -e 's/.>.*//'
+	curl -s "$*" -b "$COOKIE_TCOREA"|grep -veE01.E.*END -veE..-.. -ve전편 -ve완결|grep magnet:|grep "$quality"|head -n "$count"|sed -e's/.*href=.//' -e's/\" id=.*//' -e's/.>.*//'
 }
 
 function download_torrent_cor() {
@@ -424,36 +433,25 @@ function download_torrent_kim() {
 	search=${search// /+}
 	echo "검색 [$search]"
 
-	# declare -a magnet_array=($(curl -s "https://torrentkim12.com/bbs/s.php?k=720p-NEXT&b=torrent_variety&page=1"|grep Mag_dn|grep href|sed -e 's/.*(./magnet:?xt=urn:btih:/' -e 's/.).*//'))
-	# IFS=$'\n';declare -a name_array=($(curl -s "https://torrentkim12.com/bbs/s.php?k=720p-NEXT&b=torrent_variety&page=1"|grep '\t</a>'|sed -e 's/^...//' -e 's/...<.a>//'));IFS=$' \t\n'
-
 	local url_list=""
 	for page_num in $(seq $page_num_start $page_num_end); do
 		url_string="${URL_SERVER_KIM}/bbs/s.php?page=${page_num}&k=${search}"
 		echo search kim: $url_string
 		IFS=$'\n'
-		declare -a magnet_array=($(curl -s "${url_string}"|grep Mag_dn|grep href|head -n $count|sed -e 's/.*(./magnet:?xt=urn:btih:/' -e 's/.).*//'))
-		declare -a name_array=($(curl -s "${url_string}"|grep '	</a>'|head -n $count|sed -e 's/^...//' -e 's/...<.a>//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'))
+		declare -a magnet_array=($(curl -s "${url_string}"|grep :Mag_dn|head -n $count|sed -e's/.*(./magnet:?xt=urn:btih:/' -e's/.).*//'))
+		declare -a name_array=($(curl -s "${url_string}"|grep '	</a>'|grep -ve'제휴'|head -n $count|sed -e's/<.a>//' -e's/^[[:space:]]*//' -e's/[[:space:]]*$//'))
 		IFS=$' \t\n'
 		for n in ${!magnet_array[@]}; do
 			url_ret=$(echo ${name_array[n]}|grep -veE01.E.*END -veE..-.. -ve전편 -ve완결|grep "$quality")
 			if [ "$url_ret" != "" ]; then
 				url_list="$url_list ${magnet_array[n]}"
-				echo [${name_array[n]}] ${magnet_array[n]}
+				echo ${magnet_array[n]} ${name_array[n]}
 			fi
 		done
 		unset -v magnet_array name_array
 	done
 
 	get_magnet_list ${url_list}
-}
-
-function print_magnet_kim() {
-	local quality="$1"
-	shift
-	local count="$1"
-	shift
-	curl -s "$*"|grep Mag_dn|grep href|head -n "$count"|sed -e 's/.*(./magnet:?xt=urn:btih:/' -e 's/.).*//'
 }
 
 function download_ent_kim() {
@@ -484,8 +482,18 @@ function download_ent_kim() {
 	for page_num in $(seq $page_num_start $page_num_end); do
 		url_string="${URL_TYPE_ENT_KIM}&page=${page_num}&k=${search}"
 		echo search kim: $url_string
-		url_ret=$(print_magnet_kim $quality $count $url_string)
-		[ "$url_ret" != "" ] && url_list="$url_list $url_ret"
+		IFS=$'\n'
+		declare -a magnet_array=($(curl -s "${url_string}"|grep :Mag_dn|head -n $count|sed -e's/.*(./magnet:?xt=urn:btih:/' -e's/.).*//'))
+		declare -a name_array=($(curl -s "${url_string}"|sed -e's/^[[:space:]]*//'|grep '</a>'|grep -ve'^<' -ve'href' -ve'제휴'|head -n $count|sed -e's/<.a>//' -e's/[[:space:]]*$//'))
+		IFS=$' \t\n'
+		for n in ${!magnet_array[@]}; do
+			url_ret=$(echo ${name_array[n]}|grep -veE01.E.*END -veE..-.. -ve전편 -ve완결|grep "$quality")
+			if [ "$url_ret" != "" ]; then
+				url_list="$url_list ${magnet_array[n]}"
+				echo ${magnet_array[n]} ${name_array[n]}
+			fi
+		done
+		unset -v magnet_array name_array
 	done
 	get_magnet_list ${url_list}
 }
@@ -518,8 +526,18 @@ function download_drama_kim() {
 	for page_num in $(seq $page_num_start $page_num_end); do
 		url_string="${URL_TYPE_DRAMA_KIM}&page=${page_num}&k=${search}"
 		echo search kim: $url_string
-		url_ret=$(print_magnet_kim $quality $count $url_string)
-		[ "$url_ret" != "" ] && url_list="$url_list $url_ret"
+		IFS=$'\n'
+		declare -a magnet_array=($(curl -s "${url_string}"|grep :Mag_dn|head -n $count|sed -e's/.*(./magnet:?xt=urn:btih:/' -e's/.).*//'))
+		declare -a name_array=($(curl -s "${url_string}"|sed -e's/^[[:space:]]*//'|grep '</a>'|grep -ve'^<' -ve'href' -ve'제휴'|head -n $count|sed -e's/<.a>//' -e's/[[:space:]]*$//'))
+		IFS=$' \t\n'
+		for n in ${!magnet_array[@]}; do
+			url_ret=$(echo ${name_array[n]}|grep -veE01.E.*END -veE..-.. -ve전편 -ve완결|grep "$quality")
+			if [ "$url_ret" != "" ]; then
+				url_list="$url_list ${magnet_array[n]}"
+				echo ${magnet_array[n]} ${name_array[n]}
+			fi
+		done
+		unset -v magnet_array name_array
 	done
 	get_magnet_list ${url_list}
 }
@@ -552,8 +570,18 @@ function download_social_kim() {
 	for page_num in $(seq $page_num_start $page_num_end); do
 		url_string="${URL_TYPE_SOCIAL_KIM}&page=${page_num}&k=${search}"
 		echo search kim: $url_string
-		url_ret=$(print_magnet_kim $quality $count $url_string)
-		[ "$url_ret" != "" ] && url_list="$url_list $url_ret"
+		IFS=$'\n'
+		declare -a magnet_array=($(curl -s "${url_string}"|grep :Mag_dn|head -n $count|sed -e's/.*(./magnet:?xt=urn:btih:/' -e's/.).*//'))
+		declare -a name_array=($(curl -s "${url_string}"|sed -e's/^[[:space:]]*//'|grep '</a>'|grep -ve'^<' -ve'href' -ve'제휴'|head -n $count|sed -e's/<.a>//' -e's/[[:space:]]*$//'))
+		IFS=$' \t\n'
+		for n in ${!magnet_array[@]}; do
+			url_ret=$(echo ${name_array[n]}|grep -veE01.E.*END -veE..-.. -ve전편 -ve완결|grep "$quality")
+			if [ "$url_ret" != "" ]; then
+				url_list="$url_list ${magnet_array[n]}"
+				echo ${magnet_array[n]} ${name_array[n]}
+			fi
+		done
+		unset -v magnet_array name_array
 	done
 	get_magnet_list ${url_list}
 }
@@ -562,15 +590,15 @@ function download_social_kim() {
 ## torrentpong.com
 ##
 # curl -s "https://torrentpong.com/bbs/board.php?bo_table=ent&page=1&stx=720p-NEXT"|grep magnet|grep 720p-NEXT
-function print_magnet_pong() {
+function print_magnet_pon() {
 	local quality="$1"
 	shift
 	local count="$1"
 	shift
-	curl -s "$*"|grep magnet|grep href|grep "$quality"|head -n "$count"|sed -e 's/.*href=.//' -e 's/..title=.*//'
+	curl -s "$*"|grep magnet|grep href|grep "$quality"|head -n "$count"|sed -e's/.*href=.//' -e's/..title=.*//'
 }
 
-function download_torrent_pong() {
+function download_torrent_pon() {
 	# download_torrent_pong count start_page end_page quality search
 	local count=1
 	local page_num_start=1
@@ -608,14 +636,14 @@ function download_torrent_pong() {
 	for page_num in $(seq $page_num_start $page_num_end); do
 		url_string="${URL_TYPE_ENT_PONG}&page=${page_num}&stx=${search}"
 		echo search: $url_string
-		url_ret=$(print_magnet_pong $quality $count $url_string)
+		url_ret=$(print_magnet_pon $quality $count $url_string)
 		if [ "$url_ret" != "" ]; then
 			url_list="$url_list $url_ret"
 		fi
 
 		url_string="${URL_TYPE_DRAMA_PONG}&page=${page_num}&stx=${search}"
 		echo search: $url_string
-		url_ret=$(print_magnet_pong $quality $count $url_string)
+		url_ret=$(print_magnet_pon $quality $count $url_string)
 		if [ "$url_ret" != "" ]; then
 			url_list="$url_list $url_ret"
 			continue
@@ -623,7 +651,7 @@ function download_torrent_pong() {
 
 		url_string="${URL_TYPE_SOCIAL_PONG}&page=${page_num}&stx=${search}"
 		echo search: $url_string
-		url_ret=$(print_magnet_pong $quality $count $url_string)
+		url_ret=$(print_magnet_pon $quality $count $url_string)
 		if [ "$url_ret" != "" ]; then
 			url_list="$url_list $url_ret"
 			continue
@@ -633,7 +661,7 @@ function download_torrent_pong() {
 	get_magnet_list ${url_list}
 }
 
-function download_ent_pong() {
+function download_ent_pon() {
 	# download_ent count page_num quality
 	local count=100
 	local page_num_start=1
@@ -661,13 +689,13 @@ function download_ent_pong() {
 	for page_num in $(seq $page_num_start $page_num_end); do
 		url_string="${URL_TYPE_ENT_PONG}&page=${page_num}&stx=${search}"
 		echo search: $url_string
-		url_ret=$(print_magnet_pong $quality $count $url_string)
+		url_ret=$(print_magnet_pon $quality $count $url_string)
 		[ "$url_ret" != "" ] && url_list="$url_list $url_ret"
 	done
 	get_magnet_list ${url_list}
 }
 
-function download_drama_pong() {
+function download_drama_pon() {
 	# download_drama count page_num quality
 	local count=100
 	local page_num_start=1
@@ -695,13 +723,13 @@ function download_drama_pong() {
 	for page_num in $(seq $page_num_start $page_num_end); do
 		url_string="${URL_TYPE_DRAMA_PONG}&page=${page_num}&stx=${search}"
 		echo search: $url_string
-		url_ret=$(print_magnet_pong $quality $count $url_string)
+		url_ret=$(print_magnet_pon $quality $count $url_string)
 		[ "$url_ret" != "" ] && url_list="$url_list $url_ret"
 	done
 	get_magnet_list ${url_list}
 }
 
-function download_social_pong() {
+function download_social_pon() {
 	# download_social count page_num quality
 	local count=100
 	local page_num_start=1
@@ -729,7 +757,7 @@ function download_social_pong() {
 	for page_num in $(seq $page_num_start $page_num_end); do
 		url_string="${URL_TYPE_SOCIAL_PONG}&page=${page_num}&stx=${search}"
 		echo search: $url_string
-		url_ret=$(print_magnet_pong $quality $count $url_string)
+		url_ret=$(print_magnet_pon $quality $count $url_string)
 		[ "$url_ret" != "" ] && url_list="$url_list $url_ret"
 	done
 	get_magnet_list ${url_list}
