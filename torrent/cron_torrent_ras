@@ -21,10 +21,9 @@ MAILTO=""
 # Look for and purge old sessions every 5 minutes
 */2 *		* * *		pi	/usr/local/torrent/download purge
 */2  *		* * *		pi	/usr/local/torrent/download rebuild
+00 */12		* * *		pi	/usr/local/torrent/download cor login
 
 # 예능, 드라마
-00 */12		* * *		pi	/usr/local/torrent/download login
-
 00,30 16-23,0-9	* * 1-5		pi	/usr/local/torrent/download cor ent 1
 00,30 *		* * 6,7		pi	/usr/local/torrent/download cor ent 1
 00,30 16-23,0-9	* * 1-5		pi	/usr/local/torrent/download cor drama 1

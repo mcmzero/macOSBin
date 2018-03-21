@@ -1,6 +1,9 @@
 #!/bin/bash
 
-if [ "$1" == "sync" ]; then
+source /usr/local/torrent/download_torrent.sh
+[ "$(basename $0 | cut -d_ -f 1)" == "local" ] && set_server_local || set_server_config
+
+function download_sync() {
         [ "$(hostname)" == "rasPi" ] && ssh changmin@192.168.0.8 "/usr/local/torrent/download sync" && exit
 
         SRC_PATH="$HOME/Google Drive/ShellScript.localized/TorrentBin"
@@ -32,273 +35,278 @@ if [ "$1" == "sync" ]; then
 
         #ssh root@r1 "chown -v root:root /etc/cron.d/cron_torrent_*"
         source ~changmin/bin/backup_rsync.sh
-
-        exit
-fi
+}
 
 function link_file() {
         cd /usr/local/torrent
-        for FILE in download*; do
-                FILE=$(echo $FILE | sed -e 's/local_//g')
-                ln -sfv /usr/local/torrent/$FILE /usr/local/bin/$FILE
+        for file in download*; do
+                file=${file//local_//}
+                ln -sfv /usr/local/torrent/$file /usr/local/bin/$file
         done
 }
 
-if [ "$1" == "link" ]; then
-        link_file
-        exit
-fi
+function download_utility() {
+        case $1 in
+                sync)
+                        shift
+                        download_sync $@
+                        exit
+                ;;
+                link)
+                        link_file
+                        exit
+                ;;
+                clean)
+                        find . \( -name ".DS_Store" -or -name ".AppleDouble" -or -name "._*" \) -exec rm -rfv {} \;
+                        exit
+                ;;
+                synclink)
+                        link_file
+                        ssh root@r1 /usr/local/torrent/download link
+                        exit
+                ;;
+                localized)
+                        for file in *; do
+                                [ -d "$file" ] && rsync -av "~changmin/Documents/.localized ./$file/.localized"
+                        done
+                        exit
+                ;;
+        esac
+}
 
-source /usr/local/torrent/download_torrent.sh
-[ "$(basename $0 | cut -d_ -f 1)" == "local" ] && set_server_local || set_server_config
+function download_magnet() {
+        case $1 in
+                purge)
+                        shift
+                        purge_torrent $@
+                        exit
+                ;;
+                cleanup)
+                        source /usr/local/torrent/download_rebuild_torrent.sh
+                        shift
+                        cleanup_raspi_dropbox
+                        rebuild_raspi_dropbox
+                        exit
+                ;;
+                rebuild)
+                        source /usr/local/torrent/download_rebuild_torrent.sh
+                        shift
+                        rebuild_torrent $@
+                        exit
+                ;;
+                magnet*)
+                        add_magnet -a $@
+                        purge_torrent
+                        exit
+                ;;
+        esac
+}
 
-if [ "$1" == "purge" ]; then
-        shift
-        purge_torrent $@
-        exit
-fi
+function download_kim() {
+        case $1 in
+                drama)
+                        shift
+                        PG_NUM=1
+                        [ $# -eq 1 ] && PG_NUM=$1
+                        download_drama_kim 100 $PG_NUM 720
+                ;;
+                ent)
+                        shift
+                        PG_NUM=1
+                        [ $# -eq 1 ] && PG_NUM=$1
+                        download_ent_kim 100 $PG_NUM 720
+                        exit
+                ;;
+                social)
+                        shift
+                        PG_NUM=1
+                        [ $# -eq 1 ] && PG_NUM=$1
+                        download_social_kim 100 $PG_NUM 720
+                        exit
+                ;;
+                ep)
+                        shift
+                        EP_START=$1
+                        shift
+                        EP_END=$1
+                        shift
+                        EP_QUALITY=$1
+                        shift
+                        EP_NAME="$*"
+                        for EP_NUM in $(eval echo {$EP_START..$EP_END}); do
+                                download_torrent_kim 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E${EP_NUM}."
+                                download_torrent_kim 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E0${EP_NUM}."
+                        done
+                        purge_torrent
+                        exit
+                ;;
+                *)
+                        download_torrent_kim "$@"
+                        purge_torrent
+                        exit
+                ;;
+        esac
+}
 
-if [ "$1" == "cleanup" ]; then
-        source /usr/local/torrent/download_rebuild_torrent.sh
-        shift
-        cleanup_raspi_dropbox
-        rebuild_raspi_dropbox
-        exit
-fi
+function download_pong() {
+        case $1 in
+                drama)
+                        shift
+                        PG_NUM=1
+                        [ $# -eq 1 ] && PG_NUM=$1
+                        download_drama_pong 100 $PG_NUM 720
+                ;;
+                ent)
+                        shift
+                        PG_NUM=1
+                        [ $# -eq 1 ] && PG_NUM=$1
+                        download_ent_pong 100 $PG_NUM 720
+                ;;
+                social)
+                        shift
+                        PG_NUM=1
+                        [ $# -eq 1 ] && PG_NUM=$1
+                        download_social_pong 100 $PG_NUM 720
+                ;;
+                ep)
+                        shift
+                        EP_START=$1
+                        shift
+                        EP_END=$1
+                        shift
+                        EP_QUALITY=$1
+                        shift
+                        EP_NAME="$*"
+                        for EP_NUM in $(eval echo {$EP_START..$EP_END}); do
+                                download_torrent_pong 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E${EP_NUM}."
+                                download_torrent_pong 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E0${EP_NUM}."
+                        done
+                        purge_torrent
+                ;;
+                *)
+                        download_torrent_pong "$@"
+                        purge_torrent
+                        exit
+                ;;
+        esac
+}
 
-if [ "$1" == "rebuild" ]; then
-        source /usr/local/torrent/download_rebuild_torrent.sh
-        shift
-        rebuild_torrent $@
-        exit
-fi
+function download_cor() {
+        case $1 in
+                login)
+                        login_tcorea
+                ;;
+                drama)
+                        shift
+                        PG_NUM=1
+                        [ $# -eq 1 ] && PG_NUM=$1
+                        download_drama_cor 100 $PG_NUM 720
+                ;;
+                ent)
+                        shift
+                        PG_NUM=1
+                        [ $# -eq 1 ] && PG_NUM=$1
+                        download_ent_cor 100 $PG_NUM 720
+                ;;
+                social)
+                        shift
+                        PG_NUM=1
+                        [ $# -eq 1 ] && PG_NUM=$1
+                        download_social_cor 100 $PG_NUM 720
+                ;;
+                ep)
+                        shift
+                        EP_START=$1
+                        shift
+                        EP_END=$1
+                        shift
+                        EP_QUALITY=$1
+                        shift
+                        EP_NAME="$*"
+                        for EP_NUM in $(eval echo {$EP_START..$EP_END}); do
+                                download_torrent_cor 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E${EP_NUM}."
+                                download_torrent_cor 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E0${EP_NUM}."
+                        done
+                        purge_torrent
+                ;;
+                *)
+                        download_torrent_cor "$@"
+                        purge_torrent
+                ;;
+        esac
+}
 
-if [ "$1" == "clean" ]; then
-        find . \( -name ".DS_Store" -or -name ".AppleDouble" -or -name "._*" \) -exec rm -rfv {} \;
-        exit
-fi
+function download_default() {
+        case $1 in
+                drama)
+                        shift
+                        PG_NUM=1
+                        [ $# -eq 1 ] && PG_NUM=$1
+                        download_drama_cor 100 $PG_NUM 720
+                        download_drama_kim 100 $PG_NUM 720
+                        download_drama_pong 100 $PG_NUM 720
+                ;;
+                ent)
+                        shift
+                        PG_NUM=1
+                        [ $# -eq 1 ] && PG_NUM=$1
+                        download_ent_cor 100 $PG_NUM 720
+                        download_ent_kim 100 $PG_NUM 720
+                        download_ent_pong 100 $PG_NUM 720
+                ;;
+                social)
+                        shift
+                        PG_NUM=1
+                        [ $# -eq 1 ] && PG_NUM=$1
+                        download_social_cor 100 $PG_NUM 720
+                        download_social_kim 100 $PG_NUM 720
+                        download_social_pong 100 $PG_NUM 720
+                ;;
+                ep)
+                        shift
+                        EP_START=$1
+                        shift
+                        EP_END=$1
+                        shift
+                        EP_QUALITY=$1
+                        shift
+                        EP_NAME="$*"
+                        for EP_NUM in $(eval echo {$EP_START..$EP_END}); do
+                                download_torrent_cor 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E${EP_NUM}."
+                                download_torrent_cor 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E0${EP_NUM}."
+                        done
+                        purge_torrent
+                ;;
+                *)
+                        if [ $# -eq 0 ]; then
+                                download_torrent_help
+                                read -p "검색할 토렌트 이름을 입력하세요:" searchTorrent
+                                [ "$searchTorrent" != "" ] && download_torrent "$searchTorrent"
+                                purge_torrent
+                        else
+                                download_torrent $@
+                                purge_torrent
+                        fi
+                ;;
+        esac
+}
 
-if [ "$1" == "synclink" ]; then
-        link_file
-        ssh root@r1 /usr/local/torrent/download link
-        exit
-fi
-
-if [ "$1" == "kim" ]; then
-        shift
-        if [ "$1" == "drama" ]; then
+case $1 in
+	kim)
                 shift
-                PG_NUM=1
-                [ $# -eq 1 ] && PG_NUM=$1
-                download_drama_kim 100 $PG_NUM 720
-                exit
-        fi
-        if [ "$1" == "ent" ]; then
+                download_kim $@
+	;;
+	pon*)
+	shift
+                download_pong $@
+	;;
+        cor)
                 shift
-                PG_NUM=1
-                [ $# -eq 1 ] && PG_NUM=$1
-                download_ent_kim 100 $PG_NUM 720
-                exit
-        fi
-        if [ "$1" == "social" ]; then
-                shift
-                PG_NUM=1
-                [ $# -eq 1 ] && PG_NUM=$1
-                download_social_kim 100 $PG_NUM 720
-                exit
-        fi
-        if [ "$1" == "ep" ]; then
-                shift
-                EP_START=$1
-                shift
-                EP_END=$1
-                shift
-                EP_QUALITY=$1
-                shift
-                EP_NAME="$*"
-                for EP_NUM in $(eval echo {$EP_START..$EP_END}); do
-                        download_torrent_kim 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E${EP_NUM}."
-                        download_torrent_kim 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E0${EP_NUM}."
-                done
-                purge_torrent
-                exit
-        fi
-        if [ "$1" != "ep" ]; then
-                download_torrent_kim "$@"
-                purge_torrent
-                exit
-        fi
-fi
-
-if [ "$1" == "pong" ] || [ "$1" == "pon" ]; then
-        shift
-        if [ "$1" == "drama" ]; then
-                shift
-                PG_NUM=1
-                [ $# -eq 1 ] && PG_NUM=$1
-                download_drama_pong 100 $PG_NUM 720
-                exit
-        fi
-        if [ "$1" == "ent" ]; then
-                echo pong ent
-                shift
-                PG_NUM=1
-                [ $# -eq 1 ] && PG_NUM=$1
-                download_ent_pong 100 $PG_NUM 720
-                exit
-        fi
-        if [ "$1" == "social" ]; then
-                shift
-                PG_NUM=1
-                [ $# -eq 1 ] && PG_NUM=$1
-                download_social_pong 100 $PG_NUM 720
-                exit
-        fi
-        if [ "$1" == "ep" ]; then
-                shift
-                EP_START=$1
-                shift
-                EP_END=$1
-                shift
-                EP_QUALITY=$1
-                shift
-                EP_NAME="$*"
-                for EP_NUM in $(eval echo {$EP_START..$EP_END}); do
-                        download_torrent_pong 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E${EP_NUM}."
-                        download_torrent_pong 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E0${EP_NUM}."
-                done
-                purge_torrent
-                exit
-        fi
-        if [ "$1" != "ep" ]; then
-                download_torrent_pong "$@"
-                purge_torrent
-                exit
-        fi
-fi
-
-if [ "$1" == "cor" ]; then
-        shift
-        if [ "$1" == "drama" ]; then
-                shift
-                PG_NUM=1
-                [ $# -eq 1 ] && PG_NUM=$1
-                download_drama_cor 100 $PG_NUM 720
-                exit
-        fi
-        if [ "$1" == "ent" ]; then
-                shift
-                PG_NUM=1
-                [ $# -eq 1 ] && PG_NUM=$1
-                download_ent_cor 100 $PG_NUM 720
-                exit
-        fi
-        if [ "$1" == "social" ]; then
-                shift
-                PG_NUM=1
-                [ $# -eq 1 ] && PG_NUM=$1
-                download_social_cor 100 $PG_NUM 720
-                exit
-        fi
-        if [ "$1" == "ep" ]; then
-                shift
-                EP_START=$1
-                shift
-                EP_END=$1
-                shift
-                EP_QUALITY=$1
-                shift
-                EP_NAME="$*"
-                for EP_NUM in $(eval echo {$EP_START..$EP_END}); do
-                        download_torrent_cor 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E${EP_NUM}."
-                        download_torrent_cor 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E0${EP_NUM}."
-                done
-                purge_torrent
-                exit
-        fi
-        if [ "$1" != "ep" ]; then
-                download_torrent_cor "$@"
-                purge_torrent
-                exit
-        fi
-fi
-
-if [ "$1" == "login" ]; then
-        shift
-        login_tcorea
-        exit
-fi
-
-if [ "$1" == "drama" ]; then
-        shift
-        PG_NUM=1
-        [ $# -eq 1 ] && PG_NUM=$1
-        download_drama_cor 100 $PG_NUM 720
-        download_drama_kim 100 $PG_NUM 720
-        download_drama_pong 100 $PG_NUM 720
-        exit
-fi
-
-if [ "$1" == "ent" ]; then
-        shift
-        PG_NUM=1
-        [ $# -eq 1 ] && PG_NUM=$1
-        download_ent_cor 100 $PG_NUM 720
-        download_ent_kim 100 $PG_NUM 720
-        download_ent_pong 100 $PG_NUM 720
-        exit
-fi
-
-if [ "$1" == "social" ]; then
-        shift
-        PG_NUM=1
-        [ $# -eq 1 ] && PG_NUM=$1
-        download_social_cor 100 $PG_NUM 720
-        download_social_kim 100 $PG_NUM 720
-        download_social_pong 100 $PG_NUM 720
-        exit
-fi
-
-if [ "$1" == "localized" ]; then
-        for DIR in *; do
-                [ -d "$DIR" ] && rsync -av ~changmin/Documents/.localized ./"$DIR"/.localized
-        done
-        exit
-fi
-
-if [ "$1" == "ep" ]; then
-        shift
-        EP_START=$1
-        shift
-        EP_END=$1
-        shift
-        EP_QUALITY=$1
-        shift
-        EP_NAME="$*"
-	for EP_NUM in $(eval echo {$EP_START..$EP_END}); do
-                download_torrent_cor 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E${EP_NUM}."
-                download_torrent_cor 1 1 1 "${EP_QUALITY}" "${EP_NAME}.E0${EP_NUM}."
-	done
-        purge_torrent
-        exit
-fi
-
-if [ "$1" == "cor" ]; then
-        shift
-        download_torrent_cor $@
-        purge_torrent
-        exit
-fi
-
-if [ $# -eq 0 ]; then
-        download_torrent_help
-        read -p "검색할 토렌트 이름을 입력하세요:" searchTorrent
-        [ "$searchTorrent" != "" ] && download_torrent "$searchTorrent"
-        purge_torrent
-elif [ "$(echo "$@" | cut -d: -f1)" == "magnet" ]; then
-        add_magnet -a $@
-        purge_torrent
-else
-        download_torrent $@
-        purge_torrent
-fi
+                download_cor $@
+        ;;
+	*)
+                download_magnet $@
+                download_utility $@
+                download_default $@
+	;;
+esac
