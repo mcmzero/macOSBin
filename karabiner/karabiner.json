@@ -1,7 +1,7 @@
 {
     "global": {
         "check_for_updates_on_startup": true,
-        "show_in_menu_bar": true,
+        "show_in_menu_bar": false,
         "show_profile_name_in_menu_bar": true
     },
     "profiles": [
@@ -174,9 +174,6 @@
                                 },
                                 "to": [
                                     {
-                                        "_modifiers": [
-                                            "left_command"
-                                        ],
                                         "key_code": "dashboard"
                                     }
                                 ],
@@ -193,9 +190,6 @@
                                 },
                                 "to": [
                                     {
-                                        "_modifiers": [
-                                            "fn"
-                                        ],
                                         "key_code": "launchpad"
                                     }
                                 ],
@@ -521,7 +515,6 @@
                                 },
                                 "to": [
                                     {
-                                        "_shell_command": "open '/System/Library/CoreServices/Finder.app'",
                                         "key_code": "2",
                                         "modifiers": [
                                             "left_control",
@@ -629,7 +622,6 @@
                                 },
                                 "to": [
                                     {
-                                        "_shell_command": "open '/Applications/Google Chrome.app'",
                                         "key_code": "delete_or_backspace",
                                         "modifiers": [
                                             "left_command"
@@ -649,7 +641,6 @@
                                 },
                                 "to": [
                                     {
-                                        "_shell_command": "open '/Applications/Safari.app'",
                                         "key_code": "k",
                                         "modifiers": [
                                             "left_control"
@@ -713,10 +704,6 @@
                                 },
                                 "to": [
                                     {
-                                        "_key_code": "equal_sign",
-                                        "_modifiers": [
-                                            "left_command"
-                                        ],
                                         "shell_command": "open '/Applications/Safari.app'"
                                     }
                                 ],
@@ -733,10 +720,6 @@
                                 },
                                 "to": [
                                     {
-                                        "_key_code": "hyphen",
-                                        "_modifiers": [
-                                            "left_command"
-                                        ],
                                         "shell_command": "open '/Applications/Google Chrome.app'"
                                     }
                                 ],
@@ -1579,6 +1562,7 @@
             ],
             "virtual_hid_keyboard": {
                 "caps_lock_delay_milliseconds": 200,
+                "country_code": 0,
                 "keyboard_type": "ansi"
             }
         },
@@ -1751,9 +1735,6 @@
                                 },
                                 "to": [
                                     {
-                                        "_modifiers": [
-                                            "left_command"
-                                        ],
                                         "key_code": "dashboard"
                                     }
                                 ],
@@ -1770,9 +1751,6 @@
                                 },
                                 "to": [
                                     {
-                                        "_modifiers": [
-                                            "fn"
-                                        ],
                                         "key_code": "launchpad"
                                     }
                                 ],
@@ -2098,7 +2076,6 @@
                                 },
                                 "to": [
                                     {
-                                        "_shell_command": "open '/System/Library/CoreServices/Finder.app'",
                                         "key_code": "2",
                                         "modifiers": [
                                             "left_control",
@@ -2206,7 +2183,6 @@
                                 },
                                 "to": [
                                     {
-                                        "_shell_command": "open '/Applications/Google Chrome.app'",
                                         "key_code": "delete_or_backspace",
                                         "modifiers": [
                                             "left_command"
@@ -2226,7 +2202,6 @@
                                 },
                                 "to": [
                                     {
-                                        "_shell_command": "open '/Applications/Safari.app'",
                                         "key_code": "k",
                                         "modifiers": [
                                             "left_control"
@@ -2290,10 +2265,6 @@
                                 },
                                 "to": [
                                     {
-                                        "_key_code": "equal_sign",
-                                        "_modifiers": [
-                                            "left_command"
-                                        ],
                                         "shell_command": "open '/Applications/Safari.app'"
                                     }
                                 ],
@@ -2310,10 +2281,6 @@
                                 },
                                 "to": [
                                     {
-                                        "_key_code": "hyphen",
-                                        "_modifiers": [
-                                            "left_command"
-                                        ],
                                         "shell_command": "open '/Applications/Google Chrome.app'"
                                     }
                                 ],
@@ -2861,6 +2828,7 @@
             ],
             "virtual_hid_keyboard": {
                 "caps_lock_delay_milliseconds": 200,
+                "country_code": 0,
                 "keyboard_type": "ansi"
             }
         }
