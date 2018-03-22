@@ -176,10 +176,11 @@ function run() {
         ;;
         -u)
 			#only for update
+			shift
             initPkgList
-            getPkgVersion
+            getPkgVersion $@
             if [ "$pkgFileVersion" == "$pkgInstalledVersion" ]; then
-                echo "$pkgInstalledVersion" is already install.
+                echo "$pkgInstalledVersion" is already installed
                 return 1
             fi
             if ! downloadPkg; then
@@ -197,7 +198,7 @@ function run() {
         ;;
         *)
             initPkgList
-            getPkgVersion
+            getPkgVersion $@
             if ! downloadPkg; then
                 echo "Download failed"
                 return 1
