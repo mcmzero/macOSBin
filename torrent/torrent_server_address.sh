@@ -1,0 +1,3 @@
+#Transmission server adress IP:PORT
+TOR_SERVER_IP=192.168.0.3
+TOR_SERVER_PORT=9191
