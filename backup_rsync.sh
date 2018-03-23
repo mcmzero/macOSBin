@@ -1,20 +1,32 @@
 #!/bin/bash
 
-SOURCE_VOLUME=/Volumes/macOS.localized
-TARGET_VOLUME=/Volumes/Backup.localized
+sourceVolume=/Volumes/macOS.localized
+targetVolume=/Volumes/Backup.localized
 
-[ -d $TARGET_VOLUME/Sync.localized ] || (mkdir -p $TARGET_VOLUME/Sync.localized; cp -a ~changmin/Documents/.localized $TARGET_VOLUME/Sync.localized/)
-[ -d $TARGET_VOLUME/Archives.localized ] || (mkdir -p $TARGET_VOLUME/Archives.localized; cp -a ~changmin/Documents/.localized $TARGET_VOLUME/Archives.localized/)
+function backup() {
+	echo rsync backup
+	if [ ! -d $targetVolume/Sync.localized ]; then
+		mkdir -p $targetVolume/Sync.localized
+		cp -a ~changmin/Documents/.localized $targetVolume/Sync.localized/
+	fi
+	if [ ! -d $targetVolume/Archives.localized ]; then
+		mkdir -p $targetVolume/Archives.localized
+		cp -a ~changmin/Documents/.localized $targetVolume/Archives.localized/
+	fi
 
-rsync -auzv --delete $SOURCE_VOLUME/Users/changmin/Documents/ $TARGET_VOLUME/Sync.localized/Documents
-rsync -auzv --delete $SOURCE_VOLUME/Users/changmin/OneDrive/ $TARGET_VOLUME/Sync.localized/OneDrive
-rsync -auzv --delete $SOURCE_VOLUME/Users/changmin/"Google Drive"/ $TARGET_VOLUME/Sync.localized/"Google Drive"
-rsync -auzv --delete $SOURCE_VOLUME/Users/changmin/Developer.localized/ $TARGET_VOLUME/Sync.localized/Developer.localized
+	local optVerbose="-v"
+	rsync -auz --delete $sourceVolume/Users/changmin/Documents/ $targetVolume/Sync.localized/Documents
+	rsync -auz --delete $sourceVolume/Users/changmin/OneDrive/ $targetVolume/Sync.localized/OneDrive
+	rsync -auz --delete $sourceVolume/Users/changmin/"Google Drive"/ $targetVolume/Sync.localized/"Google Drive"
+	rsync -auz --delete $sourceVolume/Users/changmin/Developer.localized/ $targetVolume/Sync.localized/Developer.localized
 
-rsync -auzv --delete $SOURCE_VOLUME/Users/changmin/Archives.localized/ $TARGET_VOLUME/Archives.localized
-rsync -auzv $TARGET_VOLUME/Archives.localized/ $SOURCE_VOLUME/Users/changmin/Archives.localized
+	rsync -auz --delete $sourceVolume/Users/changmin/Archives.localized/ $targetVolume/Archives.localized
+	rsync -auz $targetVolume/Archives.localized/ $sourceVolume/Users/changmin/Archives.localized
 
-# 카라비너 설정 백업
-rsync -auzv ~/.config/karabiner ~/Archives.localized/macOS/Karabiner
-rsync -auzv ~/.config/karabiner ~/Google\ Drive/Computer.localized/macOS
-rsync -auzv ~/.config/karabiner ~/bin
+	# 카라비너 설정 백업
+	rsync -auz ~/.config/karabiner ~/Archives.localized/macOS/Karabiner
+	rsync -auz ~/.config/karabiner ~/Google\ Drive/Computer.localized/macOS
+	rsync -auz ~/.config/karabiner ~/bin
+}
+
+backup $@
