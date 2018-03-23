@@ -1,16 +1,15 @@
 #!/bin/bash
 
-RASPI_torrentSourcePath="/mnt/rasPiTorrent/torrent"
-RASPI_torrentTargetPath="/mnt/rasPiTorrent/torrent/동영상"
-RASPI_torrentDropboxPath="/mnt/rasPiTorrent/torrent/떨굼상자"
-MCM_torrentSourcePath="/Share/rasPiTorrent/torrent"
-MCM_torrentTargetPath="/Share/rasPiTorrent/torrent/동영상"
-MCM_torrentDropboxPath="/Share/rasPiTorrent/torrent/떨굼상자"
+movieFolderName="동영상"
+dropboxFolderName="떨굼상자"
 
-RASPI_musicSourcePath="/mnt/rasPiMusic/torrent"
-RASPI_musicTargetPath="/mnt/rasPiMusic/torrent/동영상"
-MCM_musicSourcePath="/Share/rasPiMusic/torrent"
-MCM_musicTargetPath="/Share/rasPiMusic/torrent/동영상"
+RASPI_torrentSourcePath="/mnt/rasPiTorrent/torrent"
+RASPI_torrentTargetPath="$RASPI_torrentSourcePath/$movieFolderName"
+RASPI_torrentDropboxPath="$RASPI_torrentSourcePath/$dropboxFolderName"
+
+MCM_torrentSourcePath="/Share/rasPiTorrent/torrent"
+MCM_torrentTargetPath="$MCM_torrentSourcePath/$movieFolderName"
+MCM_torrentDropboxPath="$MCM_torrentSourcePath/$dropboxFolderName"
 
 MCM_imacSourcePath="$HOME/Downloads"
 MCM_imacTargetPath="$HOME/Downloads"
@@ -92,7 +91,7 @@ function trimEpisodeNumberGreaterThan1000() {
 			fi
 		done
 		echo $filenameNew
-    else
+	else
 		local val=$(expr ${filename[1]})
 		if (( val > 180101 )); then
 			local year=$(expr ${filename[1]} / 10000)
@@ -116,7 +115,7 @@ function trimEpisodeNumberGreaterThan1000() {
 		else
 			echo "$@"
 		fi
-    fi
+	fi
 	unset -v filename
 }
 
@@ -153,7 +152,7 @@ function getTargetName() {
 	targetName=$(echo -n "$targetName"|sed -e 's/\.1440[pP]//' -e 's/\.1080[pP]//' -e 's/\.720[pP]//' -e 's/\.360[pP]//')
 	targetName=$(echo -n "$targetName"|sed -e 's/\(^[0-9]*\)\.\([^\.]*\.\)/\2\1./' -e 's/\ E\([0-9]*\)\ /.E\1./' -e 's/.\([0-9]*\)\ \([0-9]*\)p/.\1.\2p/')
 	targetName=$(echo -n "$targetName"|sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's/[[:space:]]*\.E/\.E/')
-    targetName=$(trimEpisodeNumberGreaterThan1000 "$targetName")
+	targetName=$(trimEpisodeNumberGreaterThan1000 "$targetName")
     echo $targetName
 }
 
@@ -233,19 +232,6 @@ function rebuildMp4Catagory() {
 	echo
 }
 
-function rebuildRaspiMusic() {
-	echo "[Rebuild `hostname -s`]"
-	case "${1}" in
-	c*)
-		cleanup ${RASPI_musicSourcePath} ${RASPI_musicTargetPath}
-		rebuildMp4Catagory ${RASPI_musicSourcePath} ${RASPI_musicTargetPath}
-	;;
-	*)
-		rebuildMp4Catagory ${RASPI_musicSourcePath} ${RASPI_musicTargetPath}
-	;;
-	esac
-}
-
 function cleanupRaspiDropbox() {
 	echo "[Cleanup `hostname -s`: dropbox]"
 	cleanup "$RASPI_torrentDropboxPath" "$RASPI_torrentDropboxPath"
@@ -279,14 +265,10 @@ function rebuildMcmImac() {
 	echo "[Rebuild `hostname -s`]"
 	case "${1}" in
 	r1c*)
-		cleanup "$MCM_musicSourcePath" "$MCM_musicTargetPath"
-		rebuildMp4Catagory "$MCM_musicSourcePath" "$MCM_musicTargetPath"
-
 		cleanup "$MCM_torrentSourcePath" "$MCM_torrentTargetPath"
 		rebuildMp4Catagory "$MCM_torrentSourcePath" "$MCM_torrentTargetPath"
 	;;
 	r1)
-		rebuildMp4Catagory "$MCM_musicSourcePath" "$MCM_musicTargetPath"
 		rebuildMp4Catagory "$MCM_torrentSourcePath" "$MCM_torrentTargetPath"
 	;;
 
@@ -302,8 +284,6 @@ function rebuildMcmImac() {
 
 function rebuildTorrent() {
 	if [ "${HOSTNAME::4}" != "iMac" ]; then
-		#[ "$(basename $0 | cut -d_ -f 1)" == "local" ] && rebuildRaspiMusic $@ || rebuildRaspiTorrent $@
-		#rebuildRaspiMusic $@
 		rebuildRaspiTorrent $@
 		rebuildRaspiDropbox
 	else
