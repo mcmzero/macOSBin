@@ -7,172 +7,179 @@ defaultQuality=720
 defaultCount=100
 
 function downloadSync() {
-    [ "$(hostname)" == "rasPi" ] && ssh changmin@192.168.0.8 "/usr/local/torrent/download sync" && exit
-    
-    SRC_PATH="$HOME/Google Drive/ShellScript.localized/TorrentBin"
-    TRG_PATH="/usr/local/torrent"
-    
-    #ssh root@r1 "tar cvzf ~pi/torrent/etc.tgz -C /etc ."
-    #scp root@r1:~pi/torrent/etc.tgz $HOME/Archives.localized/raspberryPi/
-    
-    #backup rasPi1 /etc
-    rsync -aCzv --no-g --no-o -e ssh root@r1:/etc/samba/smb.conf $HOME/Archives.localized/raspberryPi/etc/samba/smb.conf
-    rsync -aCzv --no-g --no-o -e ssh root@r1:/etc/transmission-daemon/settings.json $HOME/Archives.localized/raspberryPi/etc/transmission-daemon/settings.json
-    
-    #backup pi@rasPi1:~/
-    #rsync -azv -e ssh --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" pi@r1:~/ $HOME/Archives.localized/raspberryPi/homePi
-    #rsync -azv -e ssh --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" pi@r1:~/bin $HOME/Archives.localized/raspberryPi/homePi
-    #rsync -azv -e ssh --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" pi@r1:~/src $HOME/Archives.localized/raspberryPi/homePi
-    #rsync -azv -e ssh --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" pi@r1:~/tor $HOME/Archives.localized/raspberryPi/homePi
-    
-    rsync -auzv --no-g --no-o -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/cron_torrent_"* root@r1:/etc/cron.d/
-    rsync -auzv --no-g --no-o -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" root@r1:/etc/cron.d/cron_torrent_* "$SRC_PATH"/
-    
-    rsync -aCzv --no-g --no-o -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/" pi@r1:$TRG_PATH
-    rsync -aCzv --no-g --no-o --delete -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/" pi@r1:tor
-    
-    rsync -aCzv --no-g --no-o --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/" $TRG_PATH
-    rsync -aCzv --no-g --no-o --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/" $HOME/bin/torrent
-    
-    rsync -aCzv --no-g --no-o -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" pi@r1:$TRG_PATH/magnet_list_* "$TRG_PATH/"
-    
-    #ssh root@r1 "chown -v root:root /etc/cron.d/cron_torrent_*"
-    source ~changmin/bin/backup_rsync.sh
+	[ "$(hostname)" == "rasPi" ] && ssh changmin@192.168.0.8 "/usr/local/torrent/download sync" && exit
+
+	SRC_PATH="$HOME/Google Drive/ShellScript.localized/TorrentBin"
+	TRG_PATH="/usr/local/torrent"
+
+	#ssh root@r1 "tar cvzf ~pi/torrent/etc.tgz -C /etc ."
+	#scp root@r1:~pi/torrent/etc.tgz $HOME/Archives.localized/raspberryPi/
+
+	#backup rasPi1 /etc
+	rsync -aCzv --no-g --no-o -e ssh root@r1:/etc/samba/smb.conf $HOME/Archives.localized/raspberryPi/etc/samba/smb.conf
+	rsync -aCzv --no-g --no-o -e ssh root@r1:/etc/transmission-daemon/settings.json $HOME/Archives.localized/raspberryPi/etc/transmission-daemon/settings.json
+
+	#backup pi@rasPi1:~/
+	#rsync -azv -e ssh --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" pi@r1:~/ $HOME/Archives.localized/raspberryPi/homePi
+	#rsync -azv -e ssh --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" pi@r1:~/bin $HOME/Archives.localized/raspberryPi/homePi
+	#rsync -azv -e ssh --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" pi@r1:~/src $HOME/Archives.localized/raspberryPi/homePi
+	#rsync -azv -e ssh --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" pi@r1:~/tor $HOME/Archives.localized/raspberryPi/homePi
+
+	rsync -auzv --no-g --no-o -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/cron_torrent_"* root@r1:/etc/cron.d/
+	rsync -auzv --no-g --no-o -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" root@r1:/etc/cron.d/cron_torrent_* "$SRC_PATH"/
+
+	rsync -aCzv --no-g --no-o -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/" pi@r1:$TRG_PATH
+	rsync -aCzv --no-g --no-o --delete -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/" pi@r1:tor
+
+	rsync -aCzv --no-g --no-o --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/" $TRG_PATH
+	rsync -aCzv --no-g --no-o --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$SRC_PATH/" $HOME/bin/torrent
+
+	rsync -aCzv --no-g --no-o -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" pi@r1:$TRG_PATH/magnet_list_* "$TRG_PATH/"
+
+	#ssh root@r1 "chown -v root:root /etc/cron.d/cron_torrent_*"
+	source ~changmin/bin/backup_rsync.sh
 }
 
 function linkFile() {
-    cd /usr/local/torrent
-    for file in download*; do
-        file=${file//local_//}
-        ln -sfv /usr/local/torrent/$file /usr/local/bin/$file
-    done
+	cd /usr/local/torrent
+	for file in download*; do
+		file=${file//local_//}
+		ln -sfv /usr/local/torrent/$file /usr/local/bin/$file
+	done
 }
 
 function downloadUtility() {
-    case $1 in
-        sync)
-            shift
-            downloadSync $@
-            exit
-        ;;
-        link)
-            linkFile
-            exit
-        ;;
-        clean)
-            find . \( -name ".DS_Store" -or -name ".AppleDouble" -or -name "._*" \) -exec rm -rfv {} \;
-            exit
-        ;;
-        synclink)
-            linkFile
-            ssh root@r1 /usr/local/torrent/download link
-            exit
-        ;;
-        localized)
-            for file in *; do
-                [ -d "$file" ] && rsync -av "~changmin/Documents/.localized ./$file/.localized"
-            done
-            exit
-        ;;
-    esac
+	case $1 in
+		sync)
+			shift
+			downloadSync $@
+			exit
+		;;
+		link)
+			linkFile
+			exit
+		;;
+		clean)
+			find . \( -name ".DS_Store" -or -name ".AppleDouble" -or -name "._*" \) -exec rm -rfv {} \;
+			exit
+		;;
+		synclink)
+			linkFile
+			ssh root@r1 /usr/local/torrent/download link
+			exit
+		;;
+		localized)
+			for file in *; do
+				[ -d "$file" ] && rsync -av "~changmin/Documents/.localized ./$file/.localized"
+			done
+			exit
+		;;
+	esac
 }
 
 function downloadMagnet() {
-    case $1 in
-        purge)
-            shift
-            purgeTorrent $@
-            exit
-        ;;
-        cleanup)
-            source /usr/local/torrent/download_rebuild_torrent.sh
-            shift
-            cleanupRaspiDropbox
-            rebuildRaspiDropbox
-            exit
-        ;;
-        rebuild)
-            source /usr/local/torrent/download_rebuild_torrent.sh
-            shift
-            rebuildTorrent $@
-            exit
-        ;;
-        magnet*)
-            addMagnet -a $@
-            purgeTorrent
-            exit
-        ;;
-    esac
+	case $1 in
+		purge)
+			shift
+			purgeTorrent $@
+			exit
+		;;
+		cleanup)
+			source /usr/local/torrent/download_rebuild_torrent.sh
+			shift
+			cleanupRaspiDropbox
+			rebuildRaspiDropbox
+			exit
+		;;
+		rebuild)
+			source /usr/local/torrent/download_rebuild_torrent.sh
+			shift
+			rebuildTorrent $@
+			exit
+		;;
+		magnet*)
+			addMagnet -a $@
+			purgeTorrent
+			exit
+		;;
+	esac
 }
 
 function downloadSite() {
-    local pageNumber=1
-    local site=$1
-    shift
-    case $1 in
-        login)
-            downloadLogin_$site
-        ;;
-        ent)
-            shift
-            [ $# -eq 1 ] && pageNumber=$1
-            download_$site ent $defaultCount $pageNumber $DEFAULT_QUALITY
-        ;;
-        drama)
-            shift
-            [ $# -eq 1 ] && pageNumber=$1
-            download_$site drama $defaultCount $pageNumber $DEFAULT_QUALITY
-        ;;
-        social)
-            shift
-            [ $# -eq 1 ] && pageNumber=$1
-            download_$site social $defaultCount $pageNumber $DEFAULT_QUALITY
-        ;;
-        ep)
-            shift
-            local epStart=$1
-            shift
-            local epEnd=$1
-            shift
-            local epQuality=$1
-            shift
-            local epName="$*"
-            for epNumber in $(seq $epStart $epEnd); do
-                downloadTorrent_$site 1 1 1 "${epQuality}" "${epName}.E${epNumber}."
-                downloadTorrent_$site 1 1 1 "${epQuality}" "${epName}.E0${epNumber}."
-            done
-        ;;
-        *)
-            downloadTorrent_$site "$@"
-        ;;
-    esac
+	local pageNumber=1
+	local site=$1
+	shift
+	case $1 in
+		login)
+			downloadLogin_$site
+		;;
+		ent)
+			shift
+			[ $# -eq 1 ] && pageNumber=$1
+			download_$site ent $defaultCount $pageNumber $DEFAULT_QUALITY
+		;;
+		drama)
+			shift
+			[ $# -eq 1 ] && pageNumber=$1
+			download_$site drama $defaultCount $pageNumber $DEFAULT_QUALITY
+		;;
+		social)
+			shift
+			[ $# -eq 1 ] && pageNumber=$1
+			download_$site social $defaultCount $pageNumber $DEFAULT_QUALITY
+		;;
+		ep)
+			shift
+			local epStart=$1
+			shift
+			local epEnd=$1
+			shift
+			local epQuality=$1
+			shift
+			local epName="$*"
+			for epNumber in $(seq $epStart $epEnd); do
+				downloadTorrent_$site 1 1 1 "${epQuality}" "${epName}.E${epNumber}."
+				downloadTorrent_$site 1 1 1 "${epQuality}" "${epName}.E0${epNumber}."
+			done
+		;;
+		*)
+			downloadTorrent_$site "$@"
+		;;
+	esac
 }
 
 function run() {
-    case $1 in
-        kim|cor|pon)
-            downloadSite $@
-            purgeTorrent
-        ;;
-        drama|ent|social|ep)
-            downloadSite cor $@
-            downloadSite pon $@
+	case $1 in
+		ls*|ma*|li*|ta*)
+		if [ "$(hostname -s)" == "rasPi" ]; then
+			tail /usr/local/torrent/magnet_list_* | tail
+		else
+			ssh pi@r1 "tail /usr/local/torrent/magnet_list_* | tail"
+		fi
+		;;
+		kim|cor|pon)
+			downloadSite $@
+			purgeTorrent
+		;;
+		drama|ent|social|ep)
+			downloadSite cor $@
+			downloadSite pon $@
 			downloadSite kim $@
-            purgeTorrent
-        ;;
-        *)
-            downloadMagnet $@
-            downloadUtility $@
-            if [ $# -eq 0 ]; then
-                downloadTorrentHelp
-                read -p "검색할 토렌트 이름을 입력하세요:" searchTorrent
-                [ "$searchTorrent" != "" ] && downloadTorrent "$searchTorrent"
-            else
-                downloadTorrent $@
-            fi
-            purgeTorrent
-        ;;
-    esac
+			purgeTorrent
+		;;
+		*)
+			downloadMagnet $@
+			downloadUtility $@
+			if [ $# -eq 0 ]; then
+				downloadTorrentHelp
+				read -p "검색할 토렌트 이름을 입력하세요:" searchTorrent
+				[ "$searchTorrent" != "" ] && downloadTorrent "$searchTorrent"
+			else
+				downloadTorrent $@
+			fi
+			purgeTorrent
+		;;
+	esac
 }
 
 run $@
