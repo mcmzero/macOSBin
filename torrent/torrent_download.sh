@@ -41,7 +41,8 @@ URL_KIM[$SOC]="${URL_SERVER[$KIM]}/bbs/s.php?b=torrent_docu"
 
 function torrentLogin_cor() {
 	echo login to cor
-	curl -s "https://www.tcorea.com/bbs/login_check.php" -c $cookieFile_cor -d 'mb_id=mcmtor' -d 'mb_password=123123'
+	curl -s "https://www.tcorea.com/bbs/login_check.php"\
+		-c $cookieFile_cor -d 'mb_id=mcmtor' -d 'mb_password=123123'
 	cat $cookieFile_cor
 }
 
@@ -67,46 +68,53 @@ function setServerConfig() {
 	fi
 }
 
-function magnetListTail() {
-	transmission-remote ${TOR_SERVER} --auth ${TOR_AUTH} --list | tail -n 1
+function transServer() {
+	local server=$1
+	shift
+	transmission-remote ${server} --auth ${TOR_AUTH} $@
+}
+
+function transDefault() {
+	transServer ${TOR_SERVER} $@
 }
 
 function magnetList() {
-	transmission-remote ${TOR_SERVER} --auth ${TOR_AUTH} --list
+	transDefault --list
 }
 
 function magnetRemove() {
-	transmission-remote ${TOR_SERVER} --auth ${TOR_AUTH} --torrent "$*" --remove
+	transDefault --torrent "$*" --remove
 }
 
 function torrentPurge() {
-	local purgeTorServer=$TOR_SERVER
-	[ "$1" != "" ] && purgeTorServer=$1
+	local server=$TOR_SERVER
+	[ "$1" != "" ] && server=$1
 
-	local temp_maglist=$(mktemp -q -t $(basename $0).XXX)
+	local tempMagnetList=$(mktemp -q -t $(basename $0).XXX)
 	if [ $? -ne 0 ]; then
 		echo "$0: Can't create temp file, exiting..."
 		return 1
 	fi
 
-	local torrentIdList=$(magnetList|tee ${temp_maglist}|grep "Stopped\|Seeding\|Finished\|Idle"|grep "100%"|sed -e's/^[[:space:]]*//' -e's/[[:space:]]*$//'|cut -d' ' -f1)
+	local torrentIdList=$(transServer $server -l|tee ${tempMagnetList}|\
+		grep "Stopped\|Seeding\|Finished\|Idle"|grep "100%"|\
+		sed -e's/^[[:space:]]*//' -e's/[[:space:]]*$//'|cut -d' ' -f1)
 	torrentIdList=$(echo ${torrentIdList}|sed -e 's/ /,/g')
 	if [ "$torrentIdList" != "" ]; then
-		echo "transmission-remote ${purgeTorServer} --auth ${TOR_AUTH} --torrent ${torrentIdList} --remove"
-		transmission-remote ${purgeTorServer} --auth ${TOR_AUTH} --torrent ${torrentIdList} --remove
+		transServer $server --torrent ${torrentIdList} --remove
 	fi
 
 	# 다운로드 항목이 없을때만 폴더 정리
-	if [ "$(tail -n 1 ${temp_maglist})" == "Sum: None 0.0 0.0" ]; then
+	if [ "$(tail -n 1 ${tempMagnetList})" == "Sum: None 0.0 0.0" ]; then
 		source $disposeFile
 		cleanupRaspiDropbox
 	fi
 
-	rm -f ${temp_maglist}
+	rm -f ${tempMagnetList}
 }
 
 function magnetAdd() {
-	transmission-remote ${TOR_SERVER} --auth moon:123123212121 $(echo "$@" | sed -e's/^[[:space:]]*//' -e's/[[:space:]]*$//')
+	transDefault $(echo "$@" | sed -e's/^[[:space:]]*//' -e's/[[:space:]]*$//')
 }
 
 function magnetListAdd() {
@@ -150,7 +158,10 @@ function printMagnet_cor() {
 	shift
 	local count="$1"
 	shift
-	curl -s "$*" -b "$cookieFile_cor"|grep -veE01.E.*END -veE..-.. -ve전편 -ve완결|grep magnet:|grep "$quality"|head -n "$count"|sed -e's/.*href=.//' -e's/\" id=.*//' -e's/.>.*//'
+	curl -s "$*" -b "$cookieFile_cor"|\
+		grep -veE01.E.*END -veE..-.. -ve전편 -ve완결|\
+		grep magnet:|grep "$quality"|head -n "$count"|\
+		sed -e's/.*href=.//' -e's/\" id=.*//' -e's/.>.*//'
 }
 
 function torrentSearch_cor() {
@@ -247,7 +258,8 @@ function printMagnet_pon() {
 	shift
 	local count="$1"
 	shift
-	curl -s "$*"|grep magnet|grep href|grep "$quality"|head -n "$count"|sed -e's/.*href=.//' -e's/..title=.*//'
+	curl -s "$*"|grep magnet|grep href|grep "$quality"|\
+		head -n "$count"|sed -e's/.*href=.//' -e's/..title=.*//'
 }
 
 function torrentSearch_pon() {
@@ -378,8 +390,10 @@ function torrentSearch_kim() {
 
 		IFS=$'\n'
 		curl -s "$urlString" -o "$htmlFile"
-		declare -a magnetArray=($(grep :Mag_dn ${htmlFile}|sed -e's/.*(./magnet:?xt=urn:btih:/' -e's/.).*//'))
-		declare -a nameArray=($(grep '	</a>' ${htmlFile}|grep -ve'제휴'|sed -e's/<.a>//' -e's/^[[:space:]]*//' -e's/[[:space:]]*$//'))
+		declare -a magnetArray=($(grep :Mag_dn ${htmlFile}|\
+									sed -e's/.*(./magnet:?xt=urn:btih:/' -e's/.).*//'))
+		declare -a nameArray=($(grep '	</a>' ${htmlFile}|grep -ve'제휴'|\
+									sed -e's/<.a>//' -e's/^[[:space:]]*//' -e's/[[:space:]]*$//'))
 		IFS=$' \t\n'
 
 		local matchCount=0
@@ -389,18 +403,15 @@ function torrentSearch_kim() {
 				matchCount=$(($matchCount + 1))
 				((matchCount > count)) && break
 				urlList="$urlList ${magnetArray[n]}"
-				echo ${magnetArray[n]//magnet:?xt=urn:btih:/} ${nameArray[n]} >> $outputFile
+				#echo ${magnetArray[n]//magnet:?xt=urn:btih:/} ${nameArray[n]} >> $outputFile
+				echo ${nameArray[n]} >> $outputFile
 			fi
 		done
 		unset -v magnetArray nameArray
 	done
 	magnetListAdd ${urlList}
 
-	if [ -f /usr/bin/tac ]; then
-		tac $outputFile
-	else
-		cat $outputFile
-	fi
+	cat $outputFile
 	rm $outputFile $htmlFile
 }
 
@@ -445,7 +456,9 @@ function torrentCategory_kim() {
 		IFS=$'\n'
 		curl -s "$urlString" -o "$htmlFile"
 		declare -a magnetArray=($(grep :Mag_dn ${htmlFile}|sed -e's/.*(./magnet:?xt=urn:btih:/' -e's/.).*//'))
-		declare -a nameArray=($(sed -e's/^[[:space:]]*//' ${htmlFile}|grep '</a>'|grep -ve'^<' -ve'href' -ve'제휴'|sed -e's/<.a>//' -e's/[[:space:]]*$//'))
+		declare -a nameArray=($(sed -e's/^[[:space:]]*//' ${htmlFile}|\
+								grep '</a>'|grep -ve'^<' -ve'href' -ve'제휴'|\
+								sed -e's/<.a>//' -e's/[[:space:]]*$//'))
 		IFS=$' \t\n'
 
 		local matchCount=0
@@ -455,17 +468,14 @@ function torrentCategory_kim() {
 				matchCount=$(($matchCount + 1))
 				((matchCount > count)) && break
 				urlList="$urlList ${magnetArray[n]}"
-				echo ${magnetArray[n]//magnet:?xt=urn:btih:/} ${nameArray[n]} >> $outputFile
+				#echo ${magnetArray[n]//magnet:?xt=urn:btih:/} ${nameArray[n]} >> $outputFile
+				echo ${nameArray[n]} >> $outputFile
 			fi
 		done
 		unset -v magnetArray nameArray
 	done
 	magnetListAdd ${urlList}
 
-	if [ -f /usr/bin/tac ]; then
-		tac $outputFile
-	else
-		cat $outputFile
-	fi
+	cat $outputFile
 	rm $outputFile $htmlFile
 }

@@ -65,28 +65,39 @@ function runSync() {
 	trgPath="/usr/local/torrent"
 
 	#backup rasPi1 /etc
-	rsync -aCz --no-g --no-o -e ssh root@r1:/etc/samba/smb.conf $HOME/Archives.localized/raspberryPi/etc/samba/smb.conf
-	rsync -aCz --no-g --no-o -e ssh root@r1:/etc/transmission-daemon/settings.json $HOME/Archives.localized/raspberryPi/etc/transmission-daemon/settings.json
-
-	#backup pi@rasPi1:~/
-	#rsync -az -e ssh --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" pi@r1:~/ $HOME/Archives.localized/raspberryPi/homePi
-	#rsync -az -e ssh --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" pi@r1:~/bin $HOME/Archives.localized/raspberryPi/homePi
-	#rsync -az -e ssh --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" pi@r1:~/src $HOME/Archives.localized/raspberryPi/homePi
-	#rsync -az -e ssh --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" pi@r1:~/tor $HOME/Archives.localized/raspberryPi/homePi
+	rsync -aCz --no-g --no-o -e ssh\
+		root@r1:/etc/samba/smb.conf $HOME/Archives.localized/raspberryPi/etc/samba/smb.conf
+	rsync -aCz --no-g --no-o -e ssh\
+		root@r1:/etc/transmission-daemon/settings.json\
+		$HOME/Archives.localized/raspberryPi/etc/transmission-daemon/settings.json
 
 	# /etc/cron.d/torrent_cron_ras
-	rsync -auz --no-g --no-o -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$srcPath/torrent_cron_"* "root@r1:/etc/cron.d/"
-	rsync -auz --no-g --no-o -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "root@r1:/etc/cron.d/torrent_cron_"* "$srcPath/"
+	rsync -auz --no-g --no-o -e ssh\
+		--exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt"\
+		"$srcPath/torrent_cron_"* "root@r1:/etc/cron.d/"
+	rsync -auz --no-g --no-o -e ssh\
+		--exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt"\
+		"root@r1:/etc/cron.d/torrent_cron_"* "$srcPath/"
 
 	# /usr/local/torrent
-	rsync -aCz --no-g --no-o -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$srcPath/" "pi@r1:$trgPath"
-	rsync -aCz --no-g --no-o --delete -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$srcPath/" "pi@r1:tor"
+	rsync -aCz --no-g --no-o -e ssh\
+		--exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt"\
+		"$srcPath/" "pi@r1:$trgPath"
+	rsync -aCz --no-g --no-o --delete -e ssh\
+		--exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt"\
+		"$srcPath/" "pi@r1:tor"
 
-	rsync -aCz --no-g --no-o --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$srcPath/" "$trgPath"
-	rsync -aCz --no-g --no-o --delete --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "$srcPath/" "$HOME/bin/torrent"
+	rsync -aCz --no-g --no-o --delete\
+		--exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt"\
+		"$srcPath/" "$trgPath"
+	rsync -aCz --no-g --no-o --delete\
+		--exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt"\
+		"$srcPath/" "$HOME/bin/torrent"
 
 	# /usr/local/torrent/magnet_list
-	rsync -aCz --no-g --no-o -e ssh --exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt" "pi@r1:$trgPath/magnet_list_"* "$trgPath/"
+	rsync -aCz --no-g --no-o -e ssh\
+		--exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt"\
+		"pi@r1:$trgPath/magnet_list_"* "$trgPath/"
 }
 
 function linkFile() {
@@ -194,12 +205,18 @@ function runCommand() {
 
 function run() {
 	case $1 in
-		ls*|ma*|ta*|lis*)
-		if [ "$(hostname -s)" == "rasPi" ]; then
-			tail ${magnetListFile}_* | tail
-		else
-			ssh pi@r1 "tail ${magnetListFile}_* | tail"
-		fi
+		trans*|-t)
+			transDefault $@
+		;;
+		list|-l)
+			transDefault -l
+		;;
+		ls*|ma*|ta*)
+			if [ "$(hostname -s)" == "rasPi" ]; then
+				tail ${magnetListFile}_* | tail
+			else
+				ssh pi@r1 "tail ${magnetListFile}_* | tail"
+			fi
 		;;
 		kim|cor|pon)
 			torrentSite $@
