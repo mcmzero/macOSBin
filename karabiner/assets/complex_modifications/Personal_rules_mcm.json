@@ -339,6 +339,13 @@
 					},
 					"to": [
 						{
+							"key_code": "right_arrow",
+							"modifiers": [
+								"left_control",
+								"left_option"
+							]
+						},
+						{
 							"key_code": "c",
 							"modifiers": [
 								"left_control",
@@ -419,7 +426,14 @@
 					},
 					"to": [
 						{
-							"key_code": "return_or_enter",
+							"key_code": "t",
+							"modifiers": [
+								"left_control",
+								"left_option"
+							]
+						},
+						{
+							"key_code": "c",
 							"modifiers": [
 								"left_control",
 								"left_option"
