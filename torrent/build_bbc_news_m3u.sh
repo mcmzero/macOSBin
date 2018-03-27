@@ -1,3 +1,6 @@
+#!/bin/bash
+# build_bbc_news_m3u.sh <changmin811@gmail.com>
+
 COOKIE_BBC=/usr/local/torrent/cookie_bbc
 
 if [ "$1" == "login" ]; then

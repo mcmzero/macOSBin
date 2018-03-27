@@ -21,6 +21,7 @@ MAILTO=""
 */2 * * * *         pi /usr/local/torrent/torrent.sh purge
 */2 * * * *         pi /usr/local/torrent/torrent.sh dispose
 00 */12 * * *       pi /usr/local/torrent/torrent.sh login
+00 16 * * *         pi /usr/local/torrent/torrent.sh rmold
 
 # 예능, 드라마
 00,30 16-23,0-9 * * 1-5 pi /usr/local/torrent/torrent.sh cor ent 1

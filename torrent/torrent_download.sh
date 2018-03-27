@@ -1,4 +1,5 @@
 #!/bin/bash
+# torrent_download.sh <changmin811@gmail.com>
 
 source /usr/local/torrent/torrent_server_address.sh
 [ "$TOR_SERVER_IP" == "" ] && TOR_SERVER_IP="localhost"
@@ -96,20 +97,23 @@ function torrentPurge() {
 		return 1
 	fi
 
-	local torrentIdList=$(transServer $server -l|tee ${tempMagnetList}|\
-		grep "Stopped\|Seeding\|Finished\|Idle"|grep "100%"|\
-		sed -e's/^[[:space:]]*//' -e's/[[:space:]]*$//'|cut -d' ' -f1)
+	local torrentIdList=$(transServer $server -l|\
+		grep -ve'ID.*Name' -ve'Sum:.*'|\
+		tee ${tempMagnetList}|\
+		grep "Stopped\|Seeding\|Finished\|Idle"|\
+		grep "100%"|\
+		sed -e's/^[[:space:]]*//' -e's/[[:space:]]*$//'|\
+		cut -d' ' -f1)
 	torrentIdList=$(echo ${torrentIdList}|sed -e 's/ /,/g')
 	if [ "$torrentIdList" != "" ]; then
 		transServer $server --torrent ${torrentIdList} --remove
 	fi
 
 	# 다운로드 항목이 없을때만 폴더 정리
-	if [ "$(tail -n 1 ${tempMagnetList})" == "Sum: None 0.0 0.0" ]; then
+	if [ "$(tail -n 1 ${tempMagnetList})" == "" ]; then
 		source $disposeFile
 		cleanupRaspiDropbox
 	fi
-
 	rm -f ${tempMagnetList}
 }
 
