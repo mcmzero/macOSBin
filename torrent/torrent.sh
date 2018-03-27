@@ -1,12 +1,15 @@
 #!/bin/bash
+# torrent.sh <changmin811@gmail.com>
 
 defaultQuality=720
 defaultCount=100
 
 magnetListFile="/usr/local/torrent/magnet_list"
+whiteListFile="/usr/local/torrent/torrent_whitelist.txt"
 torrentFile="/usr/local/torrent/torrent.sh"
 downloadFile="/usr/local/torrent/torrent_download.sh"
 disposeFile="/usr/local/torrent/torrent_dispose.sh"
+removeFile="/usr/local/torrent/torrent_remove.sh"
 backupFile="$HOME/bin/backup_rsync.sh"
 
 source $downloadFile
@@ -54,7 +57,6 @@ function runHelp() {
 	echo "$programName kim ep 1 12 360 맛있는 녀석들"
 	echo "$programName pong ep 1 12 1080 맛있는 녀석들"
 	echo
-	exit
 }
 
 function runSync() {
@@ -63,6 +65,14 @@ function runSync() {
 	local optVerbose="-v"
 	srcPath="$HOME/Google Drive/ShellScript.localized/TorrentBin"
 	trgPath="/usr/local/torrent"
+
+	# convert text format from UTF8-MAC to UTF8
+	local srcWhiteListFile="$srcPath/$(basename $whiteListFile)"
+	if [ -f "$srcWhiteListFile" ]; then
+		local tempFile="$(mktemp -q -t $(basename $0).XXX)"
+		iconv -f UTF8-MAC -t UTF8 "$srcWhiteListFile" > "$tempFile"
+		mv -f "$tempFile" "$srcWhiteListFile"
+	fi
 
 	#backup rasPi1 /etc
 	rsync -aCz --no-g --no-o -e ssh\
@@ -144,72 +154,74 @@ function runCommand() {
 		runSync)
 			shift
 			runSync $@
-			exit
 		;;
 		sync)
 			shift
 			if [ "$(hostname -s)" == "rasPi" ]; then
 				ssh changmin@192.168.0.8 $torrentFile runSync
-				exit
+			else
+				runSync $@
+				source $backupFile
 			fi
-			runSync $@
-			source $backupFile
-			exit
 		;;
 		backup)
 			source $backupFile
-			exit
 		;;
 		link)
 			linkFile
-			exit
 		;;
 		clean)
 			find . \( -name ".DS_Store" -or -name ".AppleDouble" -or -name "._*" \) -exec rm -rfv {} \;
-			exit
 		;;
 		synclink)
 			linkFile
 			ssh root@r1 $torrentFile link
-			exit
 		;;
 		localized)
 			for file in *; do
-				[ -d "$file" ] && rsync -az "~changmin/Documents/.localized ./$file/.localized"
+				[ -d "$file" ] && rsync -az ~changmin/Documents/.localized ./"$file"/
 			done
-			exit
 		;;
 		purge|clear|pur*)
 			shift
 			torrentPurge $@
-			exit
 		;;
 		cleanup|cle*)
 			source $disposeFile
 			cleanupRaspiDropbox
-			exit
 		;;
 		dispose|rebuild|install|dis*)
 			shift
 			source $disposeFile
 			disposeTorrent $@
-			exit
+			return 0
 		;;
 		magnet*|mag*)
 			addMagnet -a $@
 			torrentPurge
-			exit
+		;;
+		*)
+			return 1;
 		;;
 	esac
 }
 
 function run() {
 	case $1 in
+		rmold|old*)
+			shift
+			source $removeFile
+			source $disposeFile
+			[ "$#" -le 1 ] && removeFileOlderThanDate "$whiteListFile" "$RASPI_torrentTargetPath" $@
+			[ "$#" -eq 2 ] && removeFileOlderThanDate "$RASPI_torrentTargetPath" $@
+			[ "$#" -ge 3 ] && removeFileOlderThanDate $@
+		;;
 		trans*|-t)
+			shift
 			transDefault $@
 		;;
 		list|-l)
-			transDefault -l
+			transDefault -l|grep -ve'ID.*Name' -ve'Sum:.*'
 		;;
 		ls*|ma*|ta*)
 			if [ "$(hostname -s)" == "rasPi" ]; then
@@ -239,10 +251,15 @@ function run() {
 		*)
 			if [ $# -eq 0 ]; then
 				runHelp
+				return $?
 			fi
-			runCommand $@
-			torrentSearch $@
-			torrentPurge
+			if runCommand $@; then
+				return $?
+			fi
+			if torrentSearch $@; then
+				torrentPurge
+				return $?
+			fi
 		;;
 	esac
 }
