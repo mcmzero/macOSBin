@@ -10,6 +10,7 @@ torrentFile="/usr/local/torrent/torrent.sh"
 downloadFile="/usr/local/torrent/torrent_download.sh"
 disposeFile="/usr/local/torrent/torrent_dispose.sh"
 removeFile="/usr/local/torrent/torrent_remove.sh"
+excludeFile="/usr/local/torrent/rsync_exclude_pattern.txt"
 backupFile="$HOME/bin/backup_rsync.sh"
 
 source $downloadFile
@@ -63,50 +64,61 @@ function runSync() {
 	echo rsync rasPi
 
 	local optVerbose="-v"
-	srcPath="$HOME/Google Drive/ShellScript.localized/TorrentBin"
-	trgPath="/usr/local/torrent"
-
-	# convert text format from UTF8-MAC to UTF8
-	local srcWhiteListFile="$srcPath/$(basename $whiteListFile)"
-	if [ -f "$srcWhiteListFile" ]; then
-		local tempFile="$(mktemp -q -t $(basename $0).XXX)"
-		iconv -f UTF8-MAC -t UTF8 "$srcWhiteListFile" > "$tempFile"
-		mv -f "$tempFile" "$srcWhiteListFile"
-	fi
+	local srcPath="$HOME/Google Drive/ShellScript.localized/TorrentBin"
+	local trgPath="/usr/local/torrent"
 
 	#backup rasPi1 /etc
 	rsync -aCz --no-g --no-o -e ssh\
-		root@r1:/etc/samba/smb.conf $HOME/Archives.localized/raspberryPi/etc/samba/smb.conf
+		root@r1:/etc/samba/smb.conf\
+		$HOME/Archives.localized/raspberryPi/etc/samba/smb.conf
 	rsync -aCz --no-g --no-o -e ssh\
 		root@r1:/etc/transmission-daemon/settings.json\
 		$HOME/Archives.localized/raspberryPi/etc/transmission-daemon/settings.json
 
 	# /etc/cron.d/torrent_cron_ras
 	rsync -auz --no-g --no-o -e ssh\
-		--exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt"\
+		--exclude-from=${excludeFile}\
 		"$srcPath/torrent_cron_"* "root@r1:/etc/cron.d/"
 	rsync -auz --no-g --no-o -e ssh\
-		--exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt"\
+		--exclude-from=${excludeFile}\
 		"root@r1:/etc/cron.d/torrent_cron_"* "$srcPath/"
 
-	# /usr/local/torrent
+	# Torrentbin to /usr/local/torrent
 	rsync -aCz --no-g --no-o -e ssh\
-		--exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt"\
+		--exclude-from=${excludeFile}\
 		"$srcPath/" "pi@r1:$trgPath"
 	rsync -aCz --no-g --no-o --delete -e ssh\
-		--exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt"\
+		--exclude-from=${excludeFile}\
 		"$srcPath/" "pi@r1:tor"
-
 	rsync -aCz --no-g --no-o --delete\
-		--exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt"\
+		--exclude-from=${excludeFile}\
 		"$srcPath/" "$trgPath"
 	rsync -aCz --no-g --no-o --delete\
-		--exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt"\
+		--exclude-from=${excludeFile}\
 		"$srcPath/" "$HOME/bin/torrent"
+	# convert text format from UTF8-MAC to UTF8
+	local srcWhiteListFile="$srcPath/$(basename $whiteListFile)"
+	if [ -f "$srcWhiteListFile" ]; then
+		local tempFile="$(mktemp -q -t $(basename $0).XXX)"
+		iconv -f UTF8-MAC -t UTF8 "$srcWhiteListFile" > "$tempFile"
+		mv -f "$tempFile" "$srcWhiteListFile"
+		rsync -aCz --no-g --no-o -e ssh\
+		--exclude-from=${excludeFile}\
+		"$srcPath/" "pi@r1:$trgPath"
+		rsync -aCz --no-g --no-o --delete -e ssh\
+		--exclude-from=${excludeFile}\
+		"$srcPath/" "pi@r1:tor"
+		rsync -aCz --no-g --no-o --delete\
+		--exclude-from=${excludeFile}\
+		"$srcPath/" "$trgPath"
+		rsync -aCz --no-g --no-o --delete\
+		--exclude-from=${excludeFile}\
+		"$srcPath/" "$HOME/bin/torrent"
+	fi
 
 	# /usr/local/torrent/magnet_list
 	rsync -aCz --no-g --no-o -e ssh\
-		--exclude-from="/usr/local/torrent/rsync_exclude_pattern.txt"\
+		--exclude-from=${excludeFile}\
 		"pi@r1:$trgPath/magnet_list_"* "$trgPath/"
 }
 

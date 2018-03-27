@@ -25,10 +25,12 @@ function removeFileOlderThanDate() {
 			continue;
 		fi
 
-		if grep "$folder" "$whiteList" &> /dev/null; then
+		if grep "${folder// in */}" "$whiteList" &> /dev/null; then
+			echo '#'[$folder]
 			continue
 		fi
 
+		echo +[$folder]
 		for file in $(ls $folder); do
 			fileDate=$(echo $file | cut -d. -f3)
 			if ((fileDate > 170100)) && ((fileDate < cutDate)); then
