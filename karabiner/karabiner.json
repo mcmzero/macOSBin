@@ -1189,6 +1189,22 @@
                         },
                         {
                             "from": {
+                                "key_code": "left_control"
+                            },
+                            "to": {
+                                "key_code": "left_arrow"
+                            }
+                        },
+                        {
+                            "from": {
+                                "key_code": "left_shift"
+                            },
+                            "to": {
+                                "key_code": "right_arrow"
+                            }
+                        },
+                        {
+                            "from": {
                                 "key_code": "o"
                             },
                             "to": {
