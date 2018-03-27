@@ -224,9 +224,17 @@ function run() {
 			shift
 			source $removeFile
 			source $disposeFile
-			[ "$#" -le 1 ] && removeFileOlderThanDate "$whiteListFile" "$RASPI_torrentTargetPath" $@
-			[ "$#" -eq 2 ] && removeFileOlderThanDate "$RASPI_torrentTargetPath" $@
-			[ "$#" -ge 3 ] && removeFileOlderThanDate $@
+			[ "$#" -le 1 ] && removeFileOlderThanDate rm "$whiteListFile" "$RASPI_torrentTargetPath" $@
+			[ "$#" -eq 2 ] && removeFileOlderThanDate rm "$RASPI_torrentTargetPath" $@
+			[ "$#" -ge 3 ] && removeFileOlderThanDate rm $@
+		;;
+		testold|test*)
+			shift
+			source $removeFile
+			source $disposeFile
+			[ "$#" -le 1 ] && removeFileOlderThanDate echo "$whiteListFile" "$RASPI_torrentTargetPath" $@
+			[ "$#" -eq 2 ] && removeFileOlderThanDate echo "$RASPI_torrentTargetPath" $@
+			[ "$#" -ge 3 ] && removeFileOlderThanDate echo $@
 		;;
 		trans*|-t)
 			shift

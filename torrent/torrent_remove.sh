@@ -2,9 +2,10 @@
 # torrent_remove.sh <changmin811@gmail.com>
 
 function removeFileOlderThanDate() {
-	local whiteList=$1
-	local srcFolder=$2
-	local cutDate=$3
+	local cmd=$1
+	local whiteList=$2
+	local srcFolder=$3
+	local cutDate=$4
 
 	if [ "$cutDate" == "" ]; then
 		# 삭제 기준일이 없으면 3개월 이전 파일을 삭제한다
@@ -35,7 +36,7 @@ function removeFileOlderThanDate() {
 			fileDate=$(echo $file | cut -d. -f3)
 			if ((fileDate > 170100)) && ((fileDate < cutDate)); then
 				echo "[$fileDate] rm $srcFolder/$folder/$file"
-				rm -vf "$srcFolder/$folder/$file"
+				${cmd} -vf "$srcFolder/$folder/$file"
 			fi
 		done
 	done
