@@ -1,0 +1,19 @@
+#!/bin/bash
+
+case $1 in
+	halt|shutdown|off)
+		osascript -e 'tell app "System Events" to shut down'
+	;;
+	restart|reboot)
+		osascript -e 'tell app "System Events" to restart'
+	;;
+	logout|out)
+		osascript -e 'tell app "System Events" to log out'
+	;;
+	sleep)
+		osascript -e 'tell app "System Events" to sleep'
+	;;
+	*)
+		echo "$(basename $0) [halt|reboot|logout|sleep]"
+	;;
+esac
