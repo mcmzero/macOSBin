@@ -5,9 +5,13 @@ source /usr/local/torrent/torrent_server_address.sh
 [ "$TOR_SERVER_IP" == "" ] && TOR_SERVER_IP="localhost"
 [ "$TOR_SERVER_PORT" == "" ] && TOR_SERVER_PORT=9191
 
+function decode() {
+	echo "$*" | base64 --decode -i -
+}
+
 TOR_SERVER=$TOR_SERVER_IP:$TOR_SERVER_PORT
 TOR_SERVER_IMAC=192.168.0.3
-TOR_AUTH=moon:123123212121
+TOR_AUTH=$(decode "bW9vbjoxMjMxMjMyMTIxMjEK")
 
 defaultTorrentQuality=720
 defaultTorrentCount=100
@@ -16,34 +20,31 @@ disposeFile="/usr/local/torrent/torrent_dispose.sh"
 magnetListFile="/usr/local/torrent/magnet_list"
 cookieFile_cor="/usr/local/torrent/cookie_tcorea"
 
-ENT=0
-DRA=1
-SOC=2
-
-COR=0
-KIM=1
-PON=2
-
-URL_SERVER[$COR]="https://www.tcorea.com"
-URL_SERVER[$KIM]="https://torrentkim.pro"
-URL_SERVER[$PON]="https://torrentpong.com"
-
-URL_COR[$ENT]="${URL_SERVER[$COR]}/bbs/board.php?bo_table=torrent_kortv_ent"
-URL_COR[$DRA]="${URL_SERVER[$COR]}/bbs/board.php?bo_table=torrent_kortv_drama"
-URL_COR[$SOC]="${URL_SERVER[$COR]}/bbs/board.php?bo_table=torrent_kortv_social"
-
-URL_PON[$ENT]="${URL_SERVER[$PON]}/bbs/board.php?bo_table=ent"
-URL_PON[$DRA]="${URL_SERVER[$PON]}/bbs/board.php?bo_table=kordrama"
-URL_PON[$SOC]="${URL_SERVER[$PON]}/bbs/board.php?bo_table=dacu"
-
-URL_KIM[$ENT]="${URL_SERVER[$KIM]}/bbs/s.php?b=torrent_variety"
-URL_KIM[$DRA]="${URL_SERVER[$KIM]}/bbs/s.php?b=torrent_tv"
-URL_KIM[$SOC]="${URL_SERVER[$KIM]}/bbs/s.php?b=torrent_docu"
+declare -a urlServer=(\
+	"https://www.tcorea.com"\
+	"https://torrentpong.com"\
+	"https://torrentkim.pro"\
+)
+declare -a urlCor=(\
+	"${urlServer[0]}/bbs/board.php?bo_table=torrent_kortv_ent"\
+	"${urlServer[0]}/bbs/board.php?bo_table=torrent_kortv_drama"\
+	"${urlServer[0]}/bbs/board.php?bo_table=torrent_kortv_social"\
+)
+declare -a urlPon=(\
+	"${urlServer[1]}/bbs/board.php?bo_table=ent"\
+	"${urlServer[1]}/bbs/board.php?bo_table=kordrama"\
+	"${urlServer[1]}/bbs/board.php?bo_table=dacu"\
+)
+declare -a urlKim=(\
+	"${urlServer[2]}/bbs/s.php?b=torrent_variety"\
+	"${urlServer[2]}/bbs/s.php?b=torrent_tv"\
+	"${urlServer[2]}/bbs/s.php?b=torrent_docu"\
+)
 
 function torrentLogin_cor() {
 	echo login to cor
 	curl -s "https://www.tcorea.com/bbs/login_check.php"\
-		-c $cookieFile_cor -d 'mb_id=mcmtor' -d 'mb_password=123123'
+		-c $cookieFile_cor -d 'mb_id=$(decode "bWNtdG9yCg==")' -d 'mb_password=$(decode "MTIzMTIzCg==")'
 	cat $cookieFile_cor
 }
 
@@ -112,7 +113,7 @@ function torrentPurge() {
 	# 다운로드 항목이 없을때만 폴더 정리
 	if [ "$(tail -n 1 ${tempMagnetList})" == "" ]; then
 		source $disposeFile
-		cleanupRaspiDropbox
+		cleanupRasPi
 	fi
 	rm -f ${tempMagnetList}
 }
@@ -199,8 +200,8 @@ function torrentSearch_cor() {
 
 	local urlList=""
 	for pageNum in $(seq $pageNumStart $pageNumEnd); do
-		for n in ${!URL_COR[@]}; do
-			urlString="${URL_COR[n]}&page=${pageNum}&stx=${search}"
+		for n in ${!urlCor[@]}; do
+			urlString="${urlCor[n]}&page=${pageNum}&stx=${search}"
 			echo search: $urlString
 			urlRet=$(printMagnet_cor $quality $count $urlString)
 			if [ "$urlRet" != "" ]; then
@@ -222,9 +223,9 @@ function torrentCategory_cor() {
 	local search="${defaultTorrentQuality}p-NEXT"
 	local urlType=""
 	case $1 in
-		ent)    urlType=${URL_COR[$ENT]} ;;
-		drama)  urlType=${URL_COR[$DRA]} ;;
-		social) urlType=${URL_COR[$SOC]} ;;
+		ent)    urlType=${urlCor[0]} ;;
+		drama)  urlType=${urlCor[1]} ;;
+		social) urlType=${urlCor[2]} ;;
 		*)		return 1;;
 	esac
 
@@ -297,8 +298,8 @@ function torrentSearch_pon() {
 
 	local urlList=""
 	for pageNum in $(seq $pageNumStart $pageNumEnd); do
-		for n in ${!URL_PON[@]}; do
-			urlString="${URL_PON[n]}&page=${pageNum}&stx=${search}"
+		for n in ${!urlPon[@]}; do
+			urlString="${urlPon[n]}&page=${pageNum}&stx=${search}"
 			echo search: $urlString
 			urlRet=$(printMagnet_pon $quality $count $urlString)
 			if [ "$urlRet" != "" ]; then
@@ -320,9 +321,9 @@ function torrentCategory_pon() {
 	local search="${defaultTorrentQuality}p-NEXT"
 	local urlType=""
 	case $1 in
-		ent)	urlType=${URL_PON[$ENT]} ;;
-		drama)	urlType=${URL_PON[$DRA]} ;;
-		social)	urlType=${URL_PON[$SOC]} ;;
+		ent)	urlType=${urlPon[0]} ;;
+		drama)	urlType=${urlPon[1]} ;;
+		social)	urlType=${urlPon[2]} ;;
 		*)		return 1;;
 	esac
 
@@ -389,7 +390,7 @@ function torrentSearch_kim() {
 
 	local urlList=""
 	for pageNum in $(seq $pageNumStart $pageNumEnd); do
-		urlString="${URL_SERVER[$KIM]}/bbs/s.php?page=${pageNum}&k=${search}"
+		urlString="${urlServer[2]}/bbs/s.php?page=${pageNum}&k=${search}"
 		echo search kim: $urlString
 
 		IFS=$'\n'
@@ -428,9 +429,9 @@ function torrentCategory_kim() {
 	local search="${defaultTorrentQuality}p-NEXT"
 	local urlType=""
 	case $1 in
-		ent)	urlType=${URL_KIM[$ENT]} ;;
-		drama)	urlType=${URL_KIM[$DRA]} ;;
-		social)	urlType=${URL_KIM[$SOC]} ;;
+		ent)	urlType=${urlKim[0]} ;;
+		drama)	urlType=${urlKim[1]} ;;
+		social)	urlType=${urlKim[2]} ;;
 		*)		return 1;;
 	esac
 
