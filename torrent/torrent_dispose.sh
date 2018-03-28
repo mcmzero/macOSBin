@@ -1,21 +1,51 @@
 #!/bin/bash
 # torrent_dispose.sh <changmin811@gmail.com>
 
-movieFolderName="동영상"
 dropboxFolderName="떨굼상자"
+entFolderName="TV/예능"
+musicFolderName="TV/음악"
+dramaFolderName="TV/드라마"
+dailyDramaFolderName="TV/일일 드라마"
+floretFolderName="TV/플로레트"
+foreignFolderName="TV/해외 TV"
+movieFolderName="TV/동영상"
 
-RASPI_torrentSourcePath="/mnt/rasPiTorrent/torrent"
-RASPI_torrentTargetPath="$RASPI_torrentSourcePath/$movieFolderName"
-RASPI_torrentDropboxPath="$RASPI_torrentSourcePath/$dropboxFolderName"
+declare -a folderNameArray=( \
+	"$entFolderName" \
+	"$musicFolderName" \
+	"$dramaFolderName" \
+	"$dailyDramaFolderName" \
+	"$floretFolderName" \
+	"$foreignFolderName" \
+	"$movieFolderName" \
+)
 
-MCM_torrentSourcePath="/Share/rasPiTorrent/torrent"
-MCM_torrentTargetPath="$MCM_torrentSourcePath/$movieFolderName"
-MCM_torrentDropboxPath="$MCM_torrentSourcePath/$dropboxFolderName"
+rasPiTorrentPath="/mnt/rasPiTorrent/torrent"
+rasPiDropboxPath="$rasPiTorrentPath/$dropboxFolderName"
+declare -a rasPiPathArray
+for n in ${!folderNameArray[@]}; do
+	rasPiPathArray[n]="$rasPiTorrentPath/${folderNameArray[n]}"
+done
 
-MCM_imacSourcePath="$HOME/Downloads"
-MCM_imacTargetPath="$HOME/Downloads"
+mcmTorrentPath="/Share/rasPiTorrent/torrent"
+mcmDropboxPath="$mcmTorrentPath/$dropboxFolderName"
+declare -a mcmPathArray
+for n in ${!folderNameArray[@]}; do
+	mcmPathArray[n]="$mcmTorrentPath/${folderNameArray[n]}"
+done
+
+mcmiMacSourcePath="$HOME/Downloads"
+mcmiMacTargetPath="$HOME/Downloads"
 
 [ "${HOSTNAME::4}" == "iMac" ] && SAY_MODE=ON
+
+function Say() {
+	if [ -f "/usr/bin/say" ]; then
+		[ "${SAY_MODE}" == "ON" ] && say "재생성"
+	else
+		[ "${SAY_MODE}" == "ON" ] && echo "재생성"
+	fi
+}
 
 function rmdirSub() {
 	if [ -d "$1" ]; then
@@ -228,7 +258,79 @@ function getTargetPathName() {
 	echo $targetPath
 }
 
-function disposeMp4Catagory() {
+function disposeFolderRasPi() {
+	local srcPath=$1
+	local arrayMax=${#rasPiPathArray[@]}
+
+	if [ ! -d "$srcPath" ] || [ ! -d "${rasPiPathArray[arrayMax-1]}" ]; then
+		return 1
+	fi
+
+	cd ${srcPath}
+	if [ -z "$(ls)" ];then
+		return 1
+	fi
+	echo "[Dispose ${srcPath}]"
+
+	IFS=$'\n'
+	for file in $(ls *.{mp4,mkv,avi,smi,sup} 2> /dev/null); do
+		[ ! -f "$srcPath/$file" ] && continue
+		local targetFile=$(getTargetName "$file")
+		local targetPathName=$(getTargetPathName "$targetFile")
+		for n in ${!rasPiPathArray[@]}; do
+			local targetDir="${rasPiPathArray[n]}/$targetPathName"
+			if (( n == arrayMax - 1 )); then
+				if [ ! -d "$targetDir" ]; then
+					echo "+[${targetDir}]"
+					mkdir -p "$targetDir"
+				fi
+			fi
+			if [ -d "$targetDir" ]; then
+				mv -fv "${srcPath}/$file" "${targetDir}/$targetFile"
+				break
+			fi
+		done
+	done
+	IFS=$' \t\n'
+}
+
+function disposeFolderMcm() {
+	local srcPath=$1
+	local arrayMax=${#mcmPathArray[@]}
+
+	if [ ! -d "$srcPath" ] || [ ! -d "${mcmPathArray[arrayMax-1]}" ]; then
+		return 1
+	fi
+
+	cd ${srcPath}
+	if [ -z "$(ls)" ];then
+		return 1
+	fi
+	echo "[Dispose ${srcPath}]"
+
+	IFS=$'\n'
+	for file in $(ls *.{mp4,mkv,avi,smi,sup} 2> /dev/null); do
+		[ ! -f "$srcPath/$file" ] && continue
+		local targetFile=$(getTargetName "$file")
+		local targetPathName=$(getTargetPathName "$targetFile")
+		for n in ${!mcmPathArray[@]}; do
+			local targetDir="${mcmPathArray[n]}/$targetPathName"
+			if (( n == arrayMax - 1 )); then
+				if [ ! -d "$targetDir" ]; then
+					echo "+[${targetDir}]"
+					mkdir -p "$targetDir"
+				fi
+			fi
+			if [ -d "$targetDir" ]; then
+				mv -fv "${srcPath}/$file" "${targetDir}/$targetFile"
+				break
+			fi
+		done
+	done
+	IFS=$' \t\n'
+}
+
+function disposeDefaultFolder() {
 	local srcPath=$1
 	local tarPath=$1
 	if [ "${2}" != "" ]; then
@@ -244,7 +346,6 @@ function disposeMp4Catagory() {
 		return 1
 	fi
 	echo "[Dispose ${srcPath}]"
-	[ "${SAY_MODE}" == "ON" ] && say "재생성"
 
 	IFS=$'\n'
 	for file in $(ls *.{mp4,mkv,avi,smi,sup} 2> /dev/null); do
@@ -259,68 +360,47 @@ function disposeMp4Catagory() {
 	IFS=$' \t\n'
 }
 
-function cleanupRaspiDropbox() {
-	#echo "[Cleanup `hostname -s`: dropbox]"
-	if cleanup "$RASPI_torrentDropboxPath" "$RASPI_torrentDropboxPath"; then
-		disposeMp4Catagory "$RASPI_torrentDropboxPath" "$RASPI_torrentTargetPath"
+function cleanupRasPi() {
+	if cleanup "$rasPiDropboxPath" "$rasPiDropboxPath"; then
+		disposeFolderRasPi "$rasPiDropboxPath"
 	fi
 }
 
-function disposeRaspiDropbox() {
-	echo "[Dispose `hostname -s`: dropbox]"
-	disposeMp4Catagory "$RASPI_torrentDropboxPath" "$RASPI_torrentTargetPath"
+function disposeRasPi() {
+	disposeFolderRasPi "$rasPiDropboxPath"
 }
 
-function disposeRaspiTorrent() {
-	echo "[Dispose `hostname -s`: torrent]"
-	case "$1" in
+function disposeMcm() {
+	case ${1} in
 	c*)
-		if cleanup "$RASPI_torrentSourcePath" "$RASPI_torrentTargetPath"; then
-			disposeMp4Catagory "$RASPI_torrentSourcePath" "$RASPI_torrentTargetPath"
+		if cleanup "$mcmDropboxPath" "$mcmDropboxPath"; then
+			disposeFolderMcm "$mcmDropboxPath"
 		fi
 	;;
 	*)
-		disposeMp4Catagory "$RASPI_torrentSourcePath" "$RASPI_torrentTargetPath"
+		cleanup "$mcmDropboxPath" "$mcmDropboxPath"
+		disposeFolderMcm "$mcmDropboxPath"
 	;;
 	esac
 }
 
-function disposeMcmDropBox() {
-	echo "[Dispose `hostname -s`: dropbox]"
-	if cleanup "$MCM_torrentDropboxPath" "$MCM_torrentDropboxPath"; then
-		disposeMp4Catagory "$MCM_torrentDropboxPath" "$MCM_torrentTargetPath"
-	fi
-}
-
-function disposeMcmImac() {
-	echo "[Dispose `hostname -s`]"
-	case "${1}" in
-	r1c*)
-		if cleanup "$MCM_torrentSourcePath" "$MCM_torrentTargetPath"; then
-			disposeMp4Catagory "$MCM_torrentSourcePath" "$MCM_torrentTargetPath"
-		fi
-	;;
-	r1)
-		disposeMp4Catagory "$MCM_torrentSourcePath" "$MCM_torrentTargetPath"
-	;;
-
+function disposeiMac() {
+	case ${1} in
 	c*)
-		if cleanup "$MCM_imacSourcePath" "$MCM_imacTargetPath"; then
-			disposeMp4Catagory "$MCM_imacSourcePath" "$MCM_imacTargetPath"
+		if cleanup "$mcmiMacSourcePath" "$mcmiMacTargetPath"; then
+			disposeDefaultFolder "$mcmiMacSourcePath" "$mcmiMacTargetPath"
 		fi
 	;;
 	*)
-		disposeMp4Catagory "$MCM_imacSourcePath" "$MCM_imacTargetPath"
+		disposeDefaultFolder "$mcmiMacSourcePath" "$mcmiMacTargetPath"
 	;;
 	esac
 }
 
 function disposeTorrent() {
 	if [ "${HOSTNAME::4}" != "iMac" ]; then
-		disposeRaspiTorrent $@
-		disposeRaspiDropbox
+		disposeRasPi $@
 	else
-		disposeMcmImac $@
-		disposeMcmDropBox
+		disposeMcm $@
 	fi
 }

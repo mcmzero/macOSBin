@@ -6,21 +6,27 @@ function removeFileOlderThanDate() {
 	local whiteList=$2
 	local srcFolder=$3
 	local cutDate=$4
+	local oneMonth=2629743
 
 	if [ "$cutDate" == "" ]; then
 		# 삭제 기준일이 없으면 3개월 이전 파일을 삭제한다
 		local current=$(date +%s)
-		local before3month=$(($current - 3 * 2629743))
+		local beforeThreeMonths=$(($current - $oneMonth * 3))
 		if [ "$(uname)" == "Darwin" ]; then
-			cutDaet=$(date -r$before3month +%y%m%d)
+			cutDaet=$(date -r$beforeThreeMonths +%y%m%d)
 		else
-			cutDate=$(date -d@$before3month +%y%m%d)
+			cutDate=$(date -d@$beforeThreeMonths +%y%m%d)
 		fi
 		echo cut date: $cutDate
 	fi
 
+	if ! cd "$srcFolder"; then
+		echo cd failed to $srcFolder
+		return 1;
+	fi
+	pwd
+
 	IFS=$'\n'
-	cd "$srcFolder"
 	for folder in $(ls $srcFolder); do
 		if [ ! -d "$folder" ]; then
 			continue;
@@ -31,10 +37,49 @@ function removeFileOlderThanDate() {
 			continue
 		fi
 
-		echo +[$folder]
+		echo '#'[$folder]
 		for file in $(ls $folder); do
 			fileDate=$(echo $file | cut -d. -f3)
-			if ((fileDate > 170100)) && ((fileDate < cutDate)); then
+			if ((fileDate > 110100)) && ((fileDate < cutDate)); then
+				echo "[$fileDate] rm $srcFolder/$folder/$file"
+				${cmd} -vf "$srcFolder/$folder/$file"
+			fi
+		done
+	done
+	IFS=$' \t\n'
+}
+
+function removeBlackListFileOlderThanDate() {
+	local cmd=$1
+	local blackList=$2
+	local srcFolder=$3
+	local cutDate=$4
+	local oneWeek=604800
+
+	if [ "$cutDate" == "" ]; then
+		# 삭제 기준일이 없으면 3개월 이전 파일을 삭제한다
+		local current=$(date +%s)
+		local beforeTwoWeeks=$(($current - $oneWeek * 2))
+		if [ "$(uname)" == "Darwin" ]; then
+			cutDaet=$(date -r$beforeTwoWeeks +%y%m%d)
+		else
+			cutDate=$(date -d@$beforeTwoWeeks +%y%m%d)
+		fi
+		echo cut date: $cutDate
+	fi
+
+	if ! cd "$srcFolder"; then
+		echo cd failed to $srcFolder
+		return 1;
+	fi
+	pwd
+
+	IFS=$'\n'
+	for folder in $(cat $blackList); do
+		echo '#'[$folder]
+		for file in $(ls $folder 2> /dev/null); do
+			fileDate=$(echo $file | cut -d. -f3)
+			if ((fileDate > 110100)) && ((fileDate < cutDate)); then
 				echo "[$fileDate] rm $srcFolder/$folder/$file"
 				${cmd} -vf "$srcFolder/$folder/$file"
 			fi

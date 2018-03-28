@@ -6,6 +6,7 @@ defaultCount=100
 
 magnetListFile="/usr/local/torrent/magnet_list"
 whiteListFile="/usr/local/torrent/torrent_whitelist.txt"
+blackListFile="/usr/local/torrent/torrent_blacklist.txt"
 torrentFile="/usr/local/torrent/torrent.sh"
 downloadFile="/usr/local/torrent/torrent_download.sh"
 disposeFile="/usr/local/torrent/torrent_dispose.sh"
@@ -98,22 +99,27 @@ function runSync() {
 		"$srcPath/" "$HOME/bin/torrent"
 	# convert text format from UTF8-MAC to UTF8
 	local srcWhiteListFile="$srcPath/$(basename $whiteListFile)"
+	local srcBlackListFile="$srcPath/$(basename $blackListFile)"
 	if [ -f "$srcWhiteListFile" ]; then
-		local tempFile="$(mktemp -q -t $(basename $0).XXX)"
-		iconv -f UTF8-MAC -t UTF8 "$srcWhiteListFile" > "$tempFile"
-		mv -f "$tempFile" "$srcWhiteListFile"
+		local tempWhiteFile="$(mktemp -q -t $(basename $0).white.XXX)"
+		local tempBlackFile="$(mktemp -q -t $(basename $0).black.XXX)"
+		iconv -f UTF8-MAC -t UTF8 "$srcWhiteListFile" > "$tempWhiteFile"
+		iconv -f UTF8-MAC -t UTF8 "$srcBlackListFile" > "$tempBlackFile"
+		mv -f "$tempWhiteFile" "$srcWhiteListFile"
+		mv -f "$tempBlackFile" "$srcBlackListFile"
+		#rsync listfile
 		rsync -aCz --no-g --no-o -e ssh\
-		--exclude-from=${excludeFile}\
-		"$srcPath/" "pi@r1:$trgPath"
+			--exclude-from=${excludeFile}\
+			"$srcPath/" "pi@r1:$trgPath"
 		rsync -aCz --no-g --no-o --delete -e ssh\
-		--exclude-from=${excludeFile}\
-		"$srcPath/" "pi@r1:tor"
+			--exclude-from=${excludeFile}\
+			"$srcPath/" "pi@r1:tor"
 		rsync -aCz --no-g --no-o --delete\
-		--exclude-from=${excludeFile}\
-		"$srcPath/" "$trgPath"
+			--exclude-from=${excludeFile}\
+			"$srcPath/" "$trgPath"
 		rsync -aCz --no-g --no-o --delete\
-		--exclude-from=${excludeFile}\
-		"$srcPath/" "$HOME/bin/torrent"
+			--exclude-from=${excludeFile}\
+			"$srcPath/" "$HOME/bin/torrent"
 	fi
 
 	# /usr/local/torrent/magnet_list
@@ -194,21 +200,21 @@ function runCommand() {
 				[ -d "$file" ] && rsync -az ~changmin/Documents/.localized ./"$file"/
 			done
 		;;
-		purge|clear|pur*)
+		purge)
 			shift
 			torrentPurge $@
 		;;
-		cleanup|cle*)
+		cleanup)
 			source $disposeFile
-			cleanupRaspiDropbox
+			cleanupRasPi
 		;;
-		dispose|rebuild|install|dis*)
+		dispose)
 			shift
 			source $disposeFile
 			disposeTorrent $@
 			return 0
 		;;
-		magnet*|mag*)
+		magnet)
 			addMagnet -a $@
 			torrentPurge
 		;;
@@ -220,21 +226,34 @@ function runCommand() {
 
 function run() {
 	case $1 in
-		rmold|old*)
-			shift
-			source $removeFile
-			source $disposeFile
-			[ "$#" -le 1 ] && removeFileOlderThanDate rm "$whiteListFile" "$RASPI_torrentTargetPath" $@
-			[ "$#" -eq 2 ] && removeFileOlderThanDate rm "$RASPI_torrentTargetPath" $@
-			[ "$#" -ge 3 ] && removeFileOlderThanDate rm $@
+		db)
+			cd '/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-in Support/Databases'
+			sqlite3 com.plexapp.plugins.library.db "PRAGMA integrity_check"
 		;;
-		testold|test*)
+		remove)
 			shift
 			source $removeFile
 			source $disposeFile
-			[ "$#" -le 1 ] && removeFileOlderThanDate echo "$whiteListFile" "$RASPI_torrentTargetPath" $@
-			[ "$#" -eq 2 ] && removeFileOlderThanDate echo "$RASPI_torrentTargetPath" $@
-			[ "$#" -ge 3 ] && removeFileOlderThanDate echo $@
+			for n in ${!rasPiPathArray[@]}; do
+				removeFileOlderThanDate rm "$whiteListFile" "${rasPiPathArray[n]}" $@
+				removeBlackListFileOlderThanDate rm "$blackListFile" "${rasPiPathArray[n]}" $@
+			done
+		;;
+		white|wlist)
+			shift
+			source $removeFile
+			source $disposeFile
+			for n in ${!rasPiPathArray[@]}; do
+				removeFileOlderThanDate echo "$whiteListFile" "${rasPiPathArray[n]}" $@
+			done
+		;;
+		black|blist)
+			shift
+			source $removeFile
+			source $disposeFile
+			for n in ${!rasPiPathArray[@]}; do
+				removeBlackListFileOlderThanDate echo "$blackListFile" "${rasPiPathArray[n]}" $@
+			done
 		;;
 		trans*|-t)
 			shift
