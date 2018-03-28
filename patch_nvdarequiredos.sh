@@ -19,7 +19,7 @@ function get_path_nvdastartupweb_info() {
 }
 
 function print_NVDARequiredOS() {
-        /usr/libexec/PlistBuddy -c "print IOKitPersonalities:NVDAStartup:NVDARequiredOS" $NVDASTARTUPWEB_INFO
+        /usr/libexec/PlistBuddy -c "print :IOKitPersonalities:NVDAStartup:NVDARequiredOS" $NVDASTARTUPWEB_INFO
 }
 
 function set_NVDARequiredOS() {
