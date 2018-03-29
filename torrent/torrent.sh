@@ -1,4 +1,5 @@
 #!/bin/bash
+#
 # torrent.sh <changmin811@gmail.com>
 
 defaultQuality=720
@@ -230,13 +231,12 @@ function run() {
 			cd '/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-in Support/Databases'
 			sqlite3 com.plexapp.plugins.library.db "PRAGMA integrity_check"
 		;;
-		remove)
+		rmwlist)
 			shift
 			source $removeFile
 			source $disposeFile
 			for n in ${!rasPiPathArray[@]}; do
 				removeFileOlderThanDate rm "$whiteListFile" "${rasPiPathArray[n]}" $@
-				removeBlackListFileOlderThanDate rm "$blackListFile" "${rasPiPathArray[n]}" $@
 			done
 		;;
 		white|wlist)
@@ -245,6 +245,14 @@ function run() {
 			source $disposeFile
 			for n in ${!rasPiPathArray[@]}; do
 				removeFileOlderThanDate echo "$whiteListFile" "${rasPiPathArray[n]}" $@
+			done
+		;;
+		rmblist)
+			shift
+			source $removeFile
+			source $disposeFile
+			for n in ${!rasPiPathArray[@]}; do
+				removeBlackListFileOlderThanDate rm "$blackListFile" "${rasPiPathArray[n]}" $@
 			done
 		;;
 		black|blist)
