@@ -70,27 +70,27 @@ function runSync() {
 
 	#backup rasPi1 /etc
 	rsync -aCz --no-g --no-o -e ssh\
-		root@r1:/etc/samba/smb.conf\
+		root@rpi:/etc/samba/smb.conf\
 		$HOME/Archives.localized/raspberryPi/etc/samba/smb.conf
 	rsync -aCz --no-g --no-o -e ssh\
-		root@r1:/etc/transmission-daemon/settings.json\
+		root@rpi:/etc/transmission-daemon/settings.json\
 		$HOME/Archives.localized/raspberryPi/etc/transmission-daemon/settings.json
 
 	# /etc/cron.d/torrent_cron_ras
 	rsync -auz --no-g --no-o -e ssh\
 		--exclude-from=${excludeFile}\
-		"$srcPath/torrent_cron_"* "root@r1:/etc/cron.d/"
+		"$srcPath/torrent_cron_"* "root@rpi:/etc/cron.d/"
 	rsync -auz --no-g --no-o -e ssh\
 		--exclude-from=${excludeFile}\
-		"root@r1:/etc/cron.d/torrent_cron_"* "$srcPath/"
+		"root@rpi:/etc/cron.d/torrent_cron_"* "$srcPath/"
 
 	# Torrentbin to /usr/local/torrent
 	rsync -aCz --no-g --no-o -e ssh\
 		--exclude-from=${excludeFile}\
-		"$srcPath/" "pi@r1:$trgPath"
+		"$srcPath/" "pi@rpi:$trgPath"
 	rsync -aCz --no-g --no-o --delete -e ssh\
 		--exclude-from=${excludeFile}\
-		"$srcPath/" "pi@r1:tor"
+		"$srcPath/" "pi@rpi:tor"
 	rsync -aCz --no-g --no-o --delete\
 		--exclude-from=${excludeFile}\
 		"$srcPath/" "$trgPath"
@@ -110,10 +110,10 @@ function runSync() {
 		#rsync listfile
 		rsync -aCz --no-g --no-o -e ssh\
 			--exclude-from=${excludeFile}\
-			"$srcPath/" "pi@r1:$trgPath"
+			"$srcPath/" "pi@rpi:$trgPath"
 		rsync -aCz --no-g --no-o --delete -e ssh\
 			--exclude-from=${excludeFile}\
-			"$srcPath/" "pi@r1:tor"
+			"$srcPath/" "pi@rpi:tor"
 		rsync -aCz --no-g --no-o --delete\
 			--exclude-from=${excludeFile}\
 			"$srcPath/" "$trgPath"
@@ -125,7 +125,7 @@ function runSync() {
 	# /usr/local/torrent/magnet_list
 	rsync -aCz --no-g --no-o -e ssh\
 		--exclude-from=${excludeFile}\
-		"pi@r1:$trgPath/magnet_list_"* "$trgPath/"
+		"pi@rpi:$trgPath/magnet_list_"* "$trgPath/"
 }
 
 function linkFile() {
@@ -214,8 +214,8 @@ function runCommand() {
 			disposeTorrent $@
 			return 0
 		;;
-		magnet)
-			addMagnet -a $@
+		magnet*)
+			magnetAdd -a $@
 			torrentPurge
 		;;
 		*)
@@ -262,7 +262,7 @@ function run() {
 		list|-l)
 			transDefault -l|grep -ve'ID.*Name' -ve'Sum:.*'
 		;;
-		ls*|ma*|ta*)
+		ls*|ta*)
 			if [ "$(hostname -s)" == "rasPi" ]; then
 				tail ${magnetListFile}_* | tail
 			else
