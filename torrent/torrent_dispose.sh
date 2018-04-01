@@ -182,6 +182,11 @@ function getTargetName() {
 	-e's/추석특집 *//'\
 	-e's/설특집 *//'\
 	\
+	-e's/미워도 *사랑해/미워도 사랑해/'\
+	-e's/전생에 *웬수들/전생에 웬수들/'\
+	-e's/인형의 *집/인형의 집/'\
+	-e's/해피 *시스터즈/해피 시스터즈/'\
+	\
 	-e's/코미디 *빅 *리그/코미디 빅 리그/'\
 	-e's/해피투게더$/해피투게더 시즌3/'\
 	-e's/.*1박 *2일/1박 2일 시즌3/'\
@@ -197,6 +202,7 @@ function getTargetName() {
 	-e's/.*가요1번지/뮤직토크쇼 가요1번지/'\
 	-e's/겟 *잇 *뷰티/겟 잇 뷰티/'\
 	-e's/겟 *잇 *뷰티 *\([[:digit:]]*\)/겟 잇 뷰티 S\1/'\
+	\
 	-e's/왕좌의 게임/Game of Thrones/'\
 	-e's/Game.of.Thrones/Game of Thrones/'\
 	-e's/The.Big.Bang.Theory/The Big Bang Theory/'\
@@ -233,6 +239,7 @@ function getTargetPathName() {
 	-e's/.*드라마 *스테이지.*/드라마 스테이지/'\
 	-e's/.*TV *정보 *쇼.*/TV 정보쇼/'\
 	-e's/.*한편으로 *정주행.*/몰아보기/'\
+	\
 	-e's/.*의문의 *일승.*/의문의 일승/'\
 	-e's/.*한편으로 *정주행.*/몰아보기/'\
 	-e's/.*몰아보기.*/몰아보기/'\
@@ -265,6 +272,7 @@ function getTargetPathName() {
 	-e's/.*comeback.*/콘서트/'\
 	-e's/.*MAMA *Red *Carpet.*/시상식/'\
 	-e's/.*Mnet *Asian *Music *Awards.*/시상식/'\
+	\
 	-e's/효리네 *민박 *\([0-9]*\)/효리네 민박 시즌\1/'\
 	-e's/윤식당 *\([0-9]*\)/윤식당 시즌\1/'\
 	\
