@@ -236,7 +236,7 @@ function run() {
 			source $removeFile
 			source $disposeFile
 			for n in ${!rasPiPathArray[@]}; do
-				removeFileOlderThanDate rm "$whiteListFile" "${rasPiPathArray[n]}" $@
+				removeFileOlderThanDateWhiteList rm "$whiteListFile" "${rasPiPathArray[n]}" $@
 			done
 		;;
 		white|wlist)
@@ -244,7 +244,7 @@ function run() {
 			source $removeFile
 			source $disposeFile
 			for n in ${!rasPiPathArray[@]}; do
-				removeFileOlderThanDate echo "$whiteListFile" "${rasPiPathArray[n]}" $@
+				removeFileOlderThanDateWhiteList echo "$whiteListFile" "${rasPiPathArray[n]}" $@
 			done
 		;;
 		rmblist)
@@ -252,16 +252,18 @@ function run() {
 			source $removeFile
 			source $disposeFile
 			for n in ${!rasPiPathArray[@]}; do
-				removeBlackListFileOlderThanDate rm "$blackListFile" "${rasPiPathArray[n]}" $@
+				removeFileOlderThanDateBlackList rm "$blackListFile" "${rasPiPathArray[n]}" $@
 			done
+			removeFileOlderThanDate rm "${rasPiPathArray[0]}" $@
 		;;
 		black|blist)
 			shift
 			source $removeFile
 			source $disposeFile
 			for n in ${!rasPiPathArray[@]}; do
-				removeBlackListFileOlderThanDate echo "$blackListFile" "${rasPiPathArray[n]}" $@
+				removeFileOlderThanDateBlackList echo "$blackListFile" "${rasPiPathArray[n]}" $@
 			done
+			removeFileOlderThanDate echo "${rasPiPathArray[0]}" $@
 		;;
 		trans*|-t)
 			shift

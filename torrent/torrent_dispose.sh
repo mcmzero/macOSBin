@@ -3,19 +3,19 @@
 # torrent_dispose.sh <changmin811@gmail.com>
 
 dropboxFolderName="떨굼상자"
+dailyDramaFolderName="TV/일일 드라마"
 entFolderName="TV/예능"
 musicFolderName="TV/음악"
 dramaFolderName="TV/드라마"
-dailyDramaFolderName="TV/일일 드라마"
 floretFolderName="TV/플로레트"
 foreignFolderName="TV/해외 TV"
 movieFolderName="TV/동영상"
 
 declare -a folderNameArray=( \
+	"$dailyDramaFolderName" \
 	"$entFolderName" \
 	"$musicFolderName" \
 	"$dramaFolderName" \
-	"$dailyDramaFolderName" \
 	"$floretFolderName" \
 	"$foreignFolderName" \
 	"$movieFolderName" \

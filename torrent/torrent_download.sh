@@ -44,8 +44,10 @@ declare -a urlKim=(\
 
 function torrentLogin_cor() {
 	echo login to cor
+	local cor_id=$(decode "bWNtdG9yCg==")
+	local cor_password=$(decode "MTIzMTIzCg==")
 	curl -s "https://www.tcorea.com/bbs/login_check.php"\
-		-c $cookieFile_cor -d 'mb_id=$(decode "bWNtdG9yCg==")' -d 'mb_password=$(decode "MTIzMTIzCg==")'
+		-c $cookieFile_cor -d "mb_id=$cor_id" -d "mb_password=$cor_password"
 	cat $cookieFile_cor
 }
 
