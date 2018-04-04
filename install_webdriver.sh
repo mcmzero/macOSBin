@@ -9,11 +9,9 @@ function initPkgList() {
     osVersion=$(sw_vers -buildVersion)
     osMajorNumber=$(echo $osVersion|cut -c 1-2)
     
-    local pkgMacOsBeta=( \
-        "387.10.10.10.25.160 17E170c 17E160g 17D2102" \
-        "387.10.10.10.25.161 17E197a 17E190a 17E182a 17E161c 17E160e 17D102" \
-        "378.10.10.10.25.106 17C2205" \
-		"387.10.10.10.30.103 17E199" \
+    local pkgMacOsBeta=(\
+        "378.10.10.10.25.106 17C2205"\
+		"387.10.10.10.30.103 17F35e 17E199"\
     )
     
     echo "Downloading webdriver list from https://gfe.nvidia.com/mac-update"
@@ -28,7 +26,7 @@ function initPkgList() {
         pkgMacOs[idx]="${gfeVersion[idx]} ${gfeOs[idx]}"
     done
     
-	pkgMacOs=("${pkgMacOs[@]}" "${pkgMacOsBeta[@]}")
+	#pkgMacOs=("${pkgMacOs[@]}" "${pkgMacOsBeta[@]}")
 	pkgMacOsMax=${#pkgMacOs[@]}
 	pkgMacOsDefault=0
     
