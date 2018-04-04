@@ -5,20 +5,24 @@
 dropboxFolderName="떨굼상자"
 dailyDramaFolderName="TV/일일 드라마"
 entFolderName="TV/예능"
+entInfoFolderName="TV/연예정보"
 musicFolderName="TV/음악"
 dramaFolderName="TV/드라마"
+docuFolderName="TV/다큐멘터리"
 floretFolderName="TV/플로레트"
 foreignFolderName="TV/해외 TV"
 movieFolderName="TV/동영상"
 
-declare -a folderNameArray=( \
-	"$dailyDramaFolderName" \
-	"$entFolderName" \
-	"$musicFolderName" \
-	"$dramaFolderName" \
-	"$floretFolderName" \
-	"$foreignFolderName" \
-	"$movieFolderName" \
+declare -a folderNameArray=(\
+	"$dailyDramaFolderName"\
+	"$entFolderName"\
+	"$entInfoFolderName"\
+	"$musicFolderName"\
+	"$dramaFolderName"\
+	"$docuFolderName"\
+	"$floretFolderName"\
+	"$foreignFolderName"\
+	"$movieFolderName"\
 )
 
 rasPiTorrentPath="/mnt/rasPiTorrent/torrent"
@@ -208,8 +212,11 @@ function getTargetName() {
 	-e's/The.Big.Bang.Theory/The Big Bang Theory/'\
 	-e's/WANNA *ONE *GO *- *ZERO *BASE/WANNA ONE GO-ZERO BASE/'\
 	\
-	-e's/ *[0-9]+부\./\./'\
-	-e's/ *[0-9]+-[0-9]+화 합본//'\
+	-e's/ *[0-9]*-[0-9]*.* 합본//'\
+	-e's/ *[0-9]*-[0-9]*회 합본//'\
+	-e's/ *[0-9]*-[0-9]*화 합본//'\
+	\
+	-e's/ *[0-9]*부\./\./'\
 	-e's/\(^[0-9]*\)\.\([^\.]*\.\)/\2\1./'\
 	-e's/\ *E\([0-9]*\)\ /.E\1./'\
 	-e's/.\([0-9]*\)\ \([0-9]*\)p/.\1.\2p/'\
@@ -233,7 +240,7 @@ function getTargetPathName() {
 	-e's/ *-/-/g' -e's/- */-/g'\
 	\
 	-e's/ *스페셜$//'\
-	-e's/제 *[0-0]+회 //'\
+	-e's/제 *[0-0]*회 //'\
 	\
 	-e's/.*드라마 *스페셜.*/KBS 드라마 스페셜/'\
 	-e's/.*드라마 *스테이지.*/드라마 스테이지/'\
@@ -275,6 +282,10 @@ function getTargetPathName() {
 	\
 	-e's/효리네 *민박 *\([0-9]*\)/효리네 민박 시즌\1/'\
 	-e's/윤식당 *\([0-9]*\)/윤식당 시즌\1/'\
+	\
+	-e's/ *[0-9]*-[0-9]*.* 합본//'\
+	-e's/ *[0-9]*-[0-9]*회 합본//'\
+	-e's/ *[0-9]*-[0-9]*화 합본//'\
 	\
 	-e's/^[[:space:]]*//'\
 	-e's/[[:space:]]*$//'\

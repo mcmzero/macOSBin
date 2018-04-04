@@ -46,6 +46,9 @@ MAILTO=""
 10 11-15 * * 1-5    pi /usr/bin/tt cor 4 1 1 720 인간극장
 30 11-15 * * 1-5    pi /usr/bin/tt kim 4 1 1 720 인간극장
 50 11-15 * * 1-5    pi /usr/bin/tt pon 4 1 1 720 인간극장
+10 11-15 * * 1-5    pi /usr/bin/tt cor 4 1 1 720 걸어서 세계속으로
+30 11-15 * * 1-5    pi /usr/bin/tt kim 4 1 1 720 걸어서 세계속으로
+50 11-15 * * 1-5    pi /usr/bin/tt pon 4 1 1 720 걸어서 세계속으로
 
 # 수요일(3)
 # download kim count start_page end_page quality search
