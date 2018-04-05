@@ -31,6 +31,7 @@ declare -a rasPiPathArray
 for n in ${!folderNameArray[@]}; do
 	rasPiPathArray[n]="$rasPiTorrentPath/${folderNameArray[n]}"
 done
+rasPiPathArrayEndIndex=$((${#rasPiPathArray[@]}-1))
 
 mcmTorrentPath="/Share/rasPiTorrent/torrent"
 mcmDropboxPath="$mcmTorrentPath/$dropboxFolderName"

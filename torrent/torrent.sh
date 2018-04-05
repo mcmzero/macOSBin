@@ -231,12 +231,19 @@ function run() {
 			cd '/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-in Support/Databases'
 			sqlite3 com.plexapp.plugins.library.db "PRAGMA integrity_check"
 		;;
+		rmdefault)
+			shift
+			source $removeFile
+			source $disposeFile
+			removeFileOlderThanWeeks rm "${rasPiPathArray[0]}" 4
+			removeFileOlderThanWeeks rm "${rasPiPathArray[rasPiPathArrayEndIndex]}" 12
+		;;
 		rmwlist)
 			shift
 			source $removeFile
 			source $disposeFile
 			for n in ${!rasPiPathArray[@]}; do
-				removeFileOlderThanDateWhiteList rm "$whiteListFile" "${rasPiPathArray[n]}" $@
+				removeFileOlderThanWeeksExceptWhiteList rm "$whiteListFile" "${rasPiPathArray[n]}" $@
 			done
 		;;
 		white|wlist)
@@ -244,7 +251,7 @@ function run() {
 			source $removeFile
 			source $disposeFile
 			for n in ${!rasPiPathArray[@]}; do
-				removeFileOlderThanDateWhiteList echo "$whiteListFile" "${rasPiPathArray[n]}" $@
+				removeFileOlderThanWeeksExceptWhiteList echo "$whiteListFile" "${rasPiPathArray[n]}" $@
 			done
 		;;
 		rmblist)
@@ -252,18 +259,16 @@ function run() {
 			source $removeFile
 			source $disposeFile
 			for n in ${!rasPiPathArray[@]}; do
-				removeFileOlderThanDateBlackList rm "$blackListFile" "${rasPiPathArray[n]}" $@
+				removeFileOlderThanWeeksAtBlackList rm "$blackListFile" "${rasPiPathArray[n]}" $@
 			done
-			removeFileOlderThanDate rm "${rasPiPathArray[0]}" $@
 		;;
 		black|blist)
 			shift
 			source $removeFile
 			source $disposeFile
 			for n in ${!rasPiPathArray[@]}; do
-				removeFileOlderThanDateBlackList echo "$blackListFile" "${rasPiPathArray[n]}" $@
+				removeFileOlderThanWeeksAtBlackList echo "$blackListFile" "${rasPiPathArray[n]}" $@
 			done
-			removeFileOlderThanDate echo "${rasPiPathArray[0]}" $@
 		;;
 		trans*|-t)
 			shift

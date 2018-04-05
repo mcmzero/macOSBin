@@ -18,11 +18,10 @@ MAILTO=""
 07 */2 * * *        pi /usr/local//usr/bin/tt/build_bbc_news_m3u.sh
 
 # Look for and purge old sessions every 5 minutes
-*/10 * * * *        pi /usr/bin/tt purge
-*/5 * * * *         pi /usr/bin/tt dispose
+*/5 * * * *         pi /usr/bin/tt purge
+*/3 * * * *         pi /usr/bin/tt dispose
 00 */12 * * *       pi /usr/bin/tt login
-00 16 * * *         pi /usr/bin/tt rmblist
-#00 16 * * *         pi /usr/bin/tt rmwlist
+00 16 * * *         pi /usr/bin/tt rmdefault
 
 # 예능, 드라마
 00,30 16-23,0-9 * * 1-5 pi /usr/bin/tt cor ent 1
@@ -49,6 +48,9 @@ MAILTO=""
 10 11-15 * * 1-5    pi /usr/bin/tt cor 4 1 1 720 걸어서 세계속으로
 30 11-15 * * 1-5    pi /usr/bin/tt kim 4 1 1 720 걸어서 세계속으로
 50 11-15 * * 1-5    pi /usr/bin/tt pon 4 1 1 720 걸어서 세계속으로
+10 11-15 * * 1-5    pi /usr/bin/tt cor 4 1 1 720 휴먼 다큐 사람이 좋다 
+30 11-15 * * 1-5    pi /usr/bin/tt kim 4 1 1 720 휴먼 다큐 사람이 좋다 
+50 11-15 * * 1-5    pi /usr/bin/tt pon 4 1 1 720 휴먼 다큐 사람이 좋다 
 
 # 수요일(3)
 # download kim count start_page end_page quality search

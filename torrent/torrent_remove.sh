@@ -1,24 +1,25 @@
 #!/bin/bash
+#
 # torrent_remove.sh <changmin811@gmail.com>
 
-function removeFileOlderThanDateWhiteList() {
+function removeFileOlderThanWeeksExceptWhiteList() {
 	local cmd=$1
 	local whiteList=$2
 	local srcFolder=$3
-	local cutDate=$4
-	local oneMonth=2629743
+	local baseWeeks=$4
 
-	if [ -z "$cutDate" ]; then
-		# 삭제 기준일이 없으면 3개월 이전 파일을 삭제한다
-		local current=$(date +%s)
-		local beforeThreeMonths=$(($current - $oneMonth * 3))
-		if [ "$(uname)" == "Darwin" ]; then
-			cutDaet=$(date -r$beforeThreeMonths +%y%m%d)
-		else
-			cutDate=$(date -d@$beforeThreeMonths +%y%m%d)
-		fi
-		echo cut date: $cutDate
+	[ -z "$cmd" ] && cmd="echo"
+	[ -z "$baseWeeks" ] && baseWeeks=12
+
+	local oneWeekSeconds=604800
+	local currentDateSeconds=$(date +%s)
+	local beforeWeeksSeconds=$(($currentDateSeconds - $oneWeekSeconds * $baseWeeks))
+	if [ "$(uname)" == "Darwin" ]; then
+		local baseDate=$(date -r$beforeWeeksSeconds +%y%m%d)
+	else
+		local baseDate=$(date -d@$beforeWeeksSeconds +%y%m%d)
 	fi
+	echo base date: $baseDate
 
 	if ! cd "$srcFolder"; then
 		echo cd failed to $srcFolder
@@ -28,19 +29,12 @@ function removeFileOlderThanDateWhiteList() {
 
 	IFS=$'\n'
 	for folder in $(ls $srcFolder); do
-		if [ ! -d "$folder" ]; then
-			continue;
-		fi
-
-		if grep "${folder// in */}" "$whiteList" &> /dev/null; then
-			echo '#'[$folder]
-			continue
-		fi
-
 		echo '#'[$folder]
+		[ ! -d "$folder" ] && continue
+		grep "${folder// in */}" "$whiteList" &> /dev/null && continue
 		for file in $(ls $folder); do
 			fileDate=$(echo $file | cut -d. -f3)
-			if ((fileDate > 110100)) && ((fileDate < cutDate)); then
+			if ((fileDate > 110100)) && ((fileDate < baseDate)); then
 				echo "[$fileDate] rm $srcFolder/$folder/$file"
 				${cmd} -vf "$srcFolder/$folder/$file"
 			fi
@@ -49,24 +43,24 @@ function removeFileOlderThanDateWhiteList() {
 	IFS=$' \t\n'
 }
 
-function removeFileOlderThanDateBlackList() {
+function removeFileOlderThanWeeksAtBlackList() {
 	local cmd=$1
 	local blackList=$2
 	local srcFolder=$3
-	local cutDate=$4
-	local oneWeek=604800
+	local baseWeeks=$4
 
-	if [ -z "$cutDate" ]; then
-		# 삭제 기준일이 없으면 2주전 파일을 삭제한다
-		local current=$(date +%s)
-		local beforeTwoWeeks=$(($current - $oneWeek * 2))
-		if [ "$(uname)" == "Darwin" ]; then
-			cutDaet=$(date -r$beforeTwoWeeks +%y%m%d)
-		else
-			cutDate=$(date -d@$beforeTwoWeeks +%y%m%d)
-		fi
-		echo cut date: $cutDate
+	[ -z "$cmd" ] && cmd="echo"
+	[ -z "$baseWeeks" ] && baseWeeks=2
+
+	local oneWeekSeconds=604800
+	local currentDateSeconds=$(date +%s)
+	local beforeWeeksSeconds=$(($currentDateSeconds - $oneWeekSeconds * $baseWeeks))
+	if [ "$(uname)" == "Darwin" ]; then
+		local baseDate=$(date -r$beforeWeeksSeconds +%y%m%d)
+	else
+		local baseDate=$(date -d@$beforeWeeksSeconds +%y%m%d)
 	fi
+	echo base date: $baseDate
 
 	if ! cd "$srcFolder"; then
 		echo cd failed to $srcFolder
@@ -77,9 +71,10 @@ function removeFileOlderThanDateBlackList() {
 	IFS=$'\n'
 	for folder in $(cat $blackList); do
 		echo '#'[$folder]
+		[ ! -d "$folder" ] && continue
 		for file in $(ls $folder 2> /dev/null); do
 			fileDate=$(echo $file | cut -d. -f3)
-			if ((fileDate > 110100)) && ((fileDate < cutDate)); then
+			if ((fileDate > 110100)) && ((fileDate < baseDate)); then
 				echo "[$fileDate] rm $srcFolder/$folder/$file"
 				${cmd} -vf "$srcFolder/$folder/$file"
 			fi
@@ -88,23 +83,23 @@ function removeFileOlderThanDateBlackList() {
 	IFS=$' \t\n'
 }
 
-function removeFileOlderThanDate() {
+function removeFileOlderThanWeeks() {
 	local cmd=$1
 	local srcFolder=$2
-	local cutDate=$3
-	local oneWeek=604800
+	local baseWeeks=$3
 
-	if [ -z "$cutDate" ]; then
-		# 삭제 기준일이 없으면 2주전 파일을 삭제한다
-		local current=$(date +%s)
-		local beforeTwoWeeks=$(($current - $oneWeek * 2))
-		if [ "$(uname)" == "Darwin" ]; then
-			cutDaet=$(date -r$beforeTwoWeeks +%y%m%d)
-		else
-			cutDate=$(date -d@$beforeTwoWeeks +%y%m%d)
-		fi
-		echo cut date: $cutDate
+	[ -z "$cmd" ] && cmd="echo"
+	[ -z "$baseWeeks" ] && baseWeeks=4
+
+	local oneWeekSeconds=604800
+	local currentDateSeconds=$(date +%s)
+	local beforeWeeksSeconds=$(($currentDateSeconds - $oneWeekSeconds * $baseWeeks))
+	if [ "$(uname)" == "Darwin" ]; then
+		local baseDate=$(date -r$beforeWeeksSeconds +%y%m%d)
+	else
+		local baseDate=$(date -d@$beforeWeeksSeconds +%y%m%d)
 	fi
+	echo base date: $baseDate
 
 	if ! cd "$srcFolder"; then
 		echo cd failed to $srcFolder
@@ -114,13 +109,12 @@ function removeFileOlderThanDate() {
 
 	IFS=$'\n'
 	for folder in $(ls $srcFolder); do
-		if [ ! -d "$folder" ]; then
-			continue;
-		fi
+		echo '#'[$folder]
+		[ ! -d "$folder" ] && continue
 		for file in $(ls $folder); do
 			fileDate=$(echo $file | cut -d. -f3)
-			if ((fileDate > 110100)) && ((fileDate < cutDate)); then
-				echo "[$fileDate] rm $srcFolder/$folder/$file"
+			if ((fileDate > 110100)) && ((fileDate < baseDate)); then
+				echo "[$baseDate][$fileDate] rm $srcFolder/$folder/$file"
 				${cmd} -vf "$srcFolder/$folder/$file"
 			fi
 		done
