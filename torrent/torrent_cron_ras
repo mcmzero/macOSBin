@@ -58,6 +58,11 @@ MAILTO=""
 05 01 * * 4,5       pi /usr/bin/tt kim 4 1 1 360 영재발굴단
 10 01 * * 4,5       pi /usr/bin/tt pon 4 1 1 360 영재발굴단
 
+# 목요일(4)
+30 01-05 * * 5      pi /usr/bin/tt cor 4 1 1 720 김어준의 블랙하우스
+40 01-05 * * 5      pi /usr/bin/tt kim 4 1 1 720 김어준의 블랙하우스
+50 01-05 * * 5      pi /usr/bin/tt pon 4 1 1 720 김어준의 블랙하우스
+
 # 금요일(5)
 */20 21-23 * * 5    pi /usr/bin/tt kim 4 1 1 720 Comedy TV 맛있는 녀석들.E
 00 01-02 * * 6,7    pi /usr/bin/tt kim 4 1 1 720 Comedy TV 맛있는 녀석들.E

@@ -126,7 +126,7 @@ function runSync() {
 	# /usr/local/torrent/magnet_list
 	rsync -aCz --no-g --no-o -e ssh\
 		--exclude-from=${excludeFile}\
-		"pi@rpi:$trgPath/magnet_list_"* "$trgPath/"
+		"pi@rpi:$trgPath/magnet_"* "$trgPath/"
 }
 
 function linkFile() {

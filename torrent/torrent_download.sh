@@ -3,8 +3,8 @@
 # torrent_download.sh <changmin811@gmail.com>
 
 source /usr/local/torrent/torrent_server_address.sh
-[ "$TOR_SERVER_IP" == "" ] && TOR_SERVER_IP="localhost"
-[ "$TOR_SERVER_PORT" == "" ] && TOR_SERVER_PORT=9191
+[ -z "$TOR_SERVER_IP" ] && TOR_SERVER_IP="localhost"
+[ -z "$TOR_SERVER_PORT" ] && TOR_SERVER_PORT=9191
 
 function decode() {
 	echo "$*" | base64 --decode -i -
@@ -19,6 +19,7 @@ defaultTorrentCount=100
 
 disposeFile="/usr/local/torrent/torrent_dispose.sh"
 magnetListFile="/usr/local/torrent/magnet_list"
+magnetNameListFile="/usr/local/torrent/magnet_name_list"
 cookieFile_cor="/usr/local/torrent/cookie_tcorea"
 
 declare -a urlServer=(\
@@ -26,16 +27,19 @@ declare -a urlServer=(\
 	"https://torrentpong.com"\
 	"https://torrentkim.pro"\
 )
+
 declare -a urlCor=(\
 	"${urlServer[0]}/bbs/board.php?bo_table=torrent_kortv_ent"\
 	"${urlServer[0]}/bbs/board.php?bo_table=torrent_kortv_drama"\
 	"${urlServer[0]}/bbs/board.php?bo_table=torrent_kortv_social"\
 )
+
 declare -a urlPon=(\
 	"${urlServer[1]}/bbs/board.php?bo_table=ent"\
 	"${urlServer[1]}/bbs/board.php?bo_table=kordrama"\
 	"${urlServer[1]}/bbs/board.php?bo_table=dacu"\
 )
+
 declare -a urlKim=(\
 	"${urlServer[2]}/bbs/s.php?b=torrent_variety"\
 	"${urlServer[2]}/bbs/s.php?b=torrent_tv"\
@@ -69,7 +73,7 @@ function setServerLocal() {
 
 function setServerConfig() {
 	if [ "$(hostname -s |cut -c 1-4)" == "iMac" ]; then
-		[ "$(ps x|grep Transmission|grep App)" == "" ] && setServer "$TOR_SERVER_IMAC" || setServerLocal
+		[ -z "$(ps x|grep Transmission|grep App)" ] && setServer "$TOR_SERVER_IMAC" || setServerLocal
 	fi
 }
 
@@ -93,7 +97,7 @@ function magnetRemove() {
 
 function torrentPurge() {
 	local server=$TOR_SERVER
-	[ "$1" != "" ] && server=$1
+	[ ! -z "$1" ] && server=$1
 
 	local tempMagnetList=$(mktemp -q -t $(basename $0).XXX)
 	if [ $? -ne 0 ]; then
@@ -109,12 +113,12 @@ function torrentPurge() {
 		sed -e's/^[[:space:]]*//' -e's/[[:space:]]*$//'|\
 		cut -d' ' -f1)
 	torrentIdList=$(echo ${torrentIdList}|sed -e 's/ /,/g')
-	if [ "$torrentIdList" != "" ]; then
+	if [ ! -z "$torrentIdList" ]; then
 		transServer $server --torrent ${torrentIdList} --remove
 	fi
 
 	# 다운로드 항목이 없을때만 폴더 정리
-	if [ "$(tail -n 1 ${tempMagnetList})" == "" ]; then
+	if [ -z "$(tail -n 1 ${tempMagnetList})" ]; then
 		source $disposeFile
 		cleanupRasPi
 	fi
@@ -126,16 +130,16 @@ function magnetAdd() {
 }
 
 function magnetListAdd() {
-	local magnetList=""
+	local magnetList
 	local magnetCount=0
-	local magnetListDateFile="${magnetListFile}_$(date +%m)"
+	local magnetListDateFile="${magnetListFile}_$(date +%y%m)"
 	echo $magnetListDateFile $#
 	for magnet in $@; do
-		if [ "$magnet" != "" ]; then
+		if [ ! -z "$magnet" ]; then
 			magnet=$(echo ${magnet}|tr '[:upper:]' '[:lower:]')
 			local magnet_exist=$magnet
-			grep --ignore-case $magnet ${magnetListFile}_* > /dev/null && magnet=""
-			if [ "$magnet" != "" ]; then
+			grep --ignore-case "$magnet" ${magnetListFile}_* > /dev/null && magnet=""
+			if [ ! -z "$magnet" ]; then
 				echo "$magnet $(date +"%Y.%m.%d %T")" | tee -a $magnetListDateFile | tail -n 1
 				let magnetCount=magnetCount+1
 				magnetList="$magnetList -a $magnet"
@@ -145,9 +149,9 @@ function magnetListAdd() {
 			fi
 		fi
 	done
-	if [ "$magnetList" != "" ]; then
+	if [ ! -z "$magnetList" ]; then
 		echo "검색 결과: 마그넷 ${magnetCount}개 발견"
-		magnetAdd "${magnetList}"
+		magnetAdd $magnetList
 	fi
 }
 
@@ -181,17 +185,16 @@ function torrentSearch_cor() {
 	local var=$1
 
 	if ((var > 0)) 2> /dev/null; then
-		count=$1
-		shift; var=$1
+		count=$1; shift
+		var=$1
 		if ((var > 0)) 2> /dev/null; then
-			pageNumStart=$1
-			shift; var=$1
+			pageNumStart=$1; shift
+			var=$1
 			if ((var > 0)) 2> /dev/null; then
-				pageNumEnd=$1
-				shift; var=$1
+				pageNumEnd=$1; shift
+				var=$1
 				if ((var > 0)) 2> /dev/null; then
-					quality="${1}p-"
-					shift
+					quality="${1}p-"; shift
 				fi
 			fi
 		fi
@@ -201,20 +204,20 @@ function torrentSearch_cor() {
 	search=${search// /+}
 	echo "검색 [$search]"
 
-	local urlList=""
+	local urlList
 	for pageNum in $(seq $pageNumStart $pageNumEnd); do
 		for n in ${!urlCor[@]}; do
 			urlString="${urlCor[n]}&page=${pageNum}&stx=${search}"
 			echo search: $urlString
 			urlRet=$(printMagnet_cor $quality $count $urlString)
-			if [ "$urlRet" != "" ]; then
+			if [ ! -z "$urlRet" ]; then
 				urlList="$urlList $urlRet"
-				break;
+				#break
 			fi
 		done
 	done
 
-	magnetListAdd ${urlList}
+	magnetListAdd $urlList
 }
 
 function torrentCategory_cor() {
@@ -235,27 +238,26 @@ function torrentCategory_cor() {
 	shift
 	local var=$1
 	if ((var > 0)) 2> /dev/null; then
-		count=$1
-		shift; var=$1
+		count=$1; shift
+		var=$1
 		if ((var > 0)) 2> /dev/null; then
-			pageNumEnd=$1
-			shift; var=$1
+			pageNumEnd=$1; shift
+			var=$1
 			if ((var > 0)) 2> /dev/null; then
-				search="${1}p-NEXT"
-				shift
+				search="${1}p-NEXT"; shift
 			fi
 		fi
 	fi
 
-	local urlList=""
+	local urlList
 	for pageNum in $(seq $pageNumStart $pageNumEnd); do
 		urlString="${urlType}&page=${pageNum}&stx=${search}"
 		echo search: $urlString
 		urlRet=$(printMagnet_cor $quality $count $urlString)
-		[ "$urlRet" != "" ] && urlList="$urlList $urlRet"
+		[ ! -z "$urlRet" ] && urlList="$urlList $urlRet"
 	done
 
-	magnetListAdd ${urlList}
+	magnetListAdd $urlList
 }
 
 ####################
@@ -279,17 +281,16 @@ function torrentSearch_pon() {
 	local var=$1
 
 	if ((var > 0)) 2> /dev/null; then
-		count=$1
-		shift; var=$1
+		count=$1; shift
+		var=$1
 		if ((var > 0)) 2> /dev/null; then
-			pageNumStart=$1
-			shift; var=$1
+			pageNumStart=$1; shift
+			var=$1
 			if ((var > 0)) 2> /dev/null; then
-				pageNumEnd=$1
-				shift; var=$1
+				pageNumEnd=$1; shift
+				var=$1
 				if ((var > 0)) 2> /dev/null; then
-					quality="${1}p-"
-					shift
+					quality="${1}p-"; shift
 				fi
 			fi
 		fi
@@ -299,20 +300,20 @@ function torrentSearch_pon() {
 	search=${search// /+}
 	echo "검색 [$search]"
 
-	local urlList=""
+	local urlList
 	for pageNum in $(seq $pageNumStart $pageNumEnd); do
 		for n in ${!urlPon[@]}; do
 			urlString="${urlPon[n]}&page=${pageNum}&stx=${search}"
 			echo search: $urlString
 			urlRet=$(printMagnet_pon $quality $count $urlString)
-			if [ "$urlRet" != "" ]; then
+			if [ ! -z "$urlRet" ]; then
 				urlList="$urlList $urlRet"
-				break;
+				#break
 			fi
 		done
 	done
 
-	magnetListAdd ${urlList}
+	magnetListAdd $urlList
 }
 
 function torrentCategory_pon() {
@@ -333,27 +334,26 @@ function torrentCategory_pon() {
 	shift
 	local var=$1
 	if ((var > 0)) 2> /dev/null; then
-		count=$1
-		shift; var=$1
+		count=$1; shift
+		var=$1
 		if ((var > 0)) 2> /dev/null; then
-			pageNumEnd=$1
-			shift; var=$1
+			pageNumEnd=$1; shift
+			var=$1
 			if ((var > 0)) 2> /dev/null; then
-				search="${1}p-NEXT"
-				shift
+				search="${1}p-NEXT"; shift
 			fi
 		fi
 	fi
 
-	local urlList=""
+	local urlList
 	for pageNum in $(seq $pageNumStart $pageNumEnd); do
 		urlString="${urlType}&page=${pageNum}&stx=${search}"
 		echo search: $urlString
 		urlRet=$(printMagnet_pon $quality $count $urlString)
-		[ "$urlRet" != "" ] && urlList="$urlList $urlRet"
+		[ ! -z "$urlRet" ] && urlList="$urlList $urlRet"
 	done
 
-	magnetListAdd ${urlList}
+	magnetListAdd $urlList
 }
 
 ################
@@ -368,17 +368,16 @@ function torrentSearch_kim() {
 	local var=$1
 
 	if ((var > 0)) 2> /dev/null; then
-		count=$1
-		shift; var=$1
+		count=$1; shift
+		var=$1
 		if ((var > 0)) 2> /dev/null; then
-			pageNumStart=$1
-			shift; var=$1
+			pageNumStart=$1; shift
+			var=$1
 			if ((var > 0)) 2> /dev/null; then
-				pageNumEnd=$1
-				shift; var=$1
+				pageNumEnd=$1; shift
+				var=$1
 				if ((var > 0)) 2> /dev/null; then
-					quality="${1}p-"
-					shift
+					quality="${1}p-"; shift
 				fi
 			fi
 		fi
@@ -391,7 +390,7 @@ function torrentSearch_kim() {
 	local outputFile=$(mktemp -q -t $(basename $0)_list.XXXXX)
 	local htmlFile=$(mktemp -q -t $(basename $0)_html.XXXXX)
 
-	local urlList=""
+	local urlList
 	for pageNum in $(seq $pageNumStart $pageNumEnd); do
 		urlString="${urlServer[2]}/bbs/s.php?page=${pageNum}&k=${search}"
 		echo search kim: $urlString
@@ -399,27 +398,26 @@ function torrentSearch_kim() {
 		IFS=$'\n'
 		curl -s "$urlString" -o "$htmlFile"
 		declare -a magnetArray=($(grep :Mag_dn ${htmlFile}|\
-									sed -e's/.*(./magnet:?xt=urn:btih:/' -e's/.).*//'))
+								sed -e's/.*(./magnet:?xt=urn:btih:/' -e's/.).*//'))
 		declare -a nameArray=($(grep '	</a>' ${htmlFile}|grep -ve'제휴'|\
-									sed -e's/<.a>//' -e's/^[[:space:]]*//' -e's/[[:space:]]*$//'))
+								sed -e's/<.a>//' -e's/^[[:space:]]*//' -e's/[[:space:]]*$//'))
 		IFS=$' \t\n'
 
 		local matchCount=0
 		for n in ${!magnetArray[@]}; do
 			urlRet=$(echo ${nameArray[n]}|grep -veE01.E.*END -veE..-.. -ve전편 -ve완결|grep "$quality")
-			if [ "$urlRet" != "" ]; then
+			if [ ! -z "$urlRet" ]; then
 				matchCount=$(($matchCount + 1))
 				((matchCount > count)) && break
 				urlList="$urlList ${magnetArray[n]}"
 				#echo ${magnetArray[n]//magnet:?xt=urn:btih:/} ${nameArray[n]} >> $outputFile
-				echo ${nameArray[n]} >> $outputFile
+				echo ${magnetArray[n]} ${nameArray[n]} >> $outputFile
 			fi
 		done
 		unset -v magnetArray nameArray
 	done
-	magnetListAdd ${urlList}
-
-	cat $outputFile
+	magnetListAdd $urlList
+	magnetNameListAdd $outputFile
 	rm $outputFile $htmlFile
 }
 
@@ -430,25 +428,24 @@ function torrentCategory_kim() {
 	local pageNumEnd=2
 	local quality="${defaultTorrentQuality}p-NEXT"
 	local search="${defaultTorrentQuality}p-NEXT"
-	local urlType=""
+
 	case $1 in
-		ent)	urlType=${urlKim[0]} ;;
-		drama)	urlType=${urlKim[1]} ;;
-		social)	urlType=${urlKim[2]} ;;
+		ent)	local urlType=${urlKim[0]} ;;
+		drama)	local urlType=${urlKim[1]} ;;
+		social)	local urlType=${urlKim[2]} ;;
 		*)		return 1;;
 	esac
 
 	shift
 	local var=$1
 	if ((var > 0)) 2> /dev/null; then
-		count=$1
-		shift; var=$1
+		count=$1; shift
+		var=$1
 		if ((var > 0)) 2> /dev/null; then
-			pageNumEnd=$1
-			shift; var=$1
+			pageNumEnd=$1; shift
+			var=$1
 			if ((var > 0)) 2> /dev/null; then
-				search="${1}p-NEXT"
-				shift
+				search="${1}p-NEXT"; shift
 			fi
 		fi
 	fi
@@ -456,7 +453,7 @@ function torrentCategory_kim() {
 	local outputFile=$(mktemp -q -t $(basename $0)_list.XXXXX)
 	local htmlFile=$(mktemp -q -t $(basename $0)_html.XXXXX)
 
-	local urlList=""
+	local urlList
 	for pageNum in $(seq $pageNumStart $pageNumEnd); do
 		urlString="${urlType}&page=${pageNum}&k=${search}"
 		echo search kim: $urlString
@@ -472,18 +469,42 @@ function torrentCategory_kim() {
 		local matchCount=0
 		for n in ${!magnetArray[@]}; do
 			urlRet=$(echo ${nameArray[n]}|grep -veE01.E.*END -veE..-.. -ve전편 -ve완결|grep "$quality")
-			if [ "$urlRet" != "" ]; then
+			if [ ! -z "$urlRet" ]; then
 				matchCount=$(($matchCount + 1))
 				((matchCount > count)) && break
 				urlList="$urlList ${magnetArray[n]}"
 				#echo ${magnetArray[n]//magnet:?xt=urn:btih:/} ${nameArray[n]} >> $outputFile
-				echo ${nameArray[n]} >> $outputFile
+				echo ${magnetArray[n]} ${nameArray[n]} >> $outputFile
 			fi
 		done
 		unset -v magnetArray nameArray
 	done
-	magnetListAdd ${urlList}
-
-	cat $outputFile
+	magnetListAdd $urlList
+	magnetNameListAdd $outputFile
 	rm $outputFile $htmlFile
+}
+
+function magnetNameListAdd() {
+	local magnetNameFile=$1
+	local magnetNameCount=0
+	local magnetNameListDateFile="${magnetNameListFile}_$(date +%y%m)"
+	echo $magnetNameListDateFile
+	IFS=$'\n'
+	for magnetName in $(cat $magnetNameFile 2> /dev/null); do
+		if [ ! -z "$magnetName" ]; then
+			local magnet=$(echo $magnetName|cut -d' ' -f1)
+			local name=$(echo $magnetName|cut -d' ' -f2-)
+			magnet=$(echo ${magnet}|tr '[:upper:]' '[:lower:]')
+			local magnet_exist=$magnet
+			grep --ignore-case "$magnet" ${magnetNameListFile}_* > /dev/null && magnet=""
+			if [ ! -z "$magnet" ]; then
+				echo "$magnet $(date '+%Y.%m.%d %T') $name" | tee -a $magnetNameListDateFile | tail -n 1
+				let magnetNameCount=magnetNameCount+1
+				echo +[$magnet] $name
+			else
+				echo @[$magnet_exist] $name
+			fi
+		fi
+	done
+	IFS=$' \t\n'
 }
