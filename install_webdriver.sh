@@ -9,7 +9,7 @@ function initPkgList() {
     osVersion=$(sw_vers -buildVersion)
     osMajorNumber=$(echo $osVersion|cut -c 1-2)
     
-    local pkgMacOsBeta=(\
+	local pkgMacOsBeta=(\
         "378.10.10.10.25.106 17C2205"\
 		"387.10.10.10.30.103 17F35e 17E199"\
     )
@@ -68,8 +68,9 @@ function downloadPkg() {
     
     sudo echo "Enter passwords for edit /System/Library/CoreServices/SystemVersion.plist"
     echo "Download & Install Nvidia $pkgFileName"
-    
-    cd $HOME/Downloads
+
+    cd $HOME/Downloads    
+	[ -d "webdrivers" ] && cd "webdrivers"
     if ! pkgutil --check-signature $pkgFileName &> /dev/null; then
         local pkgUrl="https://images.nvidia.com/mac/pkg/${pkgMajorVersion}/${pkgFileName}"
         echo "Download: $pkgUrl"

@@ -15,7 +15,7 @@
                 },
                 "rules": [
                     {
-                        "description": "Toggle profile 🖥⌥⌘",
+                        "description": "Toggle profile 📖",
                         "manipulators": [
                             {
                                 "from": {
@@ -28,7 +28,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '🎮⌘⌥'"
+                                        "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '🖥'"
                                     }
                                 ],
                                 "type": "basic"
@@ -36,7 +36,7 @@
                         ]
                     },
                     {
-                        "description": "Swap ⌥ and ⌘ in wow or dia3",
+                        "description": "Swap Opt and Cmd in wow or dia3",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -774,7 +774,7 @@
                         ]
                     },
                     {
-                        "description": "⌘⎋ to ⌘`",
+                        "description": "Esc+Cmd to Esc+`",
                         "manipulators": [
                             {
                                 "from": {
@@ -798,7 +798,7 @@
                         ]
                     },
                     {
-                        "description": "⇧⎋ to run 🖥",
+                        "description": "F12 to run Term",
                         "manipulators": [
                             {
                                 "from": {
@@ -814,7 +814,7 @@
                                         "shell_command": "open '/Applications/Utilities/Terminal.app'"
                                     },
                                     {
-                                        "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '🎮⌘⌥'"
+                                        "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'ðŸŽ®âŒ˜âŒ¥'"
                                     }
                                 ],
                                 "type": "basic"
@@ -1534,7 +1534,7 @@
                     }
                 }
             ],
-            "name": "🖥⌥⌘",
+            "name": "📖",
             "selected": false,
             "simple_modifications": [
                 {
@@ -1562,7 +1562,7 @@
                 },
                 "rules": [
                     {
-                        "description": "Toggle profile 🎮⌘⌥",
+                        "description": "Toggle profile 🖥",
                         "manipulators": [
                             {
                                 "from": {
@@ -1575,7 +1575,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '🖥⌥⌘'"
+                                        "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '📖'"
                                     }
                                 ],
                                 "type": "basic"
@@ -1583,7 +1583,7 @@
                         ]
                     },
                     {
-                        "description": "Swap ⌥ and ⌘ in wow or dia3",
+                        "description": "Swap Opt and Cmd in wow or dia3",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -2321,7 +2321,7 @@
                         ]
                     },
                     {
-                        "description": "⌘⎋ to ⌘`",
+                        "description": "Esc+Cmd to Esc+`",
                         "manipulators": [
                             {
                                 "from": {
@@ -2345,7 +2345,7 @@
                         ]
                     },
                     {
-                        "description": "⇧⎋ to run 🖥",
+                        "description": "F12 to run Term",
                         "manipulators": [
                             {
                                 "from": {
@@ -2361,7 +2361,7 @@
                                         "shell_command": "open '/Applications/Utilities/Terminal.app'"
                                     },
                                     {
-                                        "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '🎮⌘⌥'"
+                                        "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'ðŸŽ®âŒ˜âŒ¥'"
                                     }
                                 ],
                                 "type": "basic"
@@ -2814,7 +2814,7 @@
                     }
                 }
             ],
-            "name": "🎮⌘⌥",
+            "name": "🖥",
             "selected": true,
             "simple_modifications": [
                 {

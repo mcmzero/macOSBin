@@ -2,7 +2,7 @@
 	"title": "Personal rules (@mcm)",
 	"rules": [
 		{
-			"description": "Toggle profile 🖥⌥⌘",
+			"description": "Toggle profile 🖥",
 			"manipulators": [
 				{
 					"type": "basic",
@@ -16,14 +16,14 @@
 					},
 					"to": [
 						{
-							"shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '🎮⌘⌥'"
+							"shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '📖'"
 						}
 					]
 				}
 			]
 		},
 		{
-			"description": "Toggle profile 🎮⌘⌥",
+			"description": "Toggle profile 📖",
 			"manipulators": [
 				{
 					"type": "basic",
@@ -37,14 +37,14 @@
 					},
 					"to": [
 						{
-							"shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '🖥⌥⌘'"
+							"shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '🖥'"
 						}
 					]
 				}
 			]
 		},
 		{
-			"description": "Swap ⌥ and ⌘ in wow or dia3",
+			"description": "Swap Opt and Cmd in wow or dia3",
 			"manipulators": [
 				{
 					"type": "basic",
@@ -782,7 +782,7 @@
 			]
 		},
 		{
-			"description": "⌘⎋ to ⌘`",
+			"description": "Esc+Cmd to Esc+`",
 			"manipulators": [
 				{
 					"type": "basic",
@@ -806,7 +806,7 @@
 			]
 		},
 		{
-			"description": "⇧⎋ to run 🖥",
+			"description": "F12 to run Term",
 			"manipulators": [
 				{
 					"type": "basic",
@@ -823,7 +823,7 @@
 							"shell_command": "open '/Applications/Utilities/Terminal.app'"
 						},
 						{
-							"shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '🎮⌘⌥'"
+							"shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'ðŸŽ®âŒ˜âŒ¥'"
 						}
 					]
 				}
