@@ -2,6 +2,28 @@
 #
 # torrent_remove.sh <changmin811@gmail.com>
 
+uname=$(uname)
+
+function timestamp2seconds() {
+	local timestamp="$*"
+	if [ "$uname" == "Darwin" ]; then
+		local seconds=$(date -j -f "%Y-%m-%d %T" "${timestamp//./-}" +%s)
+	else
+		local seconds=$(date -d "${timestamp//./-}" +%s)
+	fi
+	echo $seconds
+}
+
+function seconds2timestamp() {
+	local seconds="$*"
+	if [ "$uname" == "Darwin" ]; then
+		local timestamp=$(date -r$seconds '+%Y-%m-%d %T')
+	else
+		local timestamp=$(date -d@$seconds '+%Y-%m-%d %T')
+	fi
+	echo $timestamp
+}
+
 function removeFileOlderThanWeeksExceptWhiteList() {
 	local cmd=$1
 	local whiteList=$2
@@ -14,7 +36,7 @@ function removeFileOlderThanWeeksExceptWhiteList() {
 	local oneWeekSeconds=604800
 	local currentDateSeconds=$(date +%s)
 	local beforeWeeksSeconds=$(($currentDateSeconds - $oneWeekSeconds * $baseWeeks))
-	if [ "$(uname)" == "Darwin" ]; then
+	if [ "$uname" == "Darwin" ]; then
 		local baseDate=$(date -r$beforeWeeksSeconds +%y%m%d)
 	else
 		local baseDate=$(date -d@$beforeWeeksSeconds +%y%m%d)
@@ -55,7 +77,7 @@ function removeFileOlderThanWeeksAtBlackList() {
 	local oneWeekSeconds=604800
 	local currentDateSeconds=$(date +%s)
 	local beforeWeeksSeconds=$(($currentDateSeconds - $oneWeekSeconds * $baseWeeks))
-	if [ "$(uname)" == "Darwin" ]; then
+	if [ "$uname" == "Darwin" ]; then
 		local baseDate=$(date -r$beforeWeeksSeconds +%y%m%d)
 	else
 		local baseDate=$(date -d@$beforeWeeksSeconds +%y%m%d)
@@ -94,7 +116,7 @@ function removeFileOlderThanWeeks() {
 	local oneWeekSeconds=604800
 	local currentDateSeconds=$(date +%s)
 	local beforeWeeksSeconds=$(($currentDateSeconds - $oneWeekSeconds * $baseWeeks))
-	if [ "$(uname)" == "Darwin" ]; then
+	if [ "$uname" == "Darwin" ]; then
 		local baseDate=$(date -r$beforeWeeksSeconds +%y%m%d)
 	else
 		local baseDate=$(date -d@$beforeWeeksSeconds +%y%m%d)

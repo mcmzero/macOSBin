@@ -6,6 +6,11 @@ source /usr/local/torrent/torrent_server_address.sh
 [ -z "$TOR_SERVER_IP" ] && TOR_SERVER_IP="localhost"
 [ -z "$TOR_SERVER_PORT" ] && TOR_SERVER_PORT=9191
 
+#sqlite3
+sqlite3="$(which sqlite3)"
+[ "$sqlite3" ] && sqlite3="$sqlite3 /usr/local/torrent/magnet.db"
+$sqlite3 "CREATE TABLE IF NOT EXISTS magnetList(magnet TEXT primary key, time INTEGER, name TEXT);"
+
 function decode() {
 	echo "$*" | base64 --decode -i -
 }
@@ -97,7 +102,7 @@ function magnetRemove() {
 
 function torrentPurge() {
 	local server=$TOR_SERVER
-	[ ! -z "$1" ] && server=$1
+	[ -n "$1" ] && server=$1
 
 	local tempMagnetList=$(mktemp -q -t $(basename $0).XXX)
 	if [ $? -ne 0 ]; then
@@ -113,7 +118,7 @@ function torrentPurge() {
 		sed -e's/^[[:space:]]*//' -e's/[[:space:]]*$//'|\
 		cut -d' ' -f1)
 	torrentIdList=$(echo ${torrentIdList}|sed -e 's/ /,/g')
-	if [ ! -z "$torrentIdList" ]; then
+	if [ -n "$torrentIdList" ]; then
 		transServer $server --torrent ${torrentIdList} --remove
 	fi
 
@@ -135,21 +140,31 @@ function magnetListAdd() {
 	local magnetListDateFile="${magnetListFile}_$(date +%y%m)"
 	echo $magnetListDateFile $#
 	for magnet in $@; do
-		if [ ! -z "$magnet" ]; then
+		if [ "$magnet" ]; then
 			magnet=$(echo ${magnet}|tr '[:upper:]' '[:lower:]')
-			local magnet_exist=$magnet
-			grep --ignore-case "$magnet" ${magnetListFile}_* > /dev/null && magnet=""
-			if [ ! -z "$magnet" ]; then
-				echo "$magnet $(date +"%Y.%m.%d %T")" | tee -a $magnetListDateFile | tail -n 1
-				let magnetCount=magnetCount+1
-				magnetList="$magnetList -a $magnet"
-				echo +[$magnet]
+			if [ "$sqlite3" ]; then
+				if $sqlite3 "INSERT INTO magnetList VALUES('$magnet', strftime('%s','now'), NULL);" 2> /dev/null; then
+					magnetList="$magnetList -a $magnet"
+					let magnetCount=magnetCount+1
+					echo +[$magnet] $($sqlite3 "SELECT datetime(time, 'unixepoch', 'localtime'), name FROM magnetList WHERE magnet == '$magnet';" -separator ' ')
+				else
+					echo @[$magnet] $($sqlite3 "SELECT datetime(time, 'unixepoch', 'localtime'), name FROM magnetList WHERE magnet == '$magnet';" -separator ' ')
+				fi
 			else
-				echo @[$magnet_exist]
+				local magnet_exist=$magnet
+				grep --ignore-case "$magnet" ${magnetListFile}_* > /dev/null && magnet=""
+				if [ "$magnet" ]; then
+					echo "$magnet $(date +"%Y.%m.%d %T")" | tee -a $magnetListDateFile | tail -n 1
+					magnetList="$magnetList -a $magnet"
+					let magnetCount=magnetCount+1
+					echo +[$magnet]
+				else
+					echo @[$magnet_exist]
+				fi
 			fi
 		fi
 	done
-	if [ ! -z "$magnetList" ]; then
+	if [ -n "$magnetList" ]; then
 		echo "검색 결과: 마그넷 ${magnetCount}개 발견"
 		magnetAdd $magnetList
 	fi
@@ -210,7 +225,7 @@ function torrentSearch_cor() {
 			urlString="${urlCor[n]}&page=${pageNum}&stx=${search}"
 			echo search: $urlString
 			urlRet=$(printMagnet_cor $quality $count $urlString)
-			if [ ! -z "$urlRet" ]; then
+			if [ -n "$urlRet" ]; then
 				urlList="$urlList $urlRet"
 				#break
 			fi
@@ -254,7 +269,7 @@ function torrentCategory_cor() {
 		urlString="${urlType}&page=${pageNum}&stx=${search}"
 		echo search: $urlString
 		urlRet=$(printMagnet_cor $quality $count $urlString)
-		[ ! -z "$urlRet" ] && urlList="$urlList $urlRet"
+		[ -n "$urlRet" ] && urlList="$urlList $urlRet"
 	done
 
 	magnetListAdd $urlList
@@ -306,7 +321,7 @@ function torrentSearch_pon() {
 			urlString="${urlPon[n]}&page=${pageNum}&stx=${search}"
 			echo search: $urlString
 			urlRet=$(printMagnet_pon $quality $count $urlString)
-			if [ ! -z "$urlRet" ]; then
+			if [ -n "$urlRet" ]; then
 				urlList="$urlList $urlRet"
 				#break
 			fi
@@ -350,7 +365,7 @@ function torrentCategory_pon() {
 		urlString="${urlType}&page=${pageNum}&stx=${search}"
 		echo search: $urlString
 		urlRet=$(printMagnet_pon $quality $count $urlString)
-		[ ! -z "$urlRet" ] && urlList="$urlList $urlRet"
+		[ -n "$urlRet" ] && urlList="$urlList $urlRet"
 	done
 
 	magnetListAdd $urlList
@@ -406,18 +421,26 @@ function torrentSearch_kim() {
 		local matchCount=0
 		for n in ${!magnetArray[@]}; do
 			urlRet=$(echo ${nameArray[n]}|grep -veE01.E.*END -veE..-.. -ve전편 -ve완결|grep "$quality")
-			if [ ! -z "$urlRet" ]; then
+			if [ -n "$urlRet" ]; then
 				matchCount=$(($matchCount + 1))
 				((matchCount > count)) && break
+				magnetArray[n]=$(echo ${magnetArray[n]}|tr '[:upper:]' '[:lower:]')
 				urlList="$urlList ${magnetArray[n]}"
-				#echo ${magnetArray[n]//magnet:?xt=urn:btih:/} ${nameArray[n]} >> $outputFile
-				echo ${magnetArray[n]} ${nameArray[n]} >> $outputFile
+				if [ "$sqlite3" ]; then
+					if ! $sqlite3 "UPDATE magnetList SET name = '${nameArray[n]}' WHERE magnet == '${magnetArray[n]}';"; then
+						if $sqlite3 "INSERT INTO magnetList VALUES('${magnetArray[n]}', strftime('%s','now'), '${nameArray[n]}');"; then
+							echo +[${magnetArray[n]}] $($sqlite3 "SELECT datetime(time, 'unixepoch', 'localtime'), name FROM magnetList WHERE magnet == '${magnetArray[n]}';" -separator ' ')
+						fi
+					fi
+				else
+					echo ${magnetArray[n]} ${nameArray[n]} >> $outputFile
+				fi
 			fi
 		done
 		unset -v magnetArray nameArray
 	done
 	magnetListAdd $urlList
-	magnetNameListAdd $outputFile
+	[ "$sqlite3" ] || magnetNameListAdd $outputFile
 	rm $outputFile $htmlFile
 }
 
@@ -469,18 +492,26 @@ function torrentCategory_kim() {
 		local matchCount=0
 		for n in ${!magnetArray[@]}; do
 			urlRet=$(echo ${nameArray[n]}|grep -veE01.E.*END -veE..-.. -ve전편 -ve완결|grep "$quality")
-			if [ ! -z "$urlRet" ]; then
+			if [ "$urlRet" ]; then
 				matchCount=$(($matchCount + 1))
 				((matchCount > count)) && break
+				magnetArray[n]=$(echo ${magnetArray[n]}|tr '[:upper:]' '[:lower:]')
 				urlList="$urlList ${magnetArray[n]}"
-				#echo ${magnetArray[n]//magnet:?xt=urn:btih:/} ${nameArray[n]} >> $outputFile
-				echo ${magnetArray[n]} ${nameArray[n]} >> $outputFile
+				if [ "$sqlite3" ]; then
+					if ! $sqlite3 "UPDATE magnetList SET name = '${nameArray[n]}' WHERE magnet == '${magnetArray[n]}';"; then
+						if $sqlite3 "INSERT INTO magnetList VALUES('${magnetArray[n]}', strftime('%s','now'), '${nameArray[n]}');"; then
+							echo +[${magnetArray[n]}] $($sqlite3 "SELECT datetime(time, 'unixepoch', 'localtime'), name FROM magnetList WHERE magnet == '${magnetArray[n]}';" -separator ' ')
+						fi
+					fi
+				else
+					echo ${magnetArray[n]} ${nameArray[n]} >> $outputFile
+				fi
 			fi
 		done
 		unset -v magnetArray nameArray
 	done
 	magnetListAdd $urlList
-	magnetNameListAdd $outputFile
+	[ "$sqlite3" ] || magnetNameListAdd $outputFile
 	rm $outputFile $htmlFile
 }
 
@@ -489,22 +520,18 @@ function magnetNameListAdd() {
 	local magnetNameCount=0
 	local magnetNameListDateFile="${magnetNameListFile}_$(date +%y%m)"
 	echo $magnetNameListDateFile
-	IFS=$'\n'
-	for magnetName in $(cat $magnetNameFile 2> /dev/null); do
-		if [ ! -z "$magnetName" ]; then
-			local magnet=$(echo $magnetName|cut -d' ' -f1)
-			local name=$(echo $magnetName|cut -d' ' -f2-)
+	while read magnet name; do
+		if [ "$magnet" ]; then
 			magnet=$(echo ${magnet}|tr '[:upper:]' '[:lower:]')
 			local magnet_exist=$magnet
 			grep --ignore-case "$magnet" ${magnetNameListFile}_* > /dev/null && magnet=""
-			if [ ! -z "$magnet" ]; then
+			if [ "$magnet" ]; then
 				echo "$magnet $(date '+%Y.%m.%d %T') $name" | tee -a $magnetNameListDateFile | tail -n 1
 				let magnetNameCount=magnetNameCount+1
-				echo +[$magnet] $name
+				[ "$sqlite3" ] || echo +[$magnet] $name
 			else
-				echo @[$magnet_exist] $name
+				[ "$sqlite3" ] || echo @[$magnet_exist] $name
 			fi
 		fi
-	done
-	IFS=$' \t\n'
+	done < $magnetNameFile
 }

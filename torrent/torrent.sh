@@ -123,10 +123,10 @@ function runSync() {
 			"$srcPath/" "$HOME/bin/torrent"
 	fi
 
-	# /usr/local/torrent/magnet_list
+	# /usr/local/torrent/magnet.db
 	rsync -aCz --no-g --no-o -e ssh\
 		--exclude-from=${excludeFile}\
-		"pi@rpi:$trgPath/magnet_"* "$trgPath/"
+		"pi@rpi:$trgPath/magnet"* "$trgPath/"
 }
 
 function linkFile() {
@@ -194,7 +194,7 @@ function runCommand() {
 		;;
 		synclink)
 			linkFile
-			ssh root@r1 $torrentFile link
+			ssh root@rpi $torrentFile link
 		;;
 		localized)
 			for file in *; do
@@ -279,9 +279,11 @@ function run() {
 		;;
 		ls*|ta*)
 			if [ "$(hostname -s)" == "rasPi" ]; then
-				tail ${magnetListFile}_* | tail
+				#tail ${magnetListFile}_* | tail
+				sqlite3 /usr/local/torrent/magnet.db "SELECT datetime(time, 'unixepoch', 'localtime'), name FROM magnetList ORDER BY time DESC  LIMIT 15;" -separator ' '
 			else
-				ssh pi@r1 "tail ${magnetListFile}_* | tail"
+				#ssh pi@rpi "tail ${magnetListFile}_* | tail"
+				ssh pi@rpi "sqlite3 /usr/local/torrent/magnet.db \"SELECT datetime(time, 'unixepoch', 'localtime'), name FROM magnetList ORDER BY time DESC  LIMIT 15;\" -separator ' '"
 			fi
 		;;
 		kim|cor|pon)

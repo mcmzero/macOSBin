@@ -22,6 +22,7 @@ MAILTO=""
 */3 * * * *         pi /usr/bin/tt dispose
 00 */12 * * *       pi /usr/bin/tt login
 00 16 * * *         pi /usr/bin/tt rmdefault
+00 16 * * *         pi /usr/bin/tt rmblist
 
 # 예능, 드라마
 00,30 16-23,0-9 * * 1-5 pi /usr/bin/tt cor ent 1
