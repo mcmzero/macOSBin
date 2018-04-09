@@ -10,7 +10,7 @@ for name in ${project[@]}; do
 	#git checkout mcm
 	#git pull origin master
 	git rebase origin/master mcm
-	xcodebuild
-	cp -vaf build/Release/*.kext ~/Downloads/kexts
-	cp -vaf build/Release/*.kext "$efiPath"/EFI/CLOVER/kexts/Other
+	xcodebuild | grep -ve export
+	cp -af build/Release/*.kext ~/Downloads/kexts
+	cp -af build/Release/*.kext "$efiPath"/EFI/CLOVER/kexts/Other
 done
