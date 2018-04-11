@@ -236,7 +236,10 @@ function run() {
 			source $removeFile
 			source $disposeFile
 			removeFileOlderThanWeeks rm "${rasPiPathArray[0]}" 4
-			removeFileOlderThanWeeks rm "${rasPiPathArray[rasPiPathArrayEndIndex]}" 12
+			removeFileOlderThanWeeks rm "${rasPiPathArray[1]}" 4
+			removeFileOlderThanWeeks rm "${rasPiPathArray[2]}" 4
+			removeFileOlderThanWeeks rm "${rasPiPathArray[rasPiPathArrayEndIndex]}" 8
+			df -h /mnt/rasPiTorrent
 		;;
 		rmwlist)
 			shift
@@ -245,6 +248,7 @@ function run() {
 			for n in ${!rasPiPathArray[@]}; do
 				removeFileOlderThanWeeksExceptWhiteList rm "$whiteListFile" "${rasPiPathArray[n]}" $@
 			done
+			df -h /mnt/rasPiTorrent
 		;;
 		white|wlist)
 			shift
@@ -253,6 +257,7 @@ function run() {
 			for n in ${!rasPiPathArray[@]}; do
 				removeFileOlderThanWeeksExceptWhiteList echo "$whiteListFile" "${rasPiPathArray[n]}" $@
 			done
+			df -h /mnt/rasPiTorrent
 		;;
 		rmblist)
 			shift
@@ -261,6 +266,7 @@ function run() {
 			for n in ${!rasPiPathArray[@]}; do
 				removeFileOlderThanWeeksAtBlackList rm "$blackListFile" "${rasPiPathArray[n]}" $@
 			done
+			df -h /mnt/rasPiTorrent
 		;;
 		black|blist)
 			shift
@@ -269,6 +275,7 @@ function run() {
 			for n in ${!rasPiPathArray[@]}; do
 				removeFileOlderThanWeeksAtBlackList echo "$blackListFile" "${rasPiPathArray[n]}" $@
 			done
+			df -h /mnt/rasPiTorrent
 		;;
 		trans*|-t)
 			shift

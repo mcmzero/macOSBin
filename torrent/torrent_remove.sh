@@ -51,7 +51,7 @@ function removeFileOlderThanWeeksExceptWhiteList() {
 
 	IFS=$'\n'
 	for folder in $(ls $srcFolder); do
-		echo '#'[$folder]
+		#echo '#'[$folder]
 		[ ! -d "$folder" ] && continue
 		grep "${folder// in */}" "$whiteList" &> /dev/null && continue
 		for file in $(ls $folder); do

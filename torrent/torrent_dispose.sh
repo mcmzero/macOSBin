@@ -3,23 +3,30 @@
 # torrent_dispose.sh <changmin811@gmail.com>
 
 dropboxFolderName="떨굼상자"
+
+# 4주 보관
 dailyDramaFolderName="TV/일일 드라마"
-entFolderName="TV/예능"
 entInfoFolderName="TV/연예정보"
+docuFolderName="TV/다큐멘터리"
+
+# 별도 주기 보관 처리
+entFolderName="TV/예능"
 musicFolderName="TV/음악"
 dramaFolderName="TV/드라마"
-docuFolderName="TV/다큐멘터리"
 floretFolderName="TV/플로레트"
 foreignFolderName="TV/해외 TV"
+
+# 8주 보관
 movieFolderName="TV/동영상"
 
 declare -a folderNameArray=(\
 	"$dailyDramaFolderName"\
-	"$entFolderName"\
 	"$entInfoFolderName"\
+	"$docuFolderName"\
+	\
+	"$entFolderName"\
 	"$musicFolderName"\
 	"$dramaFolderName"\
-	"$docuFolderName"\
 	"$floretFolderName"\
 	"$foreignFolderName"\
 	"$movieFolderName"\
