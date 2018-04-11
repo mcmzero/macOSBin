@@ -15,20 +15,23 @@
                 },
                 "rules": [
                     {
-                        "description": "Toggle profile 📖",
+                        "description": "Esc+`: Esc+Cmd",
                         "manipulators": [
                             {
                                 "from": {
-                                    "key_code": "pause",
+                                    "key_code": "escape",
                                     "modifiers": {
-                                        "optional": [
-                                            "any"
+                                        "mandatory": [
+                                            "left_command"
                                         ]
                                     }
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '🖥'"
+                                        "key_code": "grave_accent_and_tilde",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
                                     }
                                 ],
                                 "type": "basic"
@@ -36,19 +39,120 @@
                         ]
                     },
                     {
-                        "description": "Swap Opt and Cmd in wow or dia3",
+                        "description": "Eng Ime: Esc",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "escape"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "escape"
+                                    }
+                                ],
+                                "to_after_key_up": [
+                                    {
+                                        "select_input_source": {
+                                            "input_mode_id": "",
+                                            "input_source_id": "com.apple.keylayout.ABC",
+                                            "language": "en"
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Eng Ime: Cmd+Spc",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "spacebar",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_command"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "spacebar",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "to_after_key_up": [
+                                    {
+                                        "select_input_source": {
+                                            "input_mode_id": "",
+                                            "input_source_id": "com.apple.keylayout.ABC",
+                                            "language": "en"
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Application: Ctrl+F2 (Menu)",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "application",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "f2",
+                                        "modifiers": [
+                                            "left_control"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "RCtrl: Ctrl+F3 (Dock)",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "right_control",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "f3",
+                                        "modifiers": [
+                                            "left_control"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Opt, Cmd: swap in games(wow & dia3)",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft\\..*"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    },
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.diablo3\\..*"
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -72,13 +176,8 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft\\..*"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    },
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.diablo3\\..*"
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -102,13 +201,8 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft\\..*"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    },
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.diablo3\\..*"
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -132,13 +226,8 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft\\..*"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    },
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.diablo3\\..*"
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -154,6 +243,386 @@
                                 "to": [
                                     {
                                         "key_code": "right_option"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "==================================="
+                    },
+                    {
+                        "description": "F1~F4",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "f1"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "2",
+                                        "modifiers": [
+                                            "left_control",
+                                            "left_shift"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "f2"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "c",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    },
+                                    {
+                                        "key_code": "w",
+                                        "modifiers": [
+                                            "left_control"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "f3"
+                                },
+                                "to_delayed_action": {
+                                    "to_if_canceled": [
+                                        {
+                                            "key_code": "left_arrow"
+                                        },
+                                        {
+                                            "shell_command": "open -a XCode"
+                                        }
+                                    ],
+                                    "to_if_invoked": [
+                                        {
+                                            "key_code": "left_arrow"
+                                        },
+                                        {
+                                            "shell_command": "open -a XCode"
+                                        }
+                                    ]
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "open -a iBooks"
+                                    }
+                                ],
+                                "to_if_held_down": [
+                                    {
+                                        "key_code": "left_arrow"
+                                    },
+                                    {
+                                        "shell_command": "open -a XCode"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "f4"
+                                },
+                                "to_delayed_action": {
+                                    "to_if_canceled": [
+                                        {
+                                            "key_code": "right_arrow"
+                                        },
+                                        {
+                                            "shell_command": "open -a XCode"
+                                        }
+                                    ],
+                                    "to_if_invoked": [
+                                        {
+                                            "key_code": "right_arrow"
+                                        },
+                                        {
+                                            "shell_command": "open -a XCode"
+                                        }
+                                    ]
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "open -a iBooks"
+                                    }
+                                ],
+                                "to_if_held_down": [
+                                    {
+                                        "key_code": "right_arrow"
+                                    },
+                                    {
+                                        "shell_command": "open -a XCode"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "F5~F8",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "f5"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "open -a iBooks"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "f6"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "open -a XCode"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "f7"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "~/bin/efi_mount.sh;open -a 'Clover Configurator'"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "f8"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "~/bin/buildkext.sh rebase"
+                                    },
+                                    {
+                                        "shell_command": "open -a 'github desktop'"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "F9~F12",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "f9"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "open -a 'Google Chrome'"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "f10"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "open ~/Downloads"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "f11"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "open -t"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "f12"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "select_input_source": {
+                                            "input_mode_id": "",
+                                            "input_source_id": "com.apple.keylayout.ABC",
+                                            "language": "en"
+                                        }
+                                    },
+                                    {
+                                        "shell_command": "open -a Terminal"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "F13(PrtScr): system shutdown",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "print_screen"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "osascript -e 'tell app \"System Events\" to shut down'"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "F13"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "osascript -e 'tell app \"System Events\" to shut down'"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "F14(ScrLock): system sleep",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "scroll_lock"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "F12"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "F15(Pause): Toggle profile",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "toggle_profile",
+                                        "type": "variable_if",
+                                        "value": 0
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "pause"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "set_variable": {
+                                            "name": "toggle_profile",
+                                            "value": 1
+                                        }
+                                    },
+                                    {
+                                        "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '📖'"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "toggle_profile",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "pause"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "set_variable": {
+                                            "name": "toggle_profile",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '🖥'"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "toggle_profile",
+                                        "type": "variable_if",
+                                        "value": 0
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "F15"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "set_variable": {
+                                            "name": "toggle_profile",
+                                            "value": 1
+                                        }
+                                    },
+                                    {
+                                        "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '📖'"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "toggle_profile",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "F15"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "set_variable": {
+                                            "name": "toggle_profile",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '🖥'"
                                     }
                                 ],
                                 "type": "basic"
@@ -516,293 +985,45 @@
                         ]
                     },
                     {
-                        "description": "Function keys",
+                        "description": "Spacebar(+shift): right(left) arrow in webrowser",
                         "manipulators": [
                             {
-                                "from": {
-                                    "key_code": "f1",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
+                                "conditions": [
                                     {
-                                        "key_code": "2",
-                                        "modifiers": [
-                                            "left_control",
-                                            "left_shift"
-                                        ]
+                                        "bundle_identifiers": [
+                                            "^com\\.apple\\.Safari$",
+                                            "^com\\.google\\.Chrome$",
+                                            "^org\\.mozilla\\.*$"
+                                        ],
+                                        "type": "frontmost_application_if"
                                     }
                                 ],
-                                "type": "basic"
-                            },
-                            {
                                 "from": {
-                                    "key_code": "f2",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
+                                    "key_code": "spacebar"
                                 },
                                 "to": [
                                     {
-                                        "key_code": "c",
-                                        "modifiers": [
-                                            "left_command"
-                                        ]
+                                        "key_code": "right_arrow"
                                     },
                                     {
-                                        "key_code": "w",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
+                                        "key_code": "spacebar"
                                     }
                                 ],
                                 "type": "basic"
                             },
                             {
-                                "from": {
-                                    "key_code": "f3",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
+                                "conditions": [
                                     {
-                                        "key_code": "w",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "y",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "x",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "m",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "c",
-                                        "modifiers": [
-                                            "left_command"
-                                        ]
+                                        "bundle_identifiers": [
+                                            "^com\\.apple\\.Safari$",
+                                            "^com\\.google\\.Chrome$",
+                                            "^org\\.mozilla\\.*$"
+                                        ],
+                                        "type": "frontmost_application_if"
                                     }
                                 ],
-                                "type": "basic"
-                            },
-                            {
                                 "from": {
-                                    "key_code": "f4",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "y",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "f5",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "delete_or_backspace",
-                                        "modifiers": [
-                                            "left_command"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "f6",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "k",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "f7",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "a",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "k",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "f8",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "y",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "f9",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open '/Applications/Safari.app'"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "f10",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open '/Applications/Google Chrome.app'"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "f11",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open '/Applications/Visual Studio Code.app'"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "f12",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open '/Applications/Utilities/Terminal.app'"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Esc+Cmd to Esc+`",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "escape",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "left_command"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "grave_accent_and_tilde",
-                                        "modifiers": [
-                                            "left_command"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "F12 to run Term",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "escape",
+                                    "key_code": "spacebar",
                                     "modifiers": {
                                         "mandatory": [
                                             "left_shift"
@@ -811,52 +1032,13 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open '/Applications/Utilities/Terminal.app'"
+                                        "key_code": "left_arrow"
                                     },
                                     {
-                                        "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'ðŸŽ®âŒ˜âŒ¥'"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "PrtScr to system shutdown",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "print_screen",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "osascript -e 'tell app \"System Events\" to shut down'"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "ScrLock to system sleep",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "scroll_lock",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
+                                        "key_code": "spacebar",
+                                        "modifiers": {
+                                            "key_code": "left_shift"
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -1117,14 +1299,6 @@
                         },
                         {
                             "from": {
-                                "key_code": "a"
-                            },
-                            "to": {
-                                "key_code": "left_arrow"
-                            }
-                        },
-                        {
-                            "from": {
                                 "key_code": "backslash"
                             },
                             "to": {
@@ -1133,42 +1307,10 @@
                         },
                         {
                             "from": {
-                                "key_code": "close_bracket"
-                            },
-                            "to": {
-                                "key_code": "keypad_6"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "d"
-                            },
-                            "to": {
-                                "key_code": "right_arrow"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "e"
-                            },
-                            "to": {
-                                "key_code": "keypad_asterisk"
-                            }
-                        },
-                        {
-                            "from": {
                                 "key_code": "equal_sign"
                             },
                             "to": {
                                 "key_code": "keypad_slash"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "f"
-                            },
-                            "to": {
-                                "key_code": "return_or_enter"
                             }
                         },
                         {
@@ -1189,78 +1331,6 @@
                         },
                         {
                             "from": {
-                                "key_code": "left_control"
-                            },
-                            "to": {
-                                "key_code": "left_arrow"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "left_shift"
-                            },
-                            "to": {
-                                "key_code": "right_arrow"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "o"
-                            },
-                            "to": {
-                                "key_code": "keypad_2"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "open_bracket"
-                            },
-                            "to": {
-                                "key_code": "keypad_4"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "p"
-                            },
-                            "to": {
-                                "key_code": "keypad_5"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "period"
-                            },
-                            "to": {
-                                "key_code": "keypad_slash"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "q"
-                            },
-                            "to": {
-                                "key_code": "keypad_slash"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "quote"
-                            },
-                            "to": {
-                                "key_code": "keypad_3"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "r"
-                            },
-                            "to": {
-                                "key_code": "keypad_num_lock"
-                            }
-                        },
-                        {
-                            "from": {
                                 "key_code": "right_command"
                             },
                             "to": {
@@ -1273,54 +1343,6 @@
                             },
                             "to": {
                                 "key_code": "pause"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "s"
-                            },
-                            "to": {
-                                "key_code": "down_arrow"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "semicolon"
-                            },
-                            "to": {
-                                "key_code": "keypad_1"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "slash"
-                            },
-                            "to": {
-                                "key_code": "right_arrow"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "w"
-                            },
-                            "to": {
-                                "key_code": "up_arrow"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "x"
-                            },
-                            "to": {
-                                "key_code": "keypad_slash"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "z"
-                            },
-                            "to": {
-                                "key_code": "right_arrow"
                             }
                         }
                     ]
@@ -1562,20 +1584,23 @@
                 },
                 "rules": [
                     {
-                        "description": "Toggle profile 🖥",
+                        "description": "Esc+`: Esc+Cmd",
                         "manipulators": [
                             {
                                 "from": {
-                                    "key_code": "pause",
+                                    "key_code": "escape",
                                     "modifiers": {
-                                        "optional": [
-                                            "any"
+                                        "mandatory": [
+                                            "left_command"
                                         ]
                                     }
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '📖'"
+                                        "key_code": "grave_accent_and_tilde",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
                                     }
                                 ],
                                 "type": "basic"
@@ -1583,19 +1608,120 @@
                         ]
                     },
                     {
-                        "description": "Swap Opt and Cmd in wow or dia3",
+                        "description": "Eng Ime: Esc",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "escape"
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "escape"
+                                    }
+                                ],
+                                "to_after_key_up": [
+                                    {
+                                        "select_input_source": {
+                                            "input_mode_id": "",
+                                            "input_source_id": "com.apple.keylayout.ABC",
+                                            "language": "en"
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Eng Ime: Cmd+Spc",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "spacebar",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_command"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "spacebar",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "to_after_key_up": [
+                                    {
+                                        "select_input_source": {
+                                            "input_mode_id": "",
+                                            "input_source_id": "com.apple.keylayout.ABC",
+                                            "language": "en"
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Application: Ctrl+F2 (Menu)",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "application",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "f2",
+                                        "modifiers": [
+                                            "left_control"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "RCtrl: Ctrl+F3 (Dock)",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "right_control",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "f3",
+                                        "modifiers": [
+                                            "left_control"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Opt, Cmd: swap in games(wow & dia3)",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft\\..*"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    },
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.diablo3\\..*"
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -1619,13 +1745,8 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft\\..*"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    },
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.diablo3\\..*"
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -1649,13 +1770,8 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft\\..*"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    },
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.diablo3\\..*"
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -1679,13 +1795,8 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft\\..*"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    },
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.diablo3\\..*"
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -1701,6 +1812,386 @@
                                 "to": [
                                     {
                                         "key_code": "right_option"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "==================================="
+                    },
+                    {
+                        "description": "F1~F4",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "f1"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "2",
+                                        "modifiers": [
+                                            "left_control",
+                                            "left_shift"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "f2"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "c",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    },
+                                    {
+                                        "key_code": "w",
+                                        "modifiers": [
+                                            "left_control"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "f3"
+                                },
+                                "to_delayed_action": {
+                                    "to_if_canceled": [
+                                        {
+                                            "key_code": "left_arrow"
+                                        },
+                                        {
+                                            "shell_command": "open -a XCode"
+                                        }
+                                    ],
+                                    "to_if_invoked": [
+                                        {
+                                            "key_code": "left_arrow"
+                                        },
+                                        {
+                                            "shell_command": "open -a XCode"
+                                        }
+                                    ]
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "open -a iBooks"
+                                    }
+                                ],
+                                "to_if_held_down": [
+                                    {
+                                        "key_code": "left_arrow"
+                                    },
+                                    {
+                                        "shell_command": "open -a XCode"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "f4"
+                                },
+                                "to_delayed_action": {
+                                    "to_if_canceled": [
+                                        {
+                                            "key_code": "right_arrow"
+                                        },
+                                        {
+                                            "shell_command": "open -a XCode"
+                                        }
+                                    ],
+                                    "to_if_invoked": [
+                                        {
+                                            "key_code": "right_arrow"
+                                        },
+                                        {
+                                            "shell_command": "open -a XCode"
+                                        }
+                                    ]
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "open -a iBooks"
+                                    }
+                                ],
+                                "to_if_held_down": [
+                                    {
+                                        "key_code": "right_arrow"
+                                    },
+                                    {
+                                        "shell_command": "open -a XCode"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "F5~F8",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "f5"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "open -a iBooks"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "f6"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "open -a XCode"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "f7"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "~/bin/efi_mount.sh;open -a 'Clover Configurator'"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "f8"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "~/bin/buildkext.sh rebase"
+                                    },
+                                    {
+                                        "shell_command": "open -a 'github desktop'"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "F9~F12",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "f9"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "open -a 'Google Chrome'"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "f10"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "open ~/Downloads"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "f11"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "open -t"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "f12"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "select_input_source": {
+                                            "input_mode_id": "",
+                                            "input_source_id": "com.apple.keylayout.ABC",
+                                            "language": "en"
+                                        }
+                                    },
+                                    {
+                                        "shell_command": "open -a Terminal"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "F13(PrtScr): system shutdown",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "print_screen"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "osascript -e 'tell app \"System Events\" to shut down'"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "F13"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "osascript -e 'tell app \"System Events\" to shut down'"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "F14(ScrLock): system sleep",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "scroll_lock"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "F12"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "F15(Pause): Toggle profile",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "toggle_profile",
+                                        "type": "variable_if",
+                                        "value": 0
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "pause"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "set_variable": {
+                                            "name": "toggle_profile",
+                                            "value": 1
+                                        }
+                                    },
+                                    {
+                                        "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '📖'"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "toggle_profile",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "pause"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "set_variable": {
+                                            "name": "toggle_profile",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '🖥'"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "toggle_profile",
+                                        "type": "variable_if",
+                                        "value": 0
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "F15"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "set_variable": {
+                                            "name": "toggle_profile",
+                                            "value": 1
+                                        }
+                                    },
+                                    {
+                                        "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '📖'"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "toggle_profile",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "F15"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "set_variable": {
+                                            "name": "toggle_profile",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '🖥'"
                                     }
                                 ],
                                 "type": "basic"
@@ -2056,354 +2547,6 @@
                                             "left_control",
                                             "left_command"
                                         ]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Function keys",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "f1",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "2",
-                                        "modifiers": [
-                                            "left_control",
-                                            "left_shift"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "f2",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "c",
-                                        "modifiers": [
-                                            "left_command"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "w",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "f3",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "w",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "y",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "x",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "m",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "c",
-                                        "modifiers": [
-                                            "left_command"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "f4",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "y",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "f5",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "delete_or_backspace",
-                                        "modifiers": [
-                                            "left_command"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "f6",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "k",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "f7",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "a",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "k",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "f8",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "y",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "f9",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open '/Applications/Safari.app'"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "f10",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open '/Applications/Google Chrome.app'"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "f11",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open '/Applications/Visual Studio Code.app'"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "f12",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open '/Applications/Utilities/Terminal.app'"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Esc+Cmd to Esc+`",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "escape",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "left_command"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "grave_accent_and_tilde",
-                                        "modifiers": [
-                                            "left_command"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "F12 to run Term",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "escape",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "left_shift"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open '/Applications/Utilities/Terminal.app'"
-                                    },
-                                    {
-                                        "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'ðŸŽ®âŒ˜âŒ¥'"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "PrtScr to system shutdown",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "print_screen",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "osascript -e 'tell app \"System Events\" to shut down'"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "ScrLock to system sleep",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "scroll_lock",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
                                     }
                                 ],
                                 "type": "basic"
@@ -2673,14 +2816,6 @@
                     "ignore": false,
                     "manipulate_caps_lock_led": true,
                     "simple_modifications": [
-                        {
-                            "from": {
-                                "key_code": "application"
-                            },
-                            "to": {
-                                "key_code": "pause"
-                            }
-                        },
                         {
                             "from": {
                                 "key_code": "insert"

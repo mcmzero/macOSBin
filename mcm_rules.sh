@@ -16,11 +16,17 @@ function mcm_list() {
 }
 
 case $1 in 
+-h)
+	echo $(basename $0) '{zip|unzip|list}'
+;;
 zip)
 	mcm_zip
 ;;
 unzip)
 	mcm_unzip
+;;
+list)
+	mcm_list
 ;;
 *)
 	mcm_list
