@@ -10,5 +10,5 @@ master="https://raw.githubusercontent.com/mcmZero/macOSBin/master"
 
 for json in ${mcm_rules_json[@]}; do
 	echo $json
-	curl -s "${ master}/${comp_mod}/${json}" -o ~/.config/${comp_mod}/${json}
+	curl -s "${master}/${comp_mod}/${json}" -o ~/.config/${comp_mod}/${json}
 done
