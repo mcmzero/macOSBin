@@ -15,241 +15,6 @@
                 },
                 "rules": [
                     {
-                        "description": "Esc+`: Esc+Cmd",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "escape",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "left_command"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "grave_accent_and_tilde",
-                                        "modifiers": [
-                                            "left_command"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Eng Ime: Esc",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "escape"
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "escape"
-                                    }
-                                ],
-                                "to_after_key_up": [
-                                    {
-                                        "select_input_source": {
-                                            "input_mode_id": "",
-                                            "input_source_id": "com.apple.keylayout.ABC",
-                                            "language": "en"
-                                        }
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Eng Ime: Cmd+Spc",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "spacebar",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "left_command"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "spacebar",
-                                        "modifiers": [
-                                            "left_command"
-                                        ]
-                                    }
-                                ],
-                                "to_after_key_up": [
-                                    {
-                                        "select_input_source": {
-                                            "input_mode_id": "",
-                                            "input_source_id": "com.apple.keylayout.ABC",
-                                            "language": "en"
-                                        }
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Application: Ctrl+F2 (Menu)",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "application",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to_if_alone": [
-                                    {
-                                        "key_code": "f2",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "RCtrl: Ctrl+F3 (Dock)",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "right_control",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to_if_alone": [
-                                    {
-                                        "key_code": "f3",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Opt, Cmd: swap in games(wow & dia3)",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "left_option",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_command"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "left_command",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_option"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "right_option",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "right_command"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "right_command",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "right_option"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
                         "description": "==================================="
                     },
                     {
@@ -630,6 +395,9 @@
                         ]
                     },
                     {
+                        "description": "==================================="
+                    },
+                    {
                         "description": "Keypad keys",
                         "manipulators": [
                             {
@@ -985,7 +753,235 @@
                         ]
                     },
                     {
-                        "description": "Spacebar(+shift): right(left) arrow in webrowser",
+                        "description": "==================================="
+                    },
+                    {
+                        "description": "Esc+`: Esc+Cmd",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "escape",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_command"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "grave_accent_and_tilde",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Eng Ime: Esc",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "escape"
+                                },
+                                "to_after_key_up": [
+                                    {
+                                        "select_input_source": {
+                                            "input_mode_id": "",
+                                            "input_source_id": "com.apple.keylayout.ABC",
+                                            "language": "en"
+                                        }
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "escape"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Eng Ime: Cmd+Spc",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "spacebar",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_command"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "spacebar",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "to_after_key_up": [
+                                    {
+                                        "select_input_source": {
+                                            "input_mode_id": "",
+                                            "input_source_id": "com.apple.keylayout.ABC",
+                                            "language": "en"
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Application: Ctrl+F2 (Menu)",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "application"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "f2",
+                                        "modifiers": [
+                                            "left_control"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "RCtrl: Ctrl+F3 (Dock)",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "right_control"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "f3",
+                                        "modifiers": [
+                                            "left_control"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Opt, Cmd: swap in games(wow & dia3)",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "left_option",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_command"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "left_command",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_option"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "right_option",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "right_command"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "right_command",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "right_option"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Spacebar(+shift): right(left) arrow in web browser & eng ime",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -996,12 +992,22 @@
                                             "^org\\.mozilla\\.*$"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "input_sources": [
+                                            {
+                                                "input_mode_id": "",
+                                                "input_source_id": "com.apple.keylayout.ABC",
+                                                "language": "en"
+                                            }
+                                        ],
+                                        "type": "input_source_if"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "spacebar"
                                 },
-                                "to": [
+                                "to_if_alone": [
                                     {
                                         "key_code": "right_arrow"
                                     },
@@ -1020,13 +1026,24 @@
                                             "^org\\.mozilla\\.*$"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "input_sources": [
+                                            {
+                                                "input_mode_id": "",
+                                                "input_source_id": "com.apple.keylayout.ABC",
+                                                "language": "en"
+                                            }
+                                        ],
+                                        "type": "input_source_if"
                                     }
                                 ],
                                 "from": {
                                     "key_code": "spacebar",
                                     "modifiers": {
-                                        "mandatory": [
-                                            "left_shift"
+                                        "optional": [
+                                            "left_shift",
+                                            "right_shift"
                                         ]
                                     }
                                 },
@@ -1044,6 +1061,9 @@
                                 "type": "basic"
                             }
                         ]
+                    },
+                    {
+                        "description": "==================================="
                     }
                 ]
             },
@@ -1584,241 +1604,6 @@
                 },
                 "rules": [
                     {
-                        "description": "Esc+`: Esc+Cmd",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "escape",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "left_command"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "grave_accent_and_tilde",
-                                        "modifiers": [
-                                            "left_command"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Eng Ime: Esc",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "escape"
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "escape"
-                                    }
-                                ],
-                                "to_after_key_up": [
-                                    {
-                                        "select_input_source": {
-                                            "input_mode_id": "",
-                                            "input_source_id": "com.apple.keylayout.ABC",
-                                            "language": "en"
-                                        }
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Eng Ime: Cmd+Spc",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "spacebar",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "left_command"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "spacebar",
-                                        "modifiers": [
-                                            "left_command"
-                                        ]
-                                    }
-                                ],
-                                "to_after_key_up": [
-                                    {
-                                        "select_input_source": {
-                                            "input_mode_id": "",
-                                            "input_source_id": "com.apple.keylayout.ABC",
-                                            "language": "en"
-                                        }
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Application: Ctrl+F2 (Menu)",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "application",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to_if_alone": [
-                                    {
-                                        "key_code": "f2",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "RCtrl: Ctrl+F3 (Dock)",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "right_control",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to_if_alone": [
-                                    {
-                                        "key_code": "f3",
-                                        "modifiers": [
-                                            "left_control"
-                                        ]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Opt, Cmd: swap in games(wow & dia3)",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "left_option",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_command"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "left_command",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_option"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "right_option",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "right_command"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "right_command",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "right_option"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
                         "description": "==================================="
                     },
                     {
@@ -2199,6 +1984,9 @@
                         ]
                     },
                     {
+                        "description": "==================================="
+                    },
+                    {
                         "description": "Keypad keys",
                         "manipulators": [
                             {
@@ -2552,6 +2340,319 @@
                                 "type": "basic"
                             }
                         ]
+                    },
+                    {
+                        "description": "==================================="
+                    },
+                    {
+                        "description": "Esc+`: Esc+Cmd",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "escape",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_command"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "grave_accent_and_tilde",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Eng Ime: Esc",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "escape"
+                                },
+                                "to_after_key_up": [
+                                    {
+                                        "select_input_source": {
+                                            "input_mode_id": "",
+                                            "input_source_id": "com.apple.keylayout.ABC",
+                                            "language": "en"
+                                        }
+                                    }
+                                ],
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "escape"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Eng Ime: Cmd+Spc",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "spacebar",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_command"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "spacebar",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "to_after_key_up": [
+                                    {
+                                        "select_input_source": {
+                                            "input_mode_id": "",
+                                            "input_source_id": "com.apple.keylayout.ABC",
+                                            "language": "en"
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Application: Ctrl+F2 (Menu)",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "application"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "f2",
+                                        "modifiers": [
+                                            "left_control"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "RCtrl: Ctrl+F3 (Dock)",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "right_control"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "f3",
+                                        "modifiers": [
+                                            "left_control"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Opt, Cmd: swap in games(wow & dia3)",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "left_option",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_command"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "left_command",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_option"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "right_option",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "right_command"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "right_command",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "right_option"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Spacebar(+shift): right(left) arrow in web browser & eng ime",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.apple\\.Safari$",
+                                            "^com\\.google\\.Chrome$",
+                                            "^org\\.mozilla\\.*$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "input_sources": [
+                                            {
+                                                "input_mode_id": "",
+                                                "input_source_id": "com.apple.keylayout.ABC",
+                                                "language": "en"
+                                            }
+                                        ],
+                                        "type": "input_source_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "spacebar"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "right_arrow"
+                                    },
+                                    {
+                                        "key_code": "spacebar"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.apple\\.Safari$",
+                                            "^com\\.google\\.Chrome$",
+                                            "^org\\.mozilla\\.*$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "input_sources": [
+                                            {
+                                                "input_mode_id": "",
+                                                "input_source_id": "com.apple.keylayout.ABC",
+                                                "language": "en"
+                                            }
+                                        ],
+                                        "type": "input_source_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "spacebar",
+                                    "modifiers": {
+                                        "optional": [
+                                            "left_shift",
+                                            "right_shift"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "left_arrow"
+                                    },
+                                    {
+                                        "key_code": "spacebar",
+                                        "modifiers": {
+                                            "key_code": "left_shift"
+                                        }
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "==================================="
                     }
                 ]
             },

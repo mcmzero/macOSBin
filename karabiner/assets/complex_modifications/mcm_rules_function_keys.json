@@ -1,6 +1,8 @@
 {
 	"title": "mcm's rules: funtion keys",
 	"rules": [
+		{ "description": "===================================" },
+
 		{
 			"description": "F1~F4",
 			"manipulators": [
@@ -382,7 +384,8 @@
 					]
 				}
 			]
-		}
+		},
 
+		{ "description": "===================================" }
 	]
 }

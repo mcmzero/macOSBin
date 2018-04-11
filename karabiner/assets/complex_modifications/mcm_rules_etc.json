@@ -1,5 +1,5 @@
 {
-	"title": "mcm's rules: etc",
+	"title": "mcm's rules: options",
 	"rules": [
 		{
 			"description": "Esc+`: Esc+Cmd",
@@ -34,7 +34,7 @@
 					"from": {
 						"key_code": "escape"
 					},
-					"to": [
+					"to_if_alone": [
 						{
 							"key_code": "escape"
 						}
@@ -92,12 +92,7 @@
 				{
 					"type": "basic",
 					"from": {
-						"key_code": "application",
-						"modifiers": {
-							"optional": [
-								"any"
-							]
-						}
+						"key_code": "application"
 					},
 					"to_if_alone": [
 						{
@@ -117,12 +112,7 @@
 				{
 					"type": "basic",
 					"from": {
-						"key_code": "right_control",
-						"modifiers": {
-							"optional": [
-								"any"
-							]
-						}
+						"key_code": "right_control"
 					},
 					"to_if_alone": [
 						{
@@ -243,14 +233,14 @@
 		},
 
 		{
-			"description": "Spacebar(+shift): right(left) arrow in webrowser",
+			"description": "Spacebar(+shift): right(left) arrow in web browser & eng ime",
 			"manipulators": [
 				{
 					"type": "basic",
 					"from": {
 						"key_code": "spacebar"
 					},
-					"to": [
+					"to_if_alone": [
 						{
 							"key_code": "right_arrow"
 						},
@@ -266,6 +256,16 @@
 								"^com\\.google\\.Chrome$",
 								"^org\\.mozilla\\.*$"
 							]
+						},
+						{
+							"type": "input_source_if",
+							"input_sources": [
+								{
+									"input_mode_id": "",
+									"input_source_id": "com.apple.keylayout.ABC",
+									"language": "en"
+								}
+							]
 						}
 					]
 				},
@@ -274,8 +274,9 @@
 					"from": {
 						"key_code": "spacebar",
 						"modifiers": {
-							"mandatory": [
-								"left_shift"
+							"optional": [
+								"left_shift",
+								"right_shift"
 							]
 						}
 					},
@@ -297,6 +298,16 @@
 								"^com\\.apple\\.Safari$",
 								"^com\\.google\\.Chrome$",
 								"^org\\.mozilla\\.*$"
+							]
+						},
+						{
+							"type": "input_source_if",
+							"input_sources": [
+								{
+									"input_mode_id": "",
+									"input_source_id": "com.apple.keylayout.ABC",
+									"language": "en"
+								}
 							]
 						}
 					]
