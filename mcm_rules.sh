@@ -2,6 +2,7 @@
 
 function mcm_zip() {
 	# -j remove path info
+	rm ~/Downloads/mcm_rules.zip
 	zip -j ~/Downloads/mcm_rules.zip ~/.config/karabiner/assets/complex_modifications/mcm_rules*.json
 }
 
@@ -29,6 +30,7 @@ list)
 	mcm_list
 ;;
 *)
+	mcm_zip
 	mcm_list
 ;;
 esac
