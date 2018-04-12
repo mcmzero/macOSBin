@@ -302,10 +302,7 @@ function disposeFolderRasPi() {
 	fi
 
 	cd ${srcPath}
-	if [ -z "$(ls)" ];then
-		return 1
-	fi
-	echo "[Dispose ${srcPath}]"
+	[ "$(ls)" ] && echo "[Dispose ${srcPath}]" || return 1
 
 	IFS=$'\n'
 	for file in $(ls *.{mp4,mkv,avi,smi,sup} 2> /dev/null); do
@@ -322,13 +319,14 @@ function disposeFolderRasPi() {
 			fi
 			if [ -d "$targetDir" ]; then
 				case ${file#*.} in
-				mkv|avi)
-					ffmpeg -n -i "${srcPath}/$file" -codec copy "${targetDir}/${targetFile%.*}.mp4" \
-						&& rm -f "${srcPath}/$file"
-				;;
-				*)
-					mv -fv "${srcPath}/$file" "${targetDir}/$targetFile"	
-				;;
+					mkv|avi)
+						ffmpeg -n -i "${srcPath}/$file" -codec copy "${targetDir}/${targetFile%.*}.mp4" \
+							&& rm -f "${srcPath}/$file" \
+							|| mv -fv "${srcPath}/$file" "${targetDir}/$targetFile"	
+					;;
+					*)
+						mv -fv "${srcPath}/$file" "${targetDir}/$targetFile"	
+					;;
 				esac
 				break
 			fi
@@ -346,10 +344,7 @@ function disposeFolderMcm() {
 	fi
 
 	cd ${srcPath}
-	if [ -z "$(ls)" ];then
-		return 1
-	fi
-	echo "[Dispose ${srcPath}]"
+	[ "$(ls)" ] && echo "[Dispose ${srcPath}]" || return 1
 
 	IFS=$'\n'
 	for file in $(ls *.{mp4,mkv,avi,smi,sup} 2> /dev/null); do
@@ -365,7 +360,16 @@ function disposeFolderMcm() {
 				fi
 			fi
 			if [ -d "$targetDir" ]; then
-				mv -fv "${srcPath}/$file" "${targetDir}/$targetFile"
+				case ${file#*.} in
+					mkv|avi)
+						ffmpeg -n -i "${srcPath}/$file" -codec copy "${targetDir}/${targetFile%.*}.mp4" \
+							&& rm -f "${srcPath}/$file" \
+							|| mv -fv "${srcPath}/$file" "${targetDir}/$targetFile"	
+					;;
+					*)
+						mv -fv "${srcPath}/$file" "${targetDir}/$targetFile"	
+					;;
+				esac
 				break
 			fi
 		done
@@ -375,20 +379,14 @@ function disposeFolderMcm() {
 
 function disposeDefaultFolder() {
 	local srcPath=$1
-	local tarPath=$1
-	if [ "${2}" != "" ]; then
-		tarPath=$2
-	fi
+	[ "${2}" ] || local tarPath=$1 && local tarPath=$2
 
 	if [ ! -d "$srcPath" ] || [ ! -d "$tarPath" ]; then
 		return 1
 	fi
 
 	cd ${srcPath}
-	if [ "$(ls)" == "" ];then
-		return 1
-	fi
-	echo "[Dispose ${srcPath}]"
+	[ "$(ls)" ] && echo "[Dispose ${srcPath}]" || return 1
 
 	IFS=$'\n'
 	for file in $(ls *.{mp4,mkv,avi,smi,sup} 2> /dev/null); do
