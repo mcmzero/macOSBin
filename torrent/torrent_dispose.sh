@@ -320,6 +320,8 @@ function disposeFolderRasPi() {
 			if [ -d "$targetDir" ]; then
 				case ${file#*.} in
 					mkv|avi)
+						#audioformat=$(ffprobe -loglevel error -select_streams a:0 -show_entries stream=codec_name -of default=nw=1:nk=1 "${srcPath}/$file")
+						#[ "$audioformat" == "aac" ] && codec="-codec copy" || codec="-c:a aac -c:v copy"
 						ffmpeg -n -i "${srcPath}/$file" -codec copy "${targetDir}/${targetFile%.*}.mp4" \
 							&& rm -f "${srcPath}/$file" \
 							|| mv -fv "${srcPath}/$file" "${targetDir}/$targetFile"	
