@@ -30,7 +30,7 @@ function zip_mcm() {
 	if cd ~/Downloads/kexts; then
 		rm -f ~/Downloads/kexts.zip
 		zip -r ~/Downloads/kexts.zip *.kext
-		unzip -l ~/Downloads/kexts.zip
+		unzip -l ~/Downloads/kexts.zip && rm -rf ~/Downloads/kexts
 	fi
 }
 
