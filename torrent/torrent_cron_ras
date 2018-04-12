@@ -18,8 +18,7 @@ MAILTO=""
 07 */2 * * *        pi /usr/local//usr/bin/tt/build_bbc_news_m3u.sh
 
 # Look for and purge old sessions every 5 minutes
-*/5 * * * *         pi /usr/bin/tt purge
-*/3 * * * *         pi /usr/bin/tt dispose
+* * * * *           pi /usr/local/bin/torrent_done.sh
 00 */12 * * *       pi /usr/bin/tt login
 00 16 * * *         pi /usr/bin/tt rmdefault
 00 16 * * *         pi /usr/bin/tt rmblist
