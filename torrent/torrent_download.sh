@@ -122,7 +122,7 @@ function torrentPurge() {
 		transServer $server --torrent ${torrentIdList} --remove
 	fi
 
-	# 다운로드 항목이 없을때만 폴더 정리
+	# 다운로드 항목이 없을때 떨굼상자 안에 있는 폴더들을 검사하여 모든 동영상 파일을 떨꿈상자 폴더로 이동하고 하위 폴더를 제거(정리)한다
 	if [ -z "$(tail -n 1 ${tempMagnetList})" ]; then
 		source $disposeFile
 		cleanupRasPi
