@@ -54,9 +54,9 @@ mcmiMacTargetPath="$HOME/Downloads"
 
 function Say() {
 	if [ -f "/usr/bin/say" ]; then
-		[ "${SAY_MODE}" == "ON" ] && say "재생성"
+		[ "${SAY_MODE}" == "ON" ] && say "$*"
 	else
-		[ "${SAY_MODE}" == "ON" ] && echo "재생성"
+		[ "${SAY_MODE}" == "ON" ] && echo "$*"
 	fi
 }
 
@@ -80,35 +80,26 @@ function rmdirSub() {
 function cleanup() {
 	# cleanup target to source
 	local srcPath=$1
-	local tarPath=$1
-	if [ "$2" != "" ]; then
-		tarPath=$2
-	fi
+	[ "$2" ] && local tarPath=$2 || local tarPath=$1
 
  	if [ ! -d "$srcPath" ] || [ ! -d "$tarPath" ]; then
 		return 1
 	fi
 
 	cd "$tarPath"
-	if [ "$(ls)" == "" ];then
-		return 1
-	fi
+	[ "$(ls)" == "" ] || return 1
+
 	echo "[Cleanup ${tarPath}]"
-	[ "$SAY_MODE" == "ON" ] && say "정리"
+	Say "정리"
 
 	# move target to source
-	local REPLSTR="-I"
-	if [ "$(uname)" == "Darwin" ]; then
-		REPLSTR="-J"
-	fi
+	[ "$(uname)" == "Darwin" ] && REPLSTR="-J" || REPLSTR="-I"
 	find "$tarPath" \( -name "*.mp4" -or -name "*.mkv" -or -name "*.avi" -or -name "*.smi" -or -name "*.sup" \) -print0|xargs -0 $REPLSTR % echo "[ -f \"%\" ] && mv \"%\" \"$srcPath\""|bash
 
 	# cleanup target's sub directories
 	IFS=$'\n'
 	for file in $(ls -a 2> /dev/null); do
-		if [ "$file" == "." ] || [ "$file" == ".." ]; then
-			continue
-		fi
+		[ "$file" == "." ] || [ "$file" == ".." ] && continue
 		if [ -d "$file" ] && [ "${file::1}" != "[" ]; then
 			find "$file" \( -name ".DS_Store" -or -name ".AppleDouble" -or -name "._*" \) -exec rm -rf {} \;
 			rmdir "$file" 2> /dev/null && echo "-[${file}]" || rmdirSub "$file"
@@ -330,7 +321,15 @@ function disposeFolderRasPi() {
 				fi
 			fi
 			if [ -d "$targetDir" ]; then
-				mv -fv "${srcPath}/$file" "${targetDir}/$targetFile"
+				case ${file#*.} in
+				mkv|avi)
+					ffmpeg -n -i "${srcPath}/$file" -codec copy "${targetDir}/${targetFile%.*}.mp4" \
+						&& rm -f "${srcPath}/$file"
+				;;
+				*)
+					mv -fv "${srcPath}/$file" "${targetDir}/$targetFile"	
+				;;
+				esac
 				break
 			fi
 		done
