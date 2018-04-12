@@ -217,7 +217,6 @@ function runCommand() {
 		;;
 		magnet*)
 			magnetAdd -a $@
-			torrentPurge
 		;;
 		*)
 			return 1;
@@ -230,6 +229,11 @@ function run() {
 		db)
 			cd '/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-in Support/Databases'
 			sqlite3 com.plexapp.plugins.library.db "PRAGMA integrity_check"
+		;;
+		remove)
+			run rmdefault
+			run rmwlist
+			run rmblist
 		;;
 		rmdefault)
 			shift
@@ -295,13 +299,11 @@ function run() {
 		;;
 		kim|cor|pon)
 			torrentSite $@
-			torrentPurge
 		;;
 		drama|ent|social|ep)
 			torrentSite cor $@
 			torrentSite pon $@
 			torrentSite kim $@
-			torrentPurge
 		;;
 		login)
 			torrentLogin_cor
@@ -320,7 +322,6 @@ function run() {
 				return $?
 			fi
 			if torrentSearch $@; then
-				torrentPurge
 				return $?
 			fi
 		;;
