@@ -1,1 +1,2 @@
-vi /Volumes/ESP/EFI/CLOVER/config.plist
+efi=$(efi_mount.sh)
+vi ${efi}/EFI/CLOVER/config.plist
