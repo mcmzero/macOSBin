@@ -72,9 +72,9 @@ function getPkgVersion() {
 	pkgFileVersion=$(echo ${pkgMacOs[pkgIndex]} | cut -d' ' -f1)
 	pkgInstalledVersion=$(/usr/libexec/PlistBuddy -c 'print :CFBundleGetInfoString' /Library/Extensions/GeForceWeb.kext/Contents/Info.plist | cut -d' ' -f3-)
 
-	echo "System's driver ($osVersion) : WebDriver-$pkgInstalledVersion"
-	[ "$1" ] && echo "Searched driver ($1) : WebDriver-$(echo ${pkgMacOs[pkgIndex]}|cut -d' ' -f1-)"\
-			|| echo "Searched driver ($pkgOsVersion) : WebDriver-$pkgFileVersion"
+	echo "System's driver: WebDriver-$pkgInstalledVersion ($osVersion)"
+	[ "$1" ] && echo "Searched driver: WebDriver-$(echo ${pkgMacOs[pkgIndex]}|cut -d' ' -f1-) ($1)"\
+			|| echo "Searched driver: WebDriver-$pkgFileVersion ($pkgOsVersion)"
 }
 
 function downloadPkg() {
