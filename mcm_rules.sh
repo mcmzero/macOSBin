@@ -1,19 +1,21 @@
 #!/bin/bash
 
+targetPath="$HOME/Downloads/zips"
+
 function mcm_zip() {
 	# -j remove path info
-	rm ~/Downloads/mcm_rules.zip
-	zip -j ~/Downloads/mcm_rules.zip ~/.config/karabiner/assets/complex_modifications/mcm_rules*.json
+	rm $targetPath/mcm_rules.zip
+	zip -j $targetPath/mcm_rules.zip ~/.config/karabiner/assets/complex_modifications/mcm_rules*.json
 }
 
 function mcm_unzip() {
 	# -o overwrite -d change directory
-	unzip -o ~/Downloads/mcm_rules.zip -d ~/.config/karabiner/assets/complex_modifications
+	unzip -o $targetPath/mcm_rules.zip -d ~/.config/karabiner/assets/complex_modifications
 }
 
 function mcm_list() {
 	# -l list
-	unzip -l ~/Downloads/mcm_rules.zip
+	unzip -l $targetPath/mcm_rules.zip
 }
 
 case $1 in 

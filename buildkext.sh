@@ -1,6 +1,7 @@
 #!/bin/bash
 
 efiPath=$(efi_mount.sh)
+targetPath="$HOME/Downloads/zips"
 
 declare -a project=("Lilu" "Shiki" "NvidiaGraphicsFixup" "IntelGraphicsFixup")
 
@@ -21,16 +22,16 @@ function xcodebuild_mcm() {
 	for name in ${project[@]}; do
 		cd /Users/changmin/xcode/$name
 		xcodebuild | grep -ve export
-		cp -af build/Release/*.kext ~/Downloads/kexts
+		cp -af build/Release/*.kext $targetPath/kexts
 		cp -af build/Release/*.kext "$efiPath"/EFI/CLOVER/kexts/Other
 	done
 }
 
 function zip_mcm() {
-	if cd ~/Downloads/kexts; then
-		rm -f ~/Downloads/kexts.zip
-		zip -r ~/Downloads/kexts.zip *.kext
-		unzip -l ~/Downloads/kexts.zip && rm -rf ~/Downloads/kexts
+	if cd $targetPath/kexts; then
+		rm -f $targetPath/kexts.zip
+		zip -r $targetPath/kexts.zip *.kext
+		unzip -l $targetPath/kexts.zip && rm -rf $targetPath/kexts
 	fi
 }
 
@@ -49,6 +50,9 @@ case $1 in
 	;;
 	zip)
 		zip_mcm
+	;;
+	all)
+		xcodebuild_mcm && zip_mcm
 	;;
 	*)
 		rebase_mcm
