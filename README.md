@@ -3,6 +3,11 @@ macOSBin [![GitHub last commit](https://img.shields.io/github/last-commit/mcmZer
 
 ### Install & Patch macOS Nvidia Webdriver
     bash <(curl -s https://raw.githubusercontent.com/mcmZero/macOSBin/master/bash/nvidia_webdriver.sh)
+##### show version list
+    bash <(curl -s https://raw.githubusercontent.com/mcmZero/macOSBin/master/bash/nvidia_webdriver.sh) -l
+##### upgrade only
+    bash <(curl -s https://raw.githubusercontent.com/mcmZero/macOSBin/master/bash/nvidia_webdriver.sh) -u
+##### specify version
     bash <(curl -s https://raw.githubusercontent.com/mcmZero/macOSBin/master/bash/nvidia_webdriver.sh) 103
     bash <(curl -s https://raw.githubusercontent.com/mcmZero/macOSBin/master/bash/nvidia_webdriver.sh) 106
 
