@@ -1,0 +1,1337 @@
+{
+	"title": "mcm's rules",
+	"rules": [
+		{
+			"description": "Switch Kor,Eng: GeneralKB(RAlt),HHK(RGui)->Caps",
+			"manipulators": [
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "right_alt",
+						"modifiers": {
+							"optional": ["caps_lock"]
+						}
+					},
+					"to_after_key_up": [
+						{
+							"key_code": "caps_lock"
+						}
+					],
+					"conditions": [
+						{
+							"type": "device_unless",
+							"identifiers": [
+								{
+									"vendor_id": 2131,
+									"product_id": 256,
+									"product": "HHKB*"
+								}
+							]
+						},
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "right_gui",
+						"modifiers": {
+							"optional": ["caps_lock"]
+						}
+					},
+					"to_after_key_up": [
+						{
+							"key_code": "caps_lock"
+						}
+					],
+					"conditions": [
+						{
+							"type": "device_if",
+							"identifiers": [
+								{
+									"vendor_id": 2131,
+									"product_id": 256,
+									"product": "HHKB*"
+								}
+							]
+						},
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "right_alt",
+						"modifiers": {
+							"optional": ["caps_lock"]
+						}
+					},
+					"to": [
+						{
+							"select_input_source":
+							{
+								"language": "en"
+							}
+						}
+					],
+					"conditions": [
+						{
+							"type": "input_source_unless",
+							"input_sources": [
+								{
+									"language": "en"
+								}
+							]
+						},
+						{
+							"type": "device_unless",
+							"identifiers": [
+								{
+									"vendor_id": 2131,
+									"product_id": 256
+								}
+							]
+						},
+						{
+							"type": "frontmost_application_if",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "right_alt",
+						"modifiers": {
+							"optional": ["caps_lock"]
+						}
+					},
+					"to": [
+						{
+							"select_input_source":
+							{
+								"language": "ko"
+							}
+						}
+					],
+					"conditions": [
+						{
+							"type": "input_source_unless",
+							"input_sources": [
+								{
+									"language": "ko"
+								}
+							]
+						},
+						{
+							"type": "device_unless",
+							"identifiers": [
+								{
+									"vendor_id": 2131,
+									"product_id": 256
+								}
+							]
+						},
+						{
+							"type": "frontmost_application_if",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "right_gui",
+						"modifiers": {
+							"optional": ["caps_lock"]
+						}
+					},
+					"to": [
+						{
+							"select_input_source":
+							{
+								"language": "en"
+							}
+						}
+					],
+					"conditions": [
+						{
+							"type": "input_source_unless",
+							"input_sources": [
+								{
+									"language": "en"
+								}
+							]
+						},
+						{
+							"type": "device_if",
+							"identifiers": [
+								{
+									"vendor_id": 2131,
+									"product_id": 256
+								}
+							]
+						},
+						{
+							"type": "frontmost_application_if",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "right_gui",
+						"modifiers": {
+							"optional": ["caps_lock"]
+						}
+					},
+					"to": [
+						{
+							"select_input_source":
+							{
+								"language": "ko"
+							}
+						}
+					],
+					"conditions": [
+						{
+							"type": "input_source_unless",
+							"input_sources": [
+								{
+									"language": "ko"
+								}
+							]
+						},
+						{
+							"type": "device_if",
+							"identifiers": [
+								{
+									"vendor_id": 2131,
+									"product_id": 256
+								}
+							]
+						},
+						{
+							"type": "frontmost_application_if",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				}
+			]
+		},
+
+		{
+			"description": "Esc+`: Esc+Cmd | Ime(en): Esc, Cmd+Spc",
+			"manipulators": [
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "escape",
+						"modifiers": {
+							"mandatory": ["left_command"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "grave_accent_and_tilde",
+							"modifiers": [
+								"left_command"
+							]
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "escape",
+						"modifiers": {
+							"optional": [
+								"caps_lock"
+							]
+						}
+					},
+					"to_if_alone": [
+						{
+							"key_code": "escape"
+						}
+					],
+					"to_after_key_up": [
+						{
+							"select_input_source": {
+								"language": "en"
+							}
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "spacebar",
+						"modifiers": {
+							"mandatory": ["left_command"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "spacebar",
+							"modifiers": ["left_command"]
+						}
+					],
+					"to_after_key_up": [
+						{
+							"select_input_source": {
+								"language": "en"
+							}
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				}
+			]
+		},
+
+		{
+			"description": "Application: Ctrl+F2 (Menu) | RCtrl: Ctrl+F3 (Dock)",
+			"manipulators": [
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "application",
+						"modifiers": {
+							"optional": ["caps_lock"]
+						}
+					},
+					"to_if_alone": [
+						{
+							"key_code": "f2",
+							"modifiers": ["left_control"]
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "right_control",
+						"modifiers": {
+							"optional": ["caps_lock"]
+						}
+					},
+					"to_if_alone": [
+						{
+							"key_code": "f3",
+							"modifiers": ["left_control"]
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				}
+			]
+		},
+
+		{
+			"description": "F1 ~ F12: Open Terminal, Chrome, Finder, etc...",
+			"manipulators": [
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "f1"
+					},
+					"to_if_alone": [
+						{
+							"key_code": "2",
+							"modifiers": ["left_control","left_shift"]
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "f2"
+					},
+					"to_if_alone": [
+						{
+							"key_code": "c",
+							"modifiers": ["left_command"]
+						},
+						{
+							"key_code": "w",
+							"modifiers": ["left_control"]
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "f3"
+					},
+					"to_if_alone": [
+						{
+							"shell_command": "open -a iBooks"
+						}
+					],
+					"to_if_held_down": [
+						{
+							"key_code": "left_arrow"
+						},
+						{
+							"shell_command": "open -a XCode"
+						}
+					],
+					"to_delayed_action": {
+						"to_if_invoked": [
+							{
+								"key_code": "left_arrow"
+							},
+							{
+								"shell_command": "open -a XCode"
+							}
+						],
+						"to_if_canceled": [
+							{
+								"key_code": "left_arrow"
+							},
+							{
+								"shell_command": "open -a XCode"
+							}
+						]
+					},
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "f4"
+					},
+					"to_if_alone": [
+						{
+							"shell_command": "open -a iBooks"
+						}
+					],
+					"to_if_held_down": [
+						{
+							"key_code": "right_arrow"
+						},
+						{
+							"shell_command": "open -a XCode"
+						}
+					],
+					"to_delayed_action": {
+						"to_if_invoked": [
+							{
+								"key_code": "right_arrow"
+							},
+							{
+								"shell_command": "open -a XCode"
+							}
+						],
+						"to_if_canceled": [
+							{
+								"key_code": "right_arrow"
+							},
+							{
+								"shell_command": "open -a XCode"
+							}
+						]
+					},
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "f5"
+					},
+					"to_if_alone": [
+						{
+							"shell_command": "open -a iBooks"
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "f6"
+					},
+					"to_if_alone": [
+						{
+							"shell_command": "open -a XCode"
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "f7"
+					},
+					"to_if_alone": [
+						{
+							"shell_command": "~/bin/efi_mount.sh;open -a 'Clover Configurator'"
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "f8"
+					},
+					"to_if_alone": [
+						{
+							"shell_command": "~/bin/buildkext.sh rebase"
+						},
+						{
+							"shell_command": "open -a 'github desktop'"
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "f9"
+					},
+					"to_if_alone": [
+						{
+							"shell_command": "open -a 'Google Chrome'"
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "f10"
+					},
+					"to_if_alone": [
+						{
+							"shell_command": "open ~/Downloads"
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "f11"
+					},
+					"to_if_alone": [
+						{
+							"shell_command": "open -t"
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "f12"
+					},
+					"to_if_alone": [
+						{
+							"select_input_source": {
+								"input_mode_id": "",
+								"input_source_id": "com.apple.keylayout.ABC",
+								"language": "en"
+							}
+						},
+						{
+							"shell_command": "open -a Terminal"
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				}
+			]
+		},
+
+		{
+			"description": "F13(PrtScr): shutdown | F14(ScrLock): sleep | F15(Pause): Toggle profile",
+			"manipulators": [
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "print_screen"
+					},
+					"to_if_alone": [
+						{
+							"shell_command": "osascript -e 'tell app \"System Events\" to shut down'"
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "F13"
+					},
+					"to_if_alone": [
+						{
+							"shell_command": "osascript -e 'tell app \"System Events\" to shut down'"
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "scroll_lock"
+					},
+					"to_if_alone": [
+						{
+							"shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "F12"
+					},
+					"to_if_alone": [
+						{
+							"shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "pause"
+					},
+					"to_if_alone": [
+						{
+							"set_variable": {
+								"name": "toggle_profile",
+								"value": 1
+							}
+						},
+						{
+							"shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '응용'"
+						}
+					],
+					"conditions": [
+						{
+							"type": "variable_if",
+							"name": "toggle_profile",
+							"value": 0
+						},					
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "pause"
+					},
+					"to_if_alone": [
+						{
+							"set_variable": {
+								"name": "toggle_profile",
+								"value": 0
+							}
+						},
+						{
+							"shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '기본'"
+						}
+					],
+					"conditions": [
+						{
+							"type": "variable_if",
+							"name": "toggle_profile",
+							"value": 1
+						},
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "F15"
+					},
+					"to_if_alone": [
+						{
+							"set_variable": {
+								"name": "toggle_profile",
+								"value": 1
+							}
+						},
+						{
+							"shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '응용'"
+						}
+					],
+					"conditions": [
+						{
+							"type": "variable_if",
+							"name": "toggle_profile",
+							"value": 0
+						},					
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "F15"
+					},
+					"to_if_alone": [
+						{
+							"set_variable": {
+								"name": "toggle_profile",
+								"value": 0
+							}
+						},
+						{
+							"shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '기본'"
+						}
+					],
+					"conditions": [
+						{
+							"type": "variable_if",
+							"name": "toggle_profile",
+							"value": 1
+						},					
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				}
+			]
+		},
+
+		{
+			"description": "Keypad: Cmd+Ctrl+arrow, Opt+Ctrl+arrow, ...",
+			"manipulators": [
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "keypad_0",
+						"modifiers": {
+							"optional": ["any"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "j",
+							"modifiers": ["left_control","left_option"]
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "keypad_period",
+						"modifiers": {
+							"optional": ["any"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "k",
+							"modifiers": ["left_control","left_option"]
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "keypad_plus",
+						"modifiers": {
+							"optional": ["any"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "n",
+							"modifiers": ["left_command"]
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "keypad_hyphen",
+						"modifiers": {
+							"optional": ["any"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "t",
+							"modifiers": ["left_command"]
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "keypad_slash",
+						"modifiers": {
+							"optional": ["any"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "tab",
+							"modifiers": ["left_option"]
+						},
+						{
+							"key_code": "tab",
+							"modifiers": ["left_option"]
+						},
+						{
+							"key_code": "tab",
+							"modifiers": ["left_option"]
+						},
+						{
+							"key_code": "tab",
+							"modifiers": ["left_option"]
+						},
+						{
+							"key_code": "tab",
+							"modifiers": ["left_option"]
+						},
+						{
+							"key_code": "return_or_enter"
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_if",
+							"bundle_identifiers": ["^com\\.apple\\.Safari$"]
+						},
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "keypad_asterisk",
+						"modifiers": {
+							"optional": ["any"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "tab",
+							"modifiers": ["left_option"]
+						},
+						{
+							"key_code": "tab",
+							"modifiers": ["left_option"]
+						},
+						{
+							"key_code": "tab",
+							"modifiers": ["left_option"]
+						},
+						{
+							"key_code": "tab",
+							"modifiers": ["left_option"]
+						},
+						{
+							"key_code": "return_or_enter"
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_if",
+							"bundle_identifiers": ["^com\\.apple\\.Safari$"]
+						},
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "keypad_slash",
+						"modifiers": {
+							"optional": ["any"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "dashboard"
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.apple\\.Safari$"]
+						},
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "keypad_asterisk",
+						"modifiers": {
+							"optional": ["any"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "launchpad"
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.apple\\.Safari$"]
+						},
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "keypad_1",
+						"modifiers": {
+							"optional": ["any"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "u",
+							"modifiers": ["left_control","left_option"]
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "keypad_2",
+						"modifiers": {
+							"optional": ["any"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "delete_or_backspace",
+							"modifiers": ["left_control","left_option"]
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "keypad_3",
+						"modifiers": {
+							"optional": ["any"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "i",
+							"modifiers": ["left_control","left_option"]
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "keypad_4",
+						"modifiers": {
+							"optional": ["any"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "left_arrow",
+							"modifiers": ["left_control","left_option"]
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "keypad_5",
+						"modifiers": {
+							"optional": [
+								"any"
+							]
+						}
+					},
+					"to": [
+						{
+							"key_code": "c",
+							"modifiers": ["left_control","left_option"]
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "keypad_6",
+						"modifiers": {
+							"optional": ["any"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "right_arrow",
+							"modifiers": ["left_control","left_option"]
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "keypad_7",
+						"modifiers": {
+							"optional": ["any"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "left_arrow",
+							"modifiers": ["left_control","left_command"]
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "keypad_8",
+						"modifiers": {
+							"optional": ["any"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "f",
+							"modifiers": ["left_control","left_command"]
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "keypad_9",
+						"modifiers": {
+							"optional": ["any"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "right_arrow",
+							"modifiers": ["left_control","left_command"]
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_unless",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				}
+			]
+		},
+
+		{
+			"description": "LOpt, LCmd: swap in games (wow & dia3)",
+			"manipulators": [
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "left_option",
+						"modifiers": {
+							"optional": ["any"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "left_command"
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_if",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "left_command",
+						"modifiers": {
+							"optional": ["any"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "left_option"
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_if",
+							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+						}
+					]
+				}
+			]
+		},
+
+		{
+			"description": "Spacebar(+shift): right(left) arrow in safari (for kakao page)",
+			"manipulators": [
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "spacebar"
+					},
+					"to": [
+						{
+							"key_code": "right_arrow"
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_if",
+							"bundle_identifiers": ["^com\\.apple\\.Safari$"]
+						}
+					]
+				},
+				{
+					"type": "basic",
+					"from": {
+						"key_code": "spacebar",
+						"modifiers": {
+							"optional": ["left_shift","right_shift","caps_lock"]
+						}
+					},
+					"to": [
+						{
+							"key_code": "left_arrow"
+						}
+					],
+					"conditions": [
+						{
+							"type": "frontmost_application_if",
+							"bundle_identifiers": ["^com\\.apple\\.Safari$"]
+						}
+					]
+				}
+
+			]
+		}
+
+	]
+}

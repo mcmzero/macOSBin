@@ -13,7 +13,7 @@ downloadFile="/usr/local/torrent/torrent_download.sh"
 disposeFile="/usr/local/torrent/torrent_dispose.sh"
 removeFile="/usr/local/torrent/torrent_remove.sh"
 excludeFile="/usr/local/torrent/rsync_exclude_pattern.txt"
-backupFile="$HOME/bin/backup_rsync.sh"
+backupFile="$HOME/bin/bash/backup_rsync.sh"
 
 source $downloadFile
 programName=$(basename $0)
@@ -66,7 +66,7 @@ function runSync() {
 	echo rsync rasPi
 
 	local optVerbose="-v"
-	local srcPath="$HOME/Google Drive/ShellScript.localized/TorrentBin"
+	local srcPath="$HOME/Developer.localized/ShellScript.localized/TorrentBin"
 	local trgPath="/usr/local/torrent"
 
 	#backup rasPi1 /etc

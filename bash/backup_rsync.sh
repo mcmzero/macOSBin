@@ -24,9 +24,9 @@ function backup() {
 	rsync -auz $targetVolume/Archives.localized/ $sourceVolume/Users/changmin/Archives.localized
 
 	# 카라비너 설정 백업
-	rsync -auz ~/.config/karabiner ~/Archives.localized/macOS/Karabiner
-	rsync -auz ~/.config/karabiner ~/Google\ Drive/Computer.localized/macOS
-	rsync -auz ~/.config/karabiner ~/bin
+	rsync -auz --delete ~/.config/karabiner ~/Archives.localized/macOS/Karabiner
+	rsync -auz --delete ~/.config/karabiner ~/Google\ Drive/Computer.localized/macOS
+	rsync -v -auz --delete ~/.config/karabiner ~/bin
 }
 
 backup $@
