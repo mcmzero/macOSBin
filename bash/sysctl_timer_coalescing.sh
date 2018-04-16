@@ -15,6 +15,7 @@ case $1 in
 		sudo /usr/libexec/PlistBuddy -c "set :ProgramArguments:2 string kern.timer.coalescing_enabled=0" $SYSCTL_PLIST
 		sudo /usr/libexec/PlistBuddy -c "set :RunAtLoad true" /Library/LaunchDaemons/com.mcm.sysctl.plist
 		sudo launchctl load -w $SYSCTL_PLIST
+		sudo launchctl kickstart -k $SYSCTL_PLIST
 		sudo /usr/sbin/sysctl -w kern.timer.coalescing_enabled=0
 	;;
 	*)
