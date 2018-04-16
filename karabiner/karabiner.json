@@ -266,7 +266,7 @@
                         ]
                     },
                     {
-                        "description": "⎋`->⎋⌘; ⎋,⌘Spc->[en]",
+                        "description": "⎋`(⎋⌘); ⎋(en),⌘Spc(en)",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -421,7 +421,7 @@
                         ]
                     },
                     {
-                        "description": "Menu:Application->^F2; Dock:RCtrl->^F3",
+                        "description": "Menu:Application(^f2); Dock:RCtrl(^f3)",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -482,7 +482,7 @@
                         ]
                     },
                     {
-                        "description": "finder: f1->휴지통으로 이동,⌘f1->휴지통 비우기",
+                        "description": "finder: f1(휴지통으로 이동),⌘f1(휴지통 비우기)",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -551,7 +551,7 @@
                         ]
                     },
                     {
-                        "description": "f1~f12->Open {Terminal,Chrome,Finder,etc...}",
+                        "description": "f1(마크설정),f2(잘라내기),f3(최소화),f4(가리기)",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -681,7 +681,12 @@
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "f5(prevPage),f6(nextPage),f7(iBooks),f8(XCode)",
+                        "manipulators": [
                             {
                                 "conditions": [
                                     {
@@ -844,7 +849,12 @@
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "f9(chrome,safari),f10(VSCode),f11(finder),f12(term)",
+                        "manipulators": [
                             {
                                 "conditions": [
                                     {
@@ -947,7 +957,7 @@
                         ]
                     },
                     {
-                        "description": "f13(PrtScr)->shutdown; f14(ScrLock)->sleep; f15(Pause)->Toggle profile",
+                        "description": "리모콘: ⎋(shutdown); ⌃(sleep)",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -959,41 +969,34 @@
                                         "type": "frontmost_application_unless"
                                     },
                                     {
-                                        "is_keyboard": true,
-                                        "is_pointing_device": false,
-                                        "location_id": 487653376,
-                                        "manufacturer": "AUTAXIN",
-                                        "product": "AUTAXIN Wireless Device",
-                                        "product_id": 4,
-                                        "registry_entry_id": 4294968090,
-                                        "transport": "USB",
-                                        "vendor_id": 2629
+                                        "identifiers": [
+                                            {
+                                                "description": "리모콘",
+                                                "location_id": 487653376,
+                                                "product_id": 4,
+                                                "registry_entry_id": 4294968090,
+                                                "vendor_id": 2629
+                                            }
+                                        ],
+                                        "type": "device_if"
                                     }
                                 ],
                                 "from": {
+                                    "key_code": "escape",
                                     "modifiers": {
                                         "optional": [
                                             "any"
                                         ]
-                                    },
-                                    "simultaneous": [
-                                        {
-                                            "key_code": "up_arrow"
-                                        },
-                                        {
-                                            "key_code": "down_arrow"
-                                        }
-                                    ],
-                                    "simultaneous_options": {
-                                        "key_up_order": "strict"
                                     }
                                 },
+                                "to": [
+                                    {
+                                        "shell_command": "/usr/bin/say '나 졸려 그만 잘래'"
+                                    }
+                                ],
                                 "to_if_held_down": [
                                     {
-                                        "shell_command": "/usr/bin/say '1분 후 컴퓨터 종료'"
-                                    },
-                                    {
-                                        "shell_command": "(sleep 60;osascript -e 'tell app \"System Events\" to shut down') &"
+                                        "shell_command": "(sleep 3;osascript -e 'tell app \"System Events\" to sleep') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -1008,45 +1011,43 @@
                                         "type": "frontmost_application_unless"
                                     },
                                     {
-                                        "is_keyboard": true,
-                                        "is_pointing_device": false,
-                                        "location_id": 487653376,
-                                        "manufacturer": "AUTAXIN",
-                                        "product": "AUTAXIN Wireless Device",
-                                        "product_id": 4,
-                                        "registry_entry_id": 4294968090,
-                                        "transport": "USB",
-                                        "vendor_id": 2629
+                                        "identifiers": [
+                                            {
+                                                "description": "리모콘",
+                                                "location_id": 487653376,
+                                                "product_id": 4,
+                                                "registry_entry_id": 4294968090,
+                                                "vendor_id": 2629
+                                            }
+                                        ],
+                                        "type": "device_if"
                                     }
                                 ],
                                 "from": {
+                                    "key_code": "left_control",
                                     "modifiers": {
                                         "optional": [
                                             "any"
                                         ]
-                                    },
-                                    "simultaneous": [
-                                        {
-                                            "key_code": "left_arrow"
-                                        },
-                                        {
-                                            "key_code": "right_arrow"
-                                        }
-                                    ],
-                                    "simultaneous_options": {
-                                        "key_up_order": "strict"
                                     }
                                 },
-                                "to_if_held_down": [
+                                "to": [
                                     {
-                                        "shell_command": "/usr/bin/say '2시간 후 컴퓨터 종료'"
-                                    },
+                                        "shell_command": "/usr/bin/say '시스템 종료 예약. 두시간후 종료합니다'"
+                                    }
+                                ],
+                                "to_if_held_down": [
                                     {
                                         "shell_command": "(sleep 7200;osascript -e 'tell app \"System Events\" to shut down') &"
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "f13,PrtScr(shutdown); f14,ScrLock(sleep); f15,Pause(Toggle profile)",
+                        "manipulators": [
                             {
                                 "conditions": [
                                     {
@@ -1060,9 +1061,14 @@
                                 "from": {
                                     "key_code": "print_screen"
                                 },
+                                "to": [
+                                    {
+                                        "shell_command": "/usr/bin/say '시스템 종료'"
+                                    }
+                                ],
                                 "to_if_held_down": [
                                     {
-                                        "shell_command": "osascript -e 'tell app \"System Events\" to shut down'"
+                                        "shell_command": "(sleep3;osascript -e 'tell app \"System Events\" to shut down') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -1080,9 +1086,14 @@
                                 "from": {
                                     "key_code": "f13"
                                 },
+                                "to": [
+                                    {
+                                        "shell_command": "/usr/bin/say '시스템 종료'"
+                                    }
+                                ],
                                 "to_if_held_down": [
                                     {
-                                        "shell_command": "osascript -e 'tell app \"System Events\" to shut down'"
+                                        "shell_command": "(sleep3;osascript -e 'tell app \"System Events\" to shut down') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -1100,9 +1111,14 @@
                                 "from": {
                                     "key_code": "scroll_lock"
                                 },
+                                "to": [
+                                    {
+                                        "shell_command": "/usr/bin/say '나 졸려 그만 잘래'"
+                                    }
+                                ],
                                 "to_if_held_down": [
                                     {
-                                        "shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
+                                        "shell_command": "(sleep 3;osascript -e 'tell app \"System Events\" to sleep') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -1120,9 +1136,14 @@
                                 "from": {
                                     "key_code": "f14"
                                 },
+                                "to": [
+                                    {
+                                        "shell_command": "/usr/bin/say '나 졸려 그만 잘래'"
+                                    }
+                                ],
                                 "to_if_held_down": [
                                     {
-                                        "shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
+                                        "shell_command": "(sleep 3;osascript -e 'tell app \"System Events\" to sleep') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -1696,7 +1717,7 @@
                         ]
                     },
                     {
-                        "description": "wow & dia3: LOpt<->L⌘",
+                        "description": "wow & dia3: L⌥<->L⌘",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -1751,7 +1772,7 @@
                         ]
                     },
                     {
-                        "description": "safari: 1,2->카카오페이지 이전편,다음편; Spacebar(+shift)->right(left); ^+SPC->카카오페이지모드 시작,⎋->끝",
+                        "description": "safari(카카오페이지): 1(이전편),2(다음편); ␣(→),⇧␣(←); ^␣(카카오페이지모드 시작),⎋(끝)",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -1767,7 +1788,7 @@
                                         "type": "frontmost_application_if"
                                     }
                                 ],
-                                "description": "카카오 페이지: 1->이전편",
+                                "description": "이전편",
                                 "from": {
                                     "key_code": "1",
                                     "modifiers": {
@@ -1827,7 +1848,7 @@
                                         "type": "frontmost_application_if"
                                     }
                                 ],
-                                "description": "카카오 페이지: 2->다음편",
+                                "description": "다음편",
                                 "from": {
                                     "key_code": "2",
                                     "modifiers": {
@@ -1893,12 +1914,12 @@
                                         "type": "frontmost_application_if"
                                     }
                                 ],
-                                "description": "Spacebar->다음 페이지",
                                 "from": {
                                     "key_code": "spacebar"
                                 },
                                 "to": [
                                     {
+                                        "description": "다음 페이지",
                                         "key_code": "right_arrow"
                                     }
                                 ],
@@ -1918,8 +1939,8 @@
                                         "type": "frontmost_application_if"
                                     }
                                 ],
-                                "description": "shift+spacebar->이전 페이지",
                                 "from": {
+                                    "description": "이전 페이지",
                                     "key_code": "spacebar",
                                     "modifiers": {
                                         "optional": [
@@ -1949,8 +1970,8 @@
                                         "type": "frontmost_application_if"
                                     }
                                 ],
-                                "description": "카카오 페이지 모드 on",
                                 "from": {
+                                    "description": "카카오 페이지 모드 on",
                                     "key_code": "spacebar",
                                     "modifiers": {
                                         "mandatory": [
@@ -1985,8 +2006,8 @@
                                         "type": "frontmost_application_if"
                                     }
                                 ],
-                                "description": "카카오 페이지 모드 off",
                                 "from": {
+                                    "description": "카카오 페이지 모드 off",
                                     "key_code": "escape",
                                     "modifiers": {
                                         "optional": [
@@ -2429,7 +2450,7 @@
                 }
             ],
             "name": "기본",
-            "selected": false,
+            "selected": true,
             "simple_modifications": [
                 {
                     "from": {
@@ -2715,7 +2736,7 @@
                         ]
                     },
                     {
-                        "description": "⎋`->⎋⌘; ⎋,⌘Spc->[en]",
+                        "description": "⎋`(⎋⌘); ⎋(en),⌘Spc(en)",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -2870,7 +2891,7 @@
                         ]
                     },
                     {
-                        "description": "Menu:Application->^F2; Dock:RCtrl->^F3",
+                        "description": "Menu:Application(^f2); Dock:RCtrl(^f3)",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -2931,7 +2952,7 @@
                         ]
                     },
                     {
-                        "description": "finder: f1->휴지통으로 이동,⌘f1->휴지통 비우기",
+                        "description": "finder: f1(휴지통으로 이동),⌘f1(휴지통 비우기)",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -3000,7 +3021,7 @@
                         ]
                     },
                     {
-                        "description": "f1~f12->Open {Terminal,Chrome,Finder,etc...}",
+                        "description": "f1(마크설정),f2(잘라내기),f3(최소화),f4(가리기)",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -3130,7 +3151,12 @@
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "f5(prevPage),f6(nextPage),f7(iBooks),f8(XCode)",
+                        "manipulators": [
                             {
                                 "conditions": [
                                     {
@@ -3293,7 +3319,12 @@
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "f9(chrome,safari),f10(VSCode),f11(finder),f12(term)",
+                        "manipulators": [
                             {
                                 "conditions": [
                                     {
@@ -3396,7 +3427,7 @@
                         ]
                     },
                     {
-                        "description": "f13(PrtScr)->shutdown; f14(ScrLock)->sleep; f15(Pause)->Toggle profile",
+                        "description": "리모콘: ⎋(shutdown); ⌃(sleep)",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -3421,21 +3452,11 @@
                                     }
                                 ],
                                 "from": {
+                                    "key_code": "escape",
                                     "modifiers": {
                                         "optional": [
                                             "any"
                                         ]
-                                    },
-                                    "simultaneous": [
-                                        {
-                                            "key_code": "up_arrow"
-                                        },
-                                        {
-                                            "key_code": "down_arrow"
-                                        }
-                                    ],
-                                    "simultaneous_options": {
-                                        "key_up_order": "strict"
                                     }
                                 },
                                 "to": [
@@ -3445,7 +3466,7 @@
                                 ],
                                 "to_if_held_down": [
                                     {
-                                        "shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
+                                        "shell_command": "(sleep 3;osascript -e 'tell app \"System Events\" to sleep') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -3473,21 +3494,11 @@
                                     }
                                 ],
                                 "from": {
+                                    "key_code": "left_control",
                                     "modifiers": {
                                         "optional": [
                                             "any"
                                         ]
-                                    },
-                                    "simultaneous": [
-                                        {
-                                            "key_code": "left_arrow"
-                                        },
-                                        {
-                                            "key_code": "right_arrow"
-                                        }
-                                    ],
-                                    "simultaneous_options": {
-                                        "key_up_order": "strict"
                                     }
                                 },
                                 "to": [
@@ -3501,7 +3512,12 @@
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "f13,PrtScr(shutdown); f14,ScrLock(sleep); f15,Pause(Toggle profile)",
+                        "manipulators": [
                             {
                                 "conditions": [
                                     {
@@ -3522,7 +3538,7 @@
                                 ],
                                 "to_if_held_down": [
                                     {
-                                        "shell_command": "osascript -e 'tell app \"System Events\" to shut down'"
+                                        "shell_command": "(sleep3;osascript -e 'tell app \"System Events\" to shut down') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -3547,7 +3563,7 @@
                                 ],
                                 "to_if_held_down": [
                                     {
-                                        "shell_command": "osascript -e 'tell app \"System Events\" to shut down'"
+                                        "shell_command": "(sleep3;osascript -e 'tell app \"System Events\" to shut down') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -3572,7 +3588,7 @@
                                 ],
                                 "to_if_held_down": [
                                     {
-                                        "shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
+                                        "shell_command": "(sleep 3;osascript -e 'tell app \"System Events\" to sleep') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -3597,7 +3613,7 @@
                                 ],
                                 "to_if_held_down": [
                                     {
-                                        "shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
+                                        "shell_command": "(sleep 3;osascript -e 'tell app \"System Events\" to sleep') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -4171,7 +4187,7 @@
                         ]
                     },
                     {
-                        "description": "wow & dia3: LOpt<->L⌘",
+                        "description": "wow & dia3: L⌥<->L⌘",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -4226,7 +4242,7 @@
                         ]
                     },
                     {
-                        "description": "safari: 1,2->카카오페이지 이전편,다음편; Spacebar(+shift)->right(left); ^+SPC->카카오페이지모드 시작,⎋->끝",
+                        "description": "safari(카카오페이지): 1(이전편),2(다음편); ␣(→),⇧␣(←); ^␣(카카오페이지모드 시작),⎋(끝)",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -4242,7 +4258,7 @@
                                         "type": "frontmost_application_if"
                                     }
                                 ],
-                                "description": "카카오 페이지: 1->이전편",
+                                "description": "이전편",
                                 "from": {
                                     "key_code": "1",
                                     "modifiers": {
@@ -4302,7 +4318,7 @@
                                         "type": "frontmost_application_if"
                                     }
                                 ],
-                                "description": "카카오 페이지: 2->다음편",
+                                "description": "다음편",
                                 "from": {
                                     "key_code": "2",
                                     "modifiers": {
@@ -4368,12 +4384,12 @@
                                         "type": "frontmost_application_if"
                                     }
                                 ],
-                                "description": "Spacebar->다음 페이지",
                                 "from": {
                                     "key_code": "spacebar"
                                 },
                                 "to": [
                                     {
+                                        "description": "다음 페이지",
                                         "key_code": "right_arrow"
                                     }
                                 ],
@@ -4393,8 +4409,8 @@
                                         "type": "frontmost_application_if"
                                     }
                                 ],
-                                "description": "shift+spacebar->이전 페이지",
                                 "from": {
+                                    "description": "이전 페이지",
                                     "key_code": "spacebar",
                                     "modifiers": {
                                         "optional": [
@@ -4424,8 +4440,8 @@
                                         "type": "frontmost_application_if"
                                     }
                                 ],
-                                "description": "카카오 페이지 모드 on",
                                 "from": {
+                                    "description": "카카오 페이지 모드 on",
                                     "key_code": "spacebar",
                                     "modifiers": {
                                         "mandatory": [
@@ -4460,8 +4476,8 @@
                                         "type": "frontmost_application_if"
                                     }
                                 ],
-                                "description": "카카오 페이지 모드 off",
                                 "from": {
+                                    "description": "카카오 페이지 모드 off",
                                     "key_code": "escape",
                                     "modifiers": {
                                         "optional": [
@@ -4891,7 +4907,7 @@
                 }
             ],
             "name": "응용",
-            "selected": true,
+            "selected": false,
             "simple_modifications": [
                 {
                     "from": {

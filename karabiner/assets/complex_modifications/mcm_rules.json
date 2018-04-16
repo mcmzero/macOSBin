@@ -2,7 +2,7 @@
     "title": "mcm's rules",
     "rules": [
         {
-            "description": "⎋`->⎋⌘; ⎋,⌘Spc->[en]",
+            "description": "⎋`(⎋⌘); ⎋(en),⌘Spc(en)",
             "manipulators": [
                 {
                     "type": "basic",
@@ -134,7 +134,7 @@
         },
 
         {
-            "description": "Menu:Application->^F2; Dock:RCtrl->^F3",
+            "description": "Menu:Application(^f2); Dock:RCtrl(^f3)",
             "manipulators": [
                 {
                     "type": "basic",
@@ -182,7 +182,7 @@
         },
 
         {
-            "description": "finder: f1->휴지통으로 이동,⌘f1->휴지통 비우기",
+            "description": "finder: f1(휴지통으로 이동),⌘f1(휴지통 비우기)",
             "manipulators": [
                 {
                     "description": "finder: f1->휴지통으로 이동",
@@ -242,7 +242,7 @@
         },
 
         {
-            "description": "f1~f12->Open {Terminal,Chrome,Finder,etc...}",
+            "description": "f1(마크설정),f2(잘라내기),f3(최소화),f4(가리기)",
             "manipulators": [
                 {
                     "type": "basic",
@@ -345,8 +345,13 @@
                             "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
                         }
                     ]
-                },
+                }
+            ]
+        },
 
+        {
+            "description": "f5(prevPage),f6(nextPage),f7(iBooks),f8(XCode)",
+            "manipulators": [
                 {
                     "description": "iBooks: f5->prev page",
                     "type": "basic",
@@ -490,7 +495,12 @@
                             ]
                         }
                     ]
-                },
+                }
+            ]
+        },
+        {
+            "description": "f9(chrome,safari),f10(VSCode),f11(finder),f12(term)",
+            "manipulators": [
                 {
                     "description": "Open: f9->Google Chrome",
                     "type": "basic",
@@ -582,21 +592,15 @@
         },
 
         {
-            "description": "f13(PrtScr)->shutdown; f14(ScrLock)->sleep; f15(Pause)->Toggle profile",
+            "description": "리모콘: ⎋(shutdown); ⌃(sleep)",
             "manipulators": [
                 {
                     "type": "basic",
                     "from": {
-                        "simultaneous": [
-                            {"key_code": "up_arrow"},
-                            {"key_code": "down_arrow"}
-                        ],
-                           "simultaneous_options": {
-                            "key_up_order": "strict"
-                        },
+                        "key_code": "escape",
                         "modifiers": {
                             "optional": ["any"]
-                        }                    
+                        }
                     },
                     "to": [
                         {
@@ -605,7 +609,7 @@
                     ],
                     "to_if_held_down": [
                         {
-                            "shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
+                            "shell_command": "(sleep 3;osascript -e 'tell app \"System Events\" to sleep') &"
                         }
                     ],
                     "conditions": [
@@ -630,16 +634,10 @@
                 {
                     "type": "basic",
                     "from": {
-                        "simultaneous": [
-                            {"key_code": "left_arrow"},
-                            {"key_code": "right_arrow"}
-                        ],
-                           "simultaneous_options": {
-                            "key_up_order": "strict"
-                        },
+                        "key_code": "left_control",
                         "modifiers": {
                             "optional": ["any"]
-                        }                    
+                        }
                     },
                     "to": [
                         {
@@ -669,8 +667,13 @@
                             ]
 						}
                     ]
-                },
+                }
+            ]
+        },
 
+        {
+            "description": "f13,PrtScr(shutdown); f14,ScrLock(sleep); f15,Pause(Toggle profile)",
+            "manipulators": [
                 {
                     "type": "basic",
                     "from": {
@@ -683,7 +686,7 @@
                     ],
                     "to_if_held_down": [
                         {
-                            "shell_command": "osascript -e 'tell app \"System Events\" to shut down'"
+                            "shell_command": "(sleep3;osascript -e 'tell app \"System Events\" to shut down') &"
                         }
                     ],
                     "conditions": [
@@ -705,7 +708,7 @@
                     ],
                     "to_if_held_down": [
                         {
-                            "shell_command": "osascript -e 'tell app \"System Events\" to shut down'"
+                            "shell_command": "(sleep3;osascript -e 'tell app \"System Events\" to shut down') &"
                         }
                     ],
                     "conditions": [
@@ -727,7 +730,7 @@
                     ],
                     "to_if_held_down": [
                         {
-                            "shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
+                            "shell_command": "(sleep 3;osascript -e 'tell app \"System Events\" to sleep') &"
                         }
                     ],
                     "conditions": [
@@ -749,7 +752,7 @@
                     ],
                     "to_if_held_down": [
                         {
-                            "shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
+                            "shell_command": "(sleep 3;osascript -e 'tell app \"System Events\" to sleep') &"
                         }
                     ],
                     "conditions": [
@@ -1211,7 +1214,7 @@
         },
 
         {
-            "description": "wow & dia3: LOpt<->L⌘",
+            "description": "wow & dia3: L⌥<->L⌘",
             "manipulators": [
                 {
                     "type": "basic",
@@ -1257,10 +1260,9 @@
         },
 
         {
-            "description": "safari: 1,2->카카오페이지 이전편,다음편; Spacebar(+shift)->right(left); ^+SPC->카카오페이지모드 시작,⎋->끝",
+            "description": "safari(카카오페이지): 1(이전편),2(다음편); ␣(→),⇧␣(←); ^␣(카카오페이지모드 시작),⎋(끝)",
             "manipulators": [
                 {
-                    "description": "카카오 페이지: 1->이전편",
                     "type": "basic",
                     "from": {
                         "key_code": "1",
@@ -1268,6 +1270,7 @@
                             "optional": ["any"]
                         }
                     },
+                    "description": "이전편",
                     "to_after_key_up": [
                         {
                             "pointing_button": "button1"
@@ -1308,7 +1311,6 @@
                     ]
                 },
                 {
-                    "description": "카카오 페이지: 2->다음편",
                     "type": "basic",
                     "from": {
                         "key_code": "2",
@@ -1316,6 +1318,7 @@
                             "optional": ["any"]
                         }
                     },
+                    "description": "다음편",
                     "to_after_key_up": [
                         {
                             "pointing_button": "button1"
@@ -1360,13 +1363,13 @@
                     ]
                 },
                 {
-                    "description": "Spacebar->다음 페이지",
                     "type": "basic",
                     "from": {
                         "key_code": "spacebar"
                     },
                     "to": [
                         {
+                            "description": "다음 페이지",
                             "key_code": "right_arrow"
                         }
                     ],
@@ -1383,9 +1386,9 @@
                     ]
                 },
                 {
-                    "description": "shift+spacebar->이전 페이지",
                     "type": "basic",
                     "from": {
+                        "description": "이전 페이지",
                         "key_code": "spacebar",
                         "modifiers": {
                             "optional": ["shift","caps_lock"]
@@ -1410,9 +1413,9 @@
                 },
 
                 {
-                    "description": "카카오 페이지 모드 on",
                     "type": "basic",
                     "from": {
+                        "description": "카카오 페이지 모드 on",
                         "key_code": "spacebar",
                         "modifiers": {
                             "mandatory": ["control"]
@@ -1442,9 +1445,9 @@
                     ]
                 },
                 {
-                    "description": "카카오 페이지 모드 off",
                     "type": "basic",
                     "from": {
+                        "description": "카카오 페이지 모드 off",
                         "key_code": "escape",
                         "modifiers": {
                             "optional": ["any"]
