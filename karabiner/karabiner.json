@@ -15,14 +15,13 @@
                 },
                 "rules": [
                     {
-                        "description": "Switch Kor,Eng: GeneralKB(RAlt),HHK(RGui)->Caps",
+                        "description": "Apple: GeneralKB(RAlt),HHK(RGui)->caps; wow,dia3->[ko/en]",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
                                         "identifiers": [
                                             {
-                                                "product": "HHKB*",
                                                 "product_id": 256,
                                                 "vendor_id": 2131
                                             }
@@ -41,7 +40,7 @@
                                     "key_code": "right_alt",
                                     "modifiers": {
                                         "optional": [
-                                            "caps_lock"
+                                            "any"
                                         ]
                                     }
                                 },
@@ -57,7 +56,6 @@
                                     {
                                         "identifiers": [
                                             {
-                                                "product": "HHKB*",
                                                 "product_id": 256,
                                                 "vendor_id": 2131
                                             }
@@ -76,7 +74,7 @@
                                     "key_code": "right_gui",
                                     "modifiers": {
                                         "optional": [
-                                            "caps_lock"
+                                            "any"
                                         ]
                                     }
                                 },
@@ -118,11 +116,11 @@
                                     "key_code": "right_alt",
                                     "modifiers": {
                                         "optional": [
-                                            "caps_lock"
+                                            "any"
                                         ]
                                     }
                                 },
-                                "to": [
+                                "to_after_key_up": [
                                     {
                                         "select_input_source": {
                                             "language": "en"
@@ -162,13 +160,14 @@
                                     "key_code": "right_alt",
                                     "modifiers": {
                                         "optional": [
-                                            "caps_lock"
+                                            "any"
                                         ]
                                     }
                                 },
-                                "to": [
+                                "to_after_key_up": [
                                     {
                                         "select_input_source": {
+                                            "input_mode_id": "com.apple.inputmethod.Korean.*",
                                             "language": "ko"
                                         }
                                     }
@@ -206,11 +205,11 @@
                                     "key_code": "right_gui",
                                     "modifiers": {
                                         "optional": [
-                                            "caps_lock"
+                                            "any"
                                         ]
                                     }
                                 },
-                                "to": [
+                                "to_after_key_up": [
                                     {
                                         "select_input_source": {
                                             "language": "en"
@@ -250,13 +249,14 @@
                                     "key_code": "right_gui",
                                     "modifiers": {
                                         "optional": [
-                                            "caps_lock"
+                                            "any"
                                         ]
                                     }
                                 },
-                                "to": [
+                                "to_after_key_up": [
                                     {
                                         "select_input_source": {
+                                            "input_mode_id": "com.apple.inputmethod.Korean.*",
                                             "language": "ko"
                                         }
                                     }
@@ -266,7 +266,7 @@
                         ]
                     },
                     {
-                        "description": "Esc+`: Esc+Cmd | Ime(en): Esc, Cmd+Spc",
+                        "description": "⎋`->⎋⌘; ⎋,⌘Spc->[en]",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -299,6 +299,14 @@
                             {
                                 "conditions": [
                                     {
+                                        "input_sources": [
+                                            {
+                                                "language": "ko"
+                                            }
+                                        ],
+                                        "type": "input_source_if"
+                                    },
+                                    {
                                         "bundle_identifiers": [
                                             "^com\\.blizzard\\.worldofwarcraft$",
                                             "^com\\.blizzard\\.diablo3$"
@@ -314,14 +322,14 @@
                                         ]
                                     }
                                 },
-                                "to_after_key_up": [
+                                "to": [
                                     {
                                         "select_input_source": {
                                             "language": "en"
                                         }
                                     }
                                 ],
-                                "to_if_alone": [
+                                "to_after_key_up": [
                                     {
                                         "key_code": "escape"
                                     }
@@ -330,6 +338,14 @@
                             },
                             {
                                 "conditions": [
+                                    {
+                                        "input_sources": [
+                                            {
+                                                "language": "ko"
+                                            }
+                                        ],
+                                        "type": "input_source_if"
+                                    },
                                     {
                                         "bundle_identifiers": [
                                             "^com\\.blizzard\\.worldofwarcraft$",
@@ -348,17 +364,56 @@
                                 },
                                 "to": [
                                     {
+                                        "select_input_source": {
+                                            "language": "en"
+                                        }
+                                    }
+                                ],
+                                "to_after_key_up": [
+                                    {
                                         "key_code": "spacebar",
                                         "modifiers": [
                                             "left_command"
                                         ]
                                     }
                                 ],
-                                "to_after_key_up": [
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "input_sources": [
+                                            {
+                                                "language": "ko"
+                                            }
+                                        ],
+                                        "type": "input_source_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "left_control",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
                                     {
                                         "select_input_source": {
                                             "language": "en"
                                         }
+                                    },
+                                    {
+                                        "key_code": "left_control",
+                                        "lazy": true
                                     }
                                 ],
                                 "type": "basic"
@@ -366,7 +421,7 @@
                         ]
                     },
                     {
-                        "description": "Application: Ctrl+F2 (Menu) | RCtrl: Ctrl+F3 (Dock)",
+                        "description": "Menu:Application->^F2; Dock:RCtrl->^F3",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -427,16 +482,89 @@
                         ]
                     },
                     {
-                        "description": "F1 ~ F12: Open Terminal, Chrome, Finder, etc...",
+                        "description": "finder: f1->휴지통으로 이동,⌘f1->휴지통 비우기",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
+                                            "com.apple.finder"
                                         ],
-                                        "type": "frontmost_application_unless"
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "description": "finder: f1->휴지통으로 이동",
+                                "from": {
+                                    "key_code": "f1"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "description": "휴지통으로 이동",
+                                        "key_code": "delete_or_backspace",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "to_if_held_down": [
+                                    {
+                                        "description": "휴지통 비우기",
+                                        "key_code": "delete_or_backspace",
+                                        "modifiers": [
+                                            "left_command",
+                                            "left_shift"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "com.apple.finder"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "description": "finder: ⌘f1->휴지통 비우기",
+                                "from": {
+                                    "key_code": "f1",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_command"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "description": "휴지통 비우기",
+                                        "key_code": "delete_or_backspace",
+                                        "modifiers": [
+                                            "left_command",
+                                            "left_shift"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "f1~f12->Open {Terminal,Chrome,Finder,etc...}",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "com.microsoft.VSCode",
+                                            "com.apple.dt.Xcode",
+                                            "com.apple.iBooksX",
+                                            "com.github.GitHubClient",
+                                            "org.altervista.mackie100projects.Clover-Configurator",
+                                            "com.apple.Terminal"
+                                        ],
+                                        "type": "frontmost_application_if"
                                     }
                                 ],
                                 "from": {
@@ -444,6 +572,7 @@
                                 },
                                 "to_if_alone": [
                                     {
+                                        "description": "마크 설정",
                                         "key_code": "2",
                                         "modifiers": [
                                             "left_control",
@@ -457,23 +586,30 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
+                                            "com.microsoft.VSCode",
+                                            "com.apple.dt.Xcode",
+                                            "com.apple.iBooksX",
+                                            "com.github.GitHubClient",
+                                            "org.altervista.mackie100projects.Clover-Configurator",
+                                            "com.apple.Terminal"
                                         ],
-                                        "type": "frontmost_application_unless"
+                                        "type": "frontmost_application_if"
                                     }
                                 ],
+                                "description": "Copy&Yank: f2->⌘c,^w",
                                 "from": {
                                     "key_code": "f2"
                                 },
                                 "to_if_alone": [
                                     {
+                                        "description": "복사",
                                         "key_code": "c",
                                         "modifiers": [
                                             "left_command"
                                         ]
                                     },
                                     {
+                                        "description": "잘라내기",
                                         "key_code": "w",
                                         "modifiers": [
                                             "left_control"
@@ -492,8 +628,78 @@
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
+                                "description": "최소화: f3->⌘m",
                                 "from": {
                                     "key_code": "f3"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "m",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "to_if_held_down": [
+                                    {
+                                        "key_code": "h",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
+                                "description": "가리기: f4->⌘h",
+                                "from": {
+                                    "key_code": "f4"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "h",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "to_if_held_down": [
+                                    {
+                                        "key_code": "m",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "com.microsoft.VSCode",
+                                            "com.apple.dt.Xcode",
+                                            "com.apple.iBooksX",
+                                            "com.apple.finder",
+                                            "com.github.GitHubClient",
+                                            "org.altervista.mackie100projects.Clover-Configurator",
+                                            "com.apple.Terminal"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "description": "iBooks: f5->prev page",
+                                "from": {
+                                    "key_code": "f5"
                                 },
                                 "to_delayed_action": {
                                     "to_if_canceled": [
@@ -532,14 +738,20 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
+                                            "com.microsoft.VSCode",
+                                            "com.apple.dt.Xcode",
+                                            "com.apple.iBooksX",
+                                            "com.apple.finder",
+                                            "com.github.GitHubClient",
+                                            "org.altervista.mackie100projects.Clover-Configurator",
+                                            "com.apple.Terminal"
                                         ],
-                                        "type": "frontmost_application_unless"
+                                        "type": "frontmost_application_if"
                                     }
                                 ],
+                                "description": "iBooks: f6->next page",
                                 "from": {
-                                    "key_code": "f4"
+                                    "key_code": "f6"
                                 },
                                 "to_delayed_action": {
                                     "to_if_canceled": [
@@ -582,10 +794,23 @@
                                             "^com\\.blizzard\\.diablo3$"
                                         ],
                                         "type": "frontmost_application_unless"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "com.microsoft.VSCode",
+                                            "com.apple.dt.Xcode",
+                                            "com.apple.iBooksX",
+                                            "com.apple.finder",
+                                            "com.github.GitHubClient",
+                                            "org.altervista.mackie100projects.Clover-Configurator",
+                                            "com.apple.Terminal"
+                                        ],
+                                        "type": "frontmost_application_if"
                                     }
                                 ],
+                                "description": "Open: f7->iBooks",
                                 "from": {
-                                    "key_code": "f5"
+                                    "key_code": "f7"
                                 },
                                 "to_if_alone": [
                                     {
@@ -598,14 +823,20 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
+                                            "com.microsoft.VSCode",
+                                            "com.apple.dt.Xcode",
+                                            "com.apple.iBooksX",
+                                            "com.apple.finder",
+                                            "com.github.GitHubClient",
+                                            "org.altervista.mackie100projects.Clover-Configurator",
+                                            "com.apple.Terminal"
                                         ],
-                                        "type": "frontmost_application_unless"
+                                        "type": "frontmost_application_if"
                                     }
                                 ],
+                                "description": "Open: f8->XCode",
                                 "from": {
-                                    "key_code": "f6"
+                                    "key_code": "f8"
                                 },
                                 "to_if_alone": [
                                     {
@@ -624,49 +855,7 @@
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
-                                "from": {
-                                    "key_code": "f7"
-                                },
-                                "to_if_alone": [
-                                    {
-                                        "shell_command": "~/bin/efi_mount.sh;open -a 'Clover Configurator'"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "f8"
-                                },
-                                "to_if_alone": [
-                                    {
-                                        "shell_command": "~/bin/buildkext.sh rebase"
-                                    },
-                                    {
-                                        "shell_command": "open -a 'github desktop'"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    }
-                                ],
+                                "description": "Open: f9->Google Chrome",
                                 "from": {
                                     "key_code": "f9"
                                 },
@@ -675,6 +864,11 @@
                                         "shell_command": "open -a 'Google Chrome'"
                                     }
                                 ],
+                                "to_if_held_down": [
+                                    {
+                                        "shell_command": "open -a 'Safari'"
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -687,28 +881,9 @@
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
+                                "description": "Open: f10->VS Code",
                                 "from": {
                                     "key_code": "f10"
-                                },
-                                "to_if_alone": [
-                                    {
-                                        "shell_command": "open ~/Downloads"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "f11"
                                 },
                                 "to_if_alone": [
                                     {
@@ -727,19 +902,44 @@
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
+                                "description": "Open: f11->Finder",
+                                "from": {
+                                    "key_code": "f11"
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "open ~/Downloads"
+                                    }
+                                ],
+                                "to_if_held_down": [
+                                    {
+                                        "shell_command": "open ~"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
+                                "description": "Open: f12->Terminal",
                                 "from": {
                                     "key_code": "f12"
                                 },
-                                "to_if_alone": [
-                                    {
-                                        "select_input_source": {
-                                            "input_mode_id": "",
-                                            "input_source_id": "com.apple.keylayout.ABC",
-                                            "language": "en"
-                                        }
-                                    },
+                                "to": [
                                     {
                                         "shell_command": "open -a Terminal"
+                                    }
+                                ],
+                                "to_if_held_down": [
+                                    {
+                                        "shell_command": "osascript -e 'tell app \"Terminal\"' -e 'do script \"ssh pi@rpi\"' -e'end tell'"
                                     }
                                 ],
                                 "type": "basic"
@@ -747,8 +947,106 @@
                         ]
                     },
                     {
-                        "description": "F13(PrtScr): shutdown | F14(ScrLock): sleep | F15(Pause): Toggle profile",
+                        "description": "f13(PrtScr)->shutdown; f14(ScrLock)->sleep; f15(Pause)->Toggle profile",
                         "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    },
+                                    {
+                                        "is_keyboard": true,
+                                        "is_pointing_device": false,
+                                        "location_id": 487653376,
+                                        "manufacturer": "AUTAXIN",
+                                        "product": "AUTAXIN Wireless Device",
+                                        "product_id": 4,
+                                        "registry_entry_id": 4294968090,
+                                        "transport": "USB",
+                                        "vendor_id": 2629
+                                    }
+                                ],
+                                "from": {
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    },
+                                    "simultaneous": [
+                                        {
+                                            "key_code": "up_arrow"
+                                        },
+                                        {
+                                            "key_code": "down_arrow"
+                                        }
+                                    ],
+                                    "simultaneous_options": {
+                                        "key_up_order": "strict"
+                                    }
+                                },
+                                "to_if_held_down": [
+                                    {
+                                        "shell_command": "/usr/bin/say '1분 후 컴퓨터 종료'"
+                                    },
+                                    {
+                                        "shell_command": "(sleep 60;osascript -e 'tell app \"System Events\" to shut down') &"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    },
+                                    {
+                                        "is_keyboard": true,
+                                        "is_pointing_device": false,
+                                        "location_id": 487653376,
+                                        "manufacturer": "AUTAXIN",
+                                        "product": "AUTAXIN Wireless Device",
+                                        "product_id": 4,
+                                        "registry_entry_id": 4294968090,
+                                        "transport": "USB",
+                                        "vendor_id": 2629
+                                    }
+                                ],
+                                "from": {
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    },
+                                    "simultaneous": [
+                                        {
+                                            "key_code": "left_arrow"
+                                        },
+                                        {
+                                            "key_code": "right_arrow"
+                                        }
+                                    ],
+                                    "simultaneous_options": {
+                                        "key_up_order": "strict"
+                                    }
+                                },
+                                "to_if_held_down": [
+                                    {
+                                        "shell_command": "/usr/bin/say '2시간 후 컴퓨터 종료'"
+                                    },
+                                    {
+                                        "shell_command": "(sleep 7200;osascript -e 'tell app \"System Events\" to shut down') &"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
                             {
                                 "conditions": [
                                     {
@@ -762,7 +1060,7 @@
                                 "from": {
                                     "key_code": "print_screen"
                                 },
-                                "to_if_alone": [
+                                "to_if_held_down": [
                                     {
                                         "shell_command": "osascript -e 'tell app \"System Events\" to shut down'"
                                     }
@@ -780,9 +1078,9 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "F13"
+                                    "key_code": "f13"
                                 },
-                                "to_if_alone": [
+                                "to_if_held_down": [
                                     {
                                         "shell_command": "osascript -e 'tell app \"System Events\" to shut down'"
                                     }
@@ -802,7 +1100,7 @@
                                 "from": {
                                     "key_code": "scroll_lock"
                                 },
-                                "to_if_alone": [
+                                "to_if_held_down": [
                                     {
                                         "shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
                                     }
@@ -820,9 +1118,9 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "F12"
+                                    "key_code": "f14"
                                 },
-                                "to_if_alone": [
+                                "to_if_held_down": [
                                     {
                                         "shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
                                     }
@@ -856,6 +1154,9 @@
                                     },
                                     {
                                         "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '응용'"
+                                    },
+                                    {
+                                        "shell_command": "'/usr/bin/say' '응용 profile'"
                                     }
                                 ],
                                 "type": "basic"
@@ -887,6 +1188,9 @@
                                     },
                                     {
                                         "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '기본'"
+                                    },
+                                    {
+                                        "shell_command": "'/usr/bin/say' '기본 profile'"
                                     }
                                 ],
                                 "type": "basic"
@@ -907,7 +1211,7 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "F15"
+                                    "key_code": "f15"
                                 },
                                 "to_if_alone": [
                                     {
@@ -918,6 +1222,9 @@
                                     },
                                     {
                                         "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '응용'"
+                                    },
+                                    {
+                                        "shell_command": "'/usr/bin/say' '응용 profile'"
                                     }
                                 ],
                                 "type": "basic"
@@ -938,7 +1245,7 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "F15"
+                                    "key_code": "f15"
                                 },
                                 "to_if_alone": [
                                     {
@@ -949,6 +1256,9 @@
                                     },
                                     {
                                         "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '기본'"
+                                    },
+                                    {
+                                        "shell_command": "'/usr/bin/say' '기본 profile'"
                                     }
                                 ],
                                 "type": "basic"
@@ -956,7 +1266,7 @@
                         ]
                     },
                     {
-                        "description": "Keypad: Cmd+Ctrl+arrow, Opt+Ctrl+arrow, ...",
+                        "description": "Keypad: ⌘^arrow,⌥^arrow, ...",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -1076,128 +1386,6 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.apple\\.Safari$"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    },
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "keypad_slash",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "tab",
-                                        "modifiers": [
-                                            "left_option"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "tab",
-                                        "modifiers": [
-                                            "left_option"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "tab",
-                                        "modifiers": [
-                                            "left_option"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "tab",
-                                        "modifiers": [
-                                            "left_option"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "tab",
-                                        "modifiers": [
-                                            "left_option"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "return_or_enter"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.apple\\.Safari$"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    },
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "keypad_asterisk",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "tab",
-                                        "modifiers": [
-                                            "left_option"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "tab",
-                                        "modifiers": [
-                                            "left_option"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "tab",
-                                        "modifiers": [
-                                            "left_option"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "tab",
-                                        "modifiers": [
-                                            "left_option"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "return_or_enter"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.apple\\.Safari$"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    },
-                                    {
-                                        "bundle_identifiers": [
                                             "^com\\.blizzard\\.worldofwarcraft$",
                                             "^com\\.blizzard\\.diablo3$"
                                         ],
@@ -1221,12 +1409,6 @@
                             },
                             {
                                 "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.apple\\.Safari$"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    },
                                     {
                                         "bundle_identifiers": [
                                             "^com\\.blizzard\\.worldofwarcraft$",
@@ -1514,7 +1696,7 @@
                         ]
                     },
                     {
-                        "description": "LOpt, LCmd: swap in games (wow & dia3)",
+                        "description": "wow & dia3: LOpt<->L⌘",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -1569,10 +1751,15 @@
                         ]
                     },
                     {
-                        "description": "Spacebar(+shift): right(left) arrow in safari (for kakao page)",
+                        "description": "safari: 1,2->카카오페이지 이전편,다음편; Spacebar(+shift)->right(left); ^+SPC->카카오페이지모드 시작,⎋->끝",
                         "manipulators": [
                             {
                                 "conditions": [
+                                    {
+                                        "name": "kakao_page_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    },
                                     {
                                         "bundle_identifiers": [
                                             "^com\\.apple\\.Safari$"
@@ -1580,6 +1767,133 @@
                                         "type": "frontmost_application_if"
                                     }
                                 ],
+                                "description": "카카오 페이지: 1->이전편",
+                                "from": {
+                                    "key_code": "1",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to_after_key_up": [
+                                    {
+                                        "pointing_button": "button1"
+                                    },
+                                    {
+                                        "pointing_button": "button1"
+                                    },
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_option"
+                                        ]
+                                    },
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_option"
+                                        ]
+                                    },
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_option"
+                                        ]
+                                    },
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_option"
+                                        ]
+                                    },
+                                    {
+                                        "key_code": "return_or_enter"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "kakao_page_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.apple\\.Safari$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "description": "카카오 페이지: 2->다음편",
+                                "from": {
+                                    "key_code": "2",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to_after_key_up": [
+                                    {
+                                        "pointing_button": "button1"
+                                    },
+                                    {
+                                        "pointing_button": "button1"
+                                    },
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_option"
+                                        ]
+                                    },
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_option"
+                                        ]
+                                    },
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_option"
+                                        ]
+                                    },
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_option"
+                                        ]
+                                    },
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_option"
+                                        ]
+                                    },
+                                    {
+                                        "key_code": "return_or_enter"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "kakao_page_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.apple\\.Safari$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "description": "Spacebar->다음 페이지",
                                 "from": {
                                     "key_code": "spacebar"
                                 },
@@ -1593,18 +1907,23 @@
                             {
                                 "conditions": [
                                     {
+                                        "name": "kakao_page_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    },
+                                    {
                                         "bundle_identifiers": [
                                             "^com\\.apple\\.Safari$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
                                 ],
+                                "description": "shift+spacebar->이전 페이지",
                                 "from": {
                                     "key_code": "spacebar",
                                     "modifiers": {
                                         "optional": [
-                                            "left_shift",
-                                            "right_shift",
+                                            "shift",
                                             "caps_lock"
                                         ]
                                     }
@@ -1612,6 +1931,78 @@
                                 "to": [
                                     {
                                         "key_code": "left_arrow"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "kakao_page_mode",
+                                        "type": "variable_unless",
+                                        "value": 1
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.apple\\.Safari$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "description": "카카오 페이지 모드 on",
+                                "from": {
+                                    "key_code": "spacebar",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "control"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "set_variable": {
+                                            "name": "kakao_page_mode",
+                                            "value": 1
+                                        }
+                                    },
+                                    {
+                                        "shell_command": "'/usr/bin/say' '카카오 페이지 모드 시작'"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "kakao_page_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.apple\\.Safari$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "description": "카카오 페이지 모드 off",
+                                "from": {
+                                    "key_code": "escape",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "set_variable": {
+                                            "name": "kakao_page_mode",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "shell_command": "'/usr/bin/say' '카카오 페이지 모드 종료'"
                                     }
                                 ],
                                 "type": "basic"
@@ -1840,22 +2231,6 @@
                     "simple_modifications": [
                         {
                             "from": {
-                                "key_code": "f1"
-                            },
-                            "to": {
-                                "key_code": "keypad_asterisk"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "f2"
-                            },
-                            "to": {
-                                "key_code": "keypad_slash"
-                            }
-                        },
-                        {
-                            "from": {
                                 "key_code": "right_alt"
                             },
                             "to": {
@@ -1939,24 +2314,20 @@
                     },
                     "ignore": false,
                     "manipulate_caps_lock_led": false,
-                    "simple_modifications": [
-                        {
-                            "from": {
-                                "key_code": "down_arrow"
-                            },
-                            "to": {
-                                "key_code": "keypad_0"
-                            }
-                        },
-                        {
-                            "from": {
-                                "key_code": "up_arrow"
-                            },
-                            "to": {
-                                "key_code": "keypad_period"
-                            }
-                        }
-                    ]
+                    "simple_modifications": []
+                },
+                {
+                    "disable_built_in_keyboard_if_exists": false,
+                    "fn_function_keys": [],
+                    "identifiers": {
+                        "is_keyboard": false,
+                        "is_pointing_device": true,
+                        "product_id": 4,
+                        "vendor_id": 2629
+                    },
+                    "ignore": false,
+                    "manipulate_caps_lock_led": false,
+                    "simple_modifications": []
                 }
             ],
             "fn_function_keys": [
@@ -2057,7 +2428,7 @@
                     }
                 }
             ],
-            "name": "응용",
+            "name": "기본",
             "selected": false,
             "simple_modifications": [
                 {
@@ -2093,14 +2464,13 @@
                 },
                 "rules": [
                     {
-                        "description": "Switch Kor,Eng: GeneralKB(RAlt),HHK(RGui)->Caps",
+                        "description": "Apple: GeneralKB(RAlt),HHK(RGui)->caps; wow,dia3->[ko/en]",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
                                         "identifiers": [
                                             {
-                                                "product": "HHKB*",
                                                 "product_id": 256,
                                                 "vendor_id": 2131
                                             }
@@ -2119,7 +2489,7 @@
                                     "key_code": "right_alt",
                                     "modifiers": {
                                         "optional": [
-                                            "caps_lock"
+                                            "any"
                                         ]
                                     }
                                 },
@@ -2135,7 +2505,6 @@
                                     {
                                         "identifiers": [
                                             {
-                                                "product": "HHKB*",
                                                 "product_id": 256,
                                                 "vendor_id": 2131
                                             }
@@ -2154,7 +2523,7 @@
                                     "key_code": "right_gui",
                                     "modifiers": {
                                         "optional": [
-                                            "caps_lock"
+                                            "any"
                                         ]
                                     }
                                 },
@@ -2196,11 +2565,11 @@
                                     "key_code": "right_alt",
                                     "modifiers": {
                                         "optional": [
-                                            "caps_lock"
+                                            "any"
                                         ]
                                     }
                                 },
-                                "to": [
+                                "to_after_key_up": [
                                     {
                                         "select_input_source": {
                                             "language": "en"
@@ -2240,13 +2609,14 @@
                                     "key_code": "right_alt",
                                     "modifiers": {
                                         "optional": [
-                                            "caps_lock"
+                                            "any"
                                         ]
                                     }
                                 },
-                                "to": [
+                                "to_after_key_up": [
                                     {
                                         "select_input_source": {
+                                            "input_mode_id": "com.apple.inputmethod.Korean.*",
                                             "language": "ko"
                                         }
                                     }
@@ -2284,11 +2654,11 @@
                                     "key_code": "right_gui",
                                     "modifiers": {
                                         "optional": [
-                                            "caps_lock"
+                                            "any"
                                         ]
                                     }
                                 },
-                                "to": [
+                                "to_after_key_up": [
                                     {
                                         "select_input_source": {
                                             "language": "en"
@@ -2328,13 +2698,14 @@
                                     "key_code": "right_gui",
                                     "modifiers": {
                                         "optional": [
-                                            "caps_lock"
+                                            "any"
                                         ]
                                     }
                                 },
-                                "to": [
+                                "to_after_key_up": [
                                     {
                                         "select_input_source": {
+                                            "input_mode_id": "com.apple.inputmethod.Korean.*",
                                             "language": "ko"
                                         }
                                     }
@@ -2344,7 +2715,7 @@
                         ]
                     },
                     {
-                        "description": "Esc+`: Esc+Cmd | Ime(en): Esc, Cmd+Spc",
+                        "description": "⎋`->⎋⌘; ⎋,⌘Spc->[en]",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -2377,6 +2748,14 @@
                             {
                                 "conditions": [
                                     {
+                                        "input_sources": [
+                                            {
+                                                "language": "ko"
+                                            }
+                                        ],
+                                        "type": "input_source_if"
+                                    },
+                                    {
                                         "bundle_identifiers": [
                                             "^com\\.blizzard\\.worldofwarcraft$",
                                             "^com\\.blizzard\\.diablo3$"
@@ -2392,14 +2771,14 @@
                                         ]
                                     }
                                 },
-                                "to_after_key_up": [
+                                "to": [
                                     {
                                         "select_input_source": {
                                             "language": "en"
                                         }
                                     }
                                 ],
-                                "to_if_alone": [
+                                "to_after_key_up": [
                                     {
                                         "key_code": "escape"
                                     }
@@ -2408,6 +2787,14 @@
                             },
                             {
                                 "conditions": [
+                                    {
+                                        "input_sources": [
+                                            {
+                                                "language": "ko"
+                                            }
+                                        ],
+                                        "type": "input_source_if"
+                                    },
                                     {
                                         "bundle_identifiers": [
                                             "^com\\.blizzard\\.worldofwarcraft$",
@@ -2426,17 +2813,56 @@
                                 },
                                 "to": [
                                     {
+                                        "select_input_source": {
+                                            "language": "en"
+                                        }
+                                    }
+                                ],
+                                "to_after_key_up": [
+                                    {
                                         "key_code": "spacebar",
                                         "modifiers": [
                                             "left_command"
                                         ]
                                     }
                                 ],
-                                "to_after_key_up": [
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "input_sources": [
+                                            {
+                                                "language": "ko"
+                                            }
+                                        ],
+                                        "type": "input_source_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "left_control",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
                                     {
                                         "select_input_source": {
                                             "language": "en"
                                         }
+                                    },
+                                    {
+                                        "key_code": "left_control",
+                                        "lazy": true
                                     }
                                 ],
                                 "type": "basic"
@@ -2444,7 +2870,7 @@
                         ]
                     },
                     {
-                        "description": "Application: Ctrl+F2 (Menu) | RCtrl: Ctrl+F3 (Dock)",
+                        "description": "Menu:Application->^F2; Dock:RCtrl->^F3",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -2505,16 +2931,89 @@
                         ]
                     },
                     {
-                        "description": "F1 ~ F12: Open Terminal, Chrome, Finder, etc...",
+                        "description": "finder: f1->휴지통으로 이동,⌘f1->휴지통 비우기",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
+                                            "com.apple.finder"
                                         ],
-                                        "type": "frontmost_application_unless"
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "description": "finder: f1->휴지통으로 이동",
+                                "from": {
+                                    "key_code": "f1"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "description": "휴지통으로 이동",
+                                        "key_code": "delete_or_backspace",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "to_if_held_down": [
+                                    {
+                                        "description": "휴지통 비우기",
+                                        "key_code": "delete_or_backspace",
+                                        "modifiers": [
+                                            "left_command",
+                                            "left_shift"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "com.apple.finder"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "description": "finder: ⌘f1->휴지통 비우기",
+                                "from": {
+                                    "key_code": "f1",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "left_command"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "description": "휴지통 비우기",
+                                        "key_code": "delete_or_backspace",
+                                        "modifiers": [
+                                            "left_command",
+                                            "left_shift"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "f1~f12->Open {Terminal,Chrome,Finder,etc...}",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "com.microsoft.VSCode",
+                                            "com.apple.dt.Xcode",
+                                            "com.apple.iBooksX",
+                                            "com.github.GitHubClient",
+                                            "org.altervista.mackie100projects.Clover-Configurator",
+                                            "com.apple.Terminal"
+                                        ],
+                                        "type": "frontmost_application_if"
                                     }
                                 ],
                                 "from": {
@@ -2522,6 +3021,7 @@
                                 },
                                 "to_if_alone": [
                                     {
+                                        "description": "마크 설정",
                                         "key_code": "2",
                                         "modifiers": [
                                             "left_control",
@@ -2535,23 +3035,30 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
+                                            "com.microsoft.VSCode",
+                                            "com.apple.dt.Xcode",
+                                            "com.apple.iBooksX",
+                                            "com.github.GitHubClient",
+                                            "org.altervista.mackie100projects.Clover-Configurator",
+                                            "com.apple.Terminal"
                                         ],
-                                        "type": "frontmost_application_unless"
+                                        "type": "frontmost_application_if"
                                     }
                                 ],
+                                "description": "Copy&Yank: f2->⌘c,^w",
                                 "from": {
                                     "key_code": "f2"
                                 },
                                 "to_if_alone": [
                                     {
+                                        "description": "복사",
                                         "key_code": "c",
                                         "modifiers": [
                                             "left_command"
                                         ]
                                     },
                                     {
+                                        "description": "잘라내기",
                                         "key_code": "w",
                                         "modifiers": [
                                             "left_control"
@@ -2570,8 +3077,78 @@
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
+                                "description": "최소화: f3->⌘m",
                                 "from": {
                                     "key_code": "f3"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "m",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "to_if_held_down": [
+                                    {
+                                        "key_code": "h",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
+                                "description": "가리기: f4->⌘h",
+                                "from": {
+                                    "key_code": "f4"
+                                },
+                                "to_if_alone": [
+                                    {
+                                        "key_code": "h",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "to_if_held_down": [
+                                    {
+                                        "key_code": "m",
+                                        "modifiers": [
+                                            "left_command"
+                                        ]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "com.microsoft.VSCode",
+                                            "com.apple.dt.Xcode",
+                                            "com.apple.iBooksX",
+                                            "com.apple.finder",
+                                            "com.github.GitHubClient",
+                                            "org.altervista.mackie100projects.Clover-Configurator",
+                                            "com.apple.Terminal"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "description": "iBooks: f5->prev page",
+                                "from": {
+                                    "key_code": "f5"
                                 },
                                 "to_delayed_action": {
                                     "to_if_canceled": [
@@ -2610,14 +3187,20 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
+                                            "com.microsoft.VSCode",
+                                            "com.apple.dt.Xcode",
+                                            "com.apple.iBooksX",
+                                            "com.apple.finder",
+                                            "com.github.GitHubClient",
+                                            "org.altervista.mackie100projects.Clover-Configurator",
+                                            "com.apple.Terminal"
                                         ],
-                                        "type": "frontmost_application_unless"
+                                        "type": "frontmost_application_if"
                                     }
                                 ],
+                                "description": "iBooks: f6->next page",
                                 "from": {
-                                    "key_code": "f4"
+                                    "key_code": "f6"
                                 },
                                 "to_delayed_action": {
                                     "to_if_canceled": [
@@ -2660,10 +3243,23 @@
                                             "^com\\.blizzard\\.diablo3$"
                                         ],
                                         "type": "frontmost_application_unless"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "com.microsoft.VSCode",
+                                            "com.apple.dt.Xcode",
+                                            "com.apple.iBooksX",
+                                            "com.apple.finder",
+                                            "com.github.GitHubClient",
+                                            "org.altervista.mackie100projects.Clover-Configurator",
+                                            "com.apple.Terminal"
+                                        ],
+                                        "type": "frontmost_application_if"
                                     }
                                 ],
+                                "description": "Open: f7->iBooks",
                                 "from": {
-                                    "key_code": "f5"
+                                    "key_code": "f7"
                                 },
                                 "to_if_alone": [
                                     {
@@ -2676,14 +3272,20 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
+                                            "com.microsoft.VSCode",
+                                            "com.apple.dt.Xcode",
+                                            "com.apple.iBooksX",
+                                            "com.apple.finder",
+                                            "com.github.GitHubClient",
+                                            "org.altervista.mackie100projects.Clover-Configurator",
+                                            "com.apple.Terminal"
                                         ],
-                                        "type": "frontmost_application_unless"
+                                        "type": "frontmost_application_if"
                                     }
                                 ],
+                                "description": "Open: f8->XCode",
                                 "from": {
-                                    "key_code": "f6"
+                                    "key_code": "f8"
                                 },
                                 "to_if_alone": [
                                     {
@@ -2702,49 +3304,7 @@
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
-                                "from": {
-                                    "key_code": "f7"
-                                },
-                                "to_if_alone": [
-                                    {
-                                        "shell_command": "~/bin/efi_mount.sh;open -a 'Clover Configurator'"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "f8"
-                                },
-                                "to_if_alone": [
-                                    {
-                                        "shell_command": "~/bin/buildkext.sh rebase"
-                                    },
-                                    {
-                                        "shell_command": "open -a 'github desktop'"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    }
-                                ],
+                                "description": "Open: f9->Google Chrome",
                                 "from": {
                                     "key_code": "f9"
                                 },
@@ -2753,6 +3313,11 @@
                                         "shell_command": "open -a 'Google Chrome'"
                                     }
                                 ],
+                                "to_if_held_down": [
+                                    {
+                                        "shell_command": "open -a 'Safari'"
+                                    }
+                                ],
                                 "type": "basic"
                             },
                             {
@@ -2765,28 +3330,9 @@
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
+                                "description": "Open: f10->VS Code",
                                 "from": {
                                     "key_code": "f10"
-                                },
-                                "to_if_alone": [
-                                    {
-                                        "shell_command": "open ~/Downloads"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "f11"
                                 },
                                 "to_if_alone": [
                                     {
@@ -2805,19 +3351,44 @@
                                         "type": "frontmost_application_unless"
                                     }
                                 ],
+                                "description": "Open: f11->Finder",
+                                "from": {
+                                    "key_code": "f11"
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "open ~/Downloads"
+                                    }
+                                ],
+                                "to_if_held_down": [
+                                    {
+                                        "shell_command": "open ~"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
+                                "description": "Open: f12->Terminal",
                                 "from": {
                                     "key_code": "f12"
                                 },
-                                "to_if_alone": [
-                                    {
-                                        "select_input_source": {
-                                            "input_mode_id": "",
-                                            "input_source_id": "com.apple.keylayout.ABC",
-                                            "language": "en"
-                                        }
-                                    },
+                                "to": [
                                     {
                                         "shell_command": "open -a Terminal"
+                                    }
+                                ],
+                                "to_if_held_down": [
+                                    {
+                                        "shell_command": "osascript -e 'tell app \"Terminal\"' -e 'do script \"ssh pi@rpi\"' -e'end tell'"
                                     }
                                 ],
                                 "type": "basic"
@@ -2825,8 +3396,112 @@
                         ]
                     },
                     {
-                        "description": "F13(PrtScr): shutdown | F14(ScrLock): sleep | F15(Pause): Toggle profile",
+                        "description": "f13(PrtScr)->shutdown; f14(ScrLock)->sleep; f15(Pause)->Toggle profile",
                         "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    },
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "description": "리모콘",
+                                                "location_id": 487653376,
+                                                "product_id": 4,
+                                                "registry_entry_id": 4294968090,
+                                                "vendor_id": 2629
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    },
+                                    "simultaneous": [
+                                        {
+                                            "key_code": "up_arrow"
+                                        },
+                                        {
+                                            "key_code": "down_arrow"
+                                        }
+                                    ],
+                                    "simultaneous_options": {
+                                        "key_up_order": "strict"
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/usr/bin/say '나 졸려 그만 잘래'"
+                                    }
+                                ],
+                                "to_if_held_down": [
+                                    {
+                                        "shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    },
+                                    {
+                                        "identifiers": [
+                                            {
+                                                "description": "리모콘",
+                                                "location_id": 487653376,
+                                                "product_id": 4,
+                                                "registry_entry_id": 4294968090,
+                                                "vendor_id": 2629
+                                            }
+                                        ],
+                                        "type": "device_if"
+                                    }
+                                ],
+                                "from": {
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    },
+                                    "simultaneous": [
+                                        {
+                                            "key_code": "left_arrow"
+                                        },
+                                        {
+                                            "key_code": "right_arrow"
+                                        }
+                                    ],
+                                    "simultaneous_options": {
+                                        "key_up_order": "strict"
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "/usr/bin/say '시스템 종료 예약. 두시간후 종료합니다'"
+                                    }
+                                ],
+                                "to_if_held_down": [
+                                    {
+                                        "shell_command": "(sleep 7200;osascript -e 'tell app \"System Events\" to shut down') &"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
                             {
                                 "conditions": [
                                     {
@@ -2840,7 +3515,12 @@
                                 "from": {
                                     "key_code": "print_screen"
                                 },
-                                "to_if_alone": [
+                                "to": [
+                                    {
+                                        "shell_command": "/usr/bin/say '시스템 종료'"
+                                    }
+                                ],
+                                "to_if_held_down": [
                                     {
                                         "shell_command": "osascript -e 'tell app \"System Events\" to shut down'"
                                     }
@@ -2858,9 +3538,14 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "F13"
+                                    "key_code": "f13"
                                 },
-                                "to_if_alone": [
+                                "to": [
+                                    {
+                                        "shell_command": "/usr/bin/say '시스템 종료'"
+                                    }
+                                ],
+                                "to_if_held_down": [
                                     {
                                         "shell_command": "osascript -e 'tell app \"System Events\" to shut down'"
                                     }
@@ -2880,7 +3565,12 @@
                                 "from": {
                                     "key_code": "scroll_lock"
                                 },
-                                "to_if_alone": [
+                                "to": [
+                                    {
+                                        "shell_command": "/usr/bin/say '나 졸려 그만 잘래'"
+                                    }
+                                ],
+                                "to_if_held_down": [
                                     {
                                         "shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
                                     }
@@ -2898,9 +3588,14 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "F12"
+                                    "key_code": "f14"
                                 },
-                                "to_if_alone": [
+                                "to": [
+                                    {
+                                        "shell_command": "/usr/bin/say '나 졸려 그만 잘래'"
+                                    }
+                                ],
+                                "to_if_held_down": [
                                     {
                                         "shell_command": "osascript -e 'tell app \"System Events\" to sleep'"
                                     }
@@ -2934,6 +3629,9 @@
                                     },
                                     {
                                         "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '응용'"
+                                    },
+                                    {
+                                        "shell_command": "'/usr/bin/say' '응용 profile'"
                                     }
                                 ],
                                 "type": "basic"
@@ -2965,6 +3663,9 @@
                                     },
                                     {
                                         "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '기본'"
+                                    },
+                                    {
+                                        "shell_command": "'/usr/bin/say' '기본 profile'"
                                     }
                                 ],
                                 "type": "basic"
@@ -2985,7 +3686,7 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "F15"
+                                    "key_code": "f15"
                                 },
                                 "to_if_alone": [
                                     {
@@ -2996,6 +3697,9 @@
                                     },
                                     {
                                         "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '응용'"
+                                    },
+                                    {
+                                        "shell_command": "'/usr/bin/say' '응용 profile'"
                                     }
                                 ],
                                 "type": "basic"
@@ -3016,7 +3720,7 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "F15"
+                                    "key_code": "f15"
                                 },
                                 "to_if_alone": [
                                     {
@@ -3027,6 +3731,9 @@
                                     },
                                     {
                                         "shell_command": "'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile '기본'"
+                                    },
+                                    {
+                                        "shell_command": "'/usr/bin/say' '기본 profile'"
                                     }
                                 ],
                                 "type": "basic"
@@ -3034,7 +3741,7 @@
                         ]
                     },
                     {
-                        "description": "Keypad: Cmd+Ctrl+arrow, Opt+Ctrl+arrow, ...",
+                        "description": "Keypad: ⌘^arrow,⌥^arrow, ...",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -3154,128 +3861,6 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.apple\\.Safari$"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    },
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "keypad_slash",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "tab",
-                                        "modifiers": [
-                                            "left_option"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "tab",
-                                        "modifiers": [
-                                            "left_option"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "tab",
-                                        "modifiers": [
-                                            "left_option"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "tab",
-                                        "modifiers": [
-                                            "left_option"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "tab",
-                                        "modifiers": [
-                                            "left_option"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "return_or_enter"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.apple\\.Safari$"
-                                        ],
-                                        "type": "frontmost_application_if"
-                                    },
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.blizzard\\.worldofwarcraft$",
-                                            "^com\\.blizzard\\.diablo3$"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "keypad_asterisk",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "tab",
-                                        "modifiers": [
-                                            "left_option"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "tab",
-                                        "modifiers": [
-                                            "left_option"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "tab",
-                                        "modifiers": [
-                                            "left_option"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "tab",
-                                        "modifiers": [
-                                            "left_option"
-                                        ]
-                                    },
-                                    {
-                                        "key_code": "return_or_enter"
-                                    }
-                                ],
-                                "type": "basic"
-                            },
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.apple\\.Safari$"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    },
-                                    {
-                                        "bundle_identifiers": [
                                             "^com\\.blizzard\\.worldofwarcraft$",
                                             "^com\\.blizzard\\.diablo3$"
                                         ],
@@ -3299,12 +3884,6 @@
                             },
                             {
                                 "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.apple\\.Safari$"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    },
                                     {
                                         "bundle_identifiers": [
                                             "^com\\.blizzard\\.worldofwarcraft$",
@@ -3592,7 +4171,7 @@
                         ]
                     },
                     {
-                        "description": "LOpt, LCmd: swap in games (wow & dia3)",
+                        "description": "wow & dia3: LOpt<->L⌘",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -3647,10 +4226,15 @@
                         ]
                     },
                     {
-                        "description": "Spacebar(+shift): right(left) arrow in safari (for kakao page)",
+                        "description": "safari: 1,2->카카오페이지 이전편,다음편; Spacebar(+shift)->right(left); ^+SPC->카카오페이지모드 시작,⎋->끝",
                         "manipulators": [
                             {
                                 "conditions": [
+                                    {
+                                        "name": "kakao_page_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    },
                                     {
                                         "bundle_identifiers": [
                                             "^com\\.apple\\.Safari$"
@@ -3658,6 +4242,133 @@
                                         "type": "frontmost_application_if"
                                     }
                                 ],
+                                "description": "카카오 페이지: 1->이전편",
+                                "from": {
+                                    "key_code": "1",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to_after_key_up": [
+                                    {
+                                        "pointing_button": "button1"
+                                    },
+                                    {
+                                        "pointing_button": "button1"
+                                    },
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_option"
+                                        ]
+                                    },
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_option"
+                                        ]
+                                    },
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_option"
+                                        ]
+                                    },
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_option"
+                                        ]
+                                    },
+                                    {
+                                        "key_code": "return_or_enter"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "kakao_page_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.apple\\.Safari$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "description": "카카오 페이지: 2->다음편",
+                                "from": {
+                                    "key_code": "2",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to_after_key_up": [
+                                    {
+                                        "pointing_button": "button1"
+                                    },
+                                    {
+                                        "pointing_button": "button1"
+                                    },
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_option"
+                                        ]
+                                    },
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_option"
+                                        ]
+                                    },
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_option"
+                                        ]
+                                    },
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_option"
+                                        ]
+                                    },
+                                    {
+                                        "key_code": "tab",
+                                        "modifiers": [
+                                            "left_option"
+                                        ]
+                                    },
+                                    {
+                                        "key_code": "return_or_enter"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "kakao_page_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.apple\\.Safari$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "description": "Spacebar->다음 페이지",
                                 "from": {
                                     "key_code": "spacebar"
                                 },
@@ -3671,18 +4382,23 @@
                             {
                                 "conditions": [
                                     {
+                                        "name": "kakao_page_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    },
+                                    {
                                         "bundle_identifiers": [
                                             "^com\\.apple\\.Safari$"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
                                 ],
+                                "description": "shift+spacebar->이전 페이지",
                                 "from": {
                                     "key_code": "spacebar",
                                     "modifiers": {
                                         "optional": [
-                                            "left_shift",
-                                            "right_shift",
+                                            "shift",
                                             "caps_lock"
                                         ]
                                     }
@@ -3690,6 +4406,78 @@
                                 "to": [
                                     {
                                         "key_code": "left_arrow"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "kakao_page_mode",
+                                        "type": "variable_unless",
+                                        "value": 1
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.apple\\.Safari$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "description": "카카오 페이지 모드 on",
+                                "from": {
+                                    "key_code": "spacebar",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "control"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "set_variable": {
+                                            "name": "kakao_page_mode",
+                                            "value": 1
+                                        }
+                                    },
+                                    {
+                                        "shell_command": "'/usr/bin/say' '카카오 페이지 모드 시작'"
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "name": "kakao_page_mode",
+                                        "type": "variable_if",
+                                        "value": 1
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.apple\\.Safari$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "description": "카카오 페이지 모드 off",
+                                "from": {
+                                    "key_code": "escape",
+                                    "modifiers": {
+                                        "optional": [
+                                            "any"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "set_variable": {
+                                            "name": "kakao_page_mode",
+                                            "value": 0
+                                        }
+                                    },
+                                    {
+                                        "shell_command": "'/usr/bin/say' '카카오 페이지 모드 종료'"
                                     }
                                 ],
                                 "type": "basic"
@@ -3989,6 +4777,19 @@
                     "ignore": false,
                     "manipulate_caps_lock_led": false,
                     "simple_modifications": []
+                },
+                {
+                    "disable_built_in_keyboard_if_exists": false,
+                    "fn_function_keys": [],
+                    "identifiers": {
+                        "is_keyboard": false,
+                        "is_pointing_device": true,
+                        "product_id": 4,
+                        "vendor_id": 2629
+                    },
+                    "ignore": false,
+                    "manipulate_caps_lock_led": false,
+                    "simple_modifications": []
                 }
             ],
             "fn_function_keys": [
@@ -4089,7 +4890,7 @@
                     }
                 }
             ],
-            "name": "기본",
+            "name": "응용",
             "selected": true,
             "simple_modifications": [
                 {
