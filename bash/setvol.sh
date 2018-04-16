@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$1" == "" ]; then
+if [ -z "$1" ]; then
 	/usr/bin/osascript -e "set volume output volume (output volume of (get volume settings))"
 else
 	/usr/bin/osascript \
