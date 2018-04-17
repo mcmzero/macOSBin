@@ -1,19 +1,34 @@
 #!/bin/bash
 
-case $1 in
-	halt|shutdown|off)
-		osascript -e 'tell app "System Events" to shut down'
-	;;
-	restart|reboot)
-		osascript -e 'tell app "System Events" to restart'
-	;;
-	logout|out)
-		osascript -e 'tell app "System Events" to log out'
-	;;
-	sleep)
-		osascript -e 'tell app "System Events" to sleep'
-	;;
-	*)
-		echo "$(basename $0) [halt|reboot|logout|sleep]"
-	;;
-esac
+basenae=$(basename $0)
+
+function systemEvent() {
+    osascript -e "tell app \"System Events\" to $1"
+}
+
+function run() {
+    case $1 in
+        halt|shutdown|off)
+            systemEvent "shut down"
+        ;;
+        restart|reboot)
+            systemEvent "restart"
+        ;;
+        logout|out)
+            systemEvent "log out"
+        ;;
+        sleep)
+            systemEvent "sleep"
+        ;;
+        *)
+            echo "$basename [halt|reboot|logout|sleep]"
+        ;;
+    esac
+}
+
+if [[ $2 ]]; then
+    sleep $(($2 * 60 * 60))
+fi
+
+run $1
+
