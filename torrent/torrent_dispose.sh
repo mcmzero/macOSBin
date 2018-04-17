@@ -223,8 +223,7 @@ function getTargetName() {
 	\
 	-e's/[[:space:]]*\./\./'\
 	-e's/\.[[:space:]]*/\./'\
-	-e's/^[[:space:]]*//'\
-	-e's/[[:space:]]*$//'\
+	-e's/^[[:space:]]*//' -e's/[[:space:]]*$//'\
 	-e's/\.+/\./'\
 	-e's/ *-/-/g' -e's/- */-/g'\
 	)
@@ -235,8 +234,7 @@ function getTargetName() {
 function getTargetPathName() {
 	local targetPath=$(echo "$*"|cut -d '.' -f 1)
 	targetPath=$(echo $targetPath|sed\
-	-e's/^[[:space:]]*//'\
-	-e's/[[:space:]]*$//'\
+	-e's/^[[:space:]]*//' -e's/[[:space:]]*$//'\
 	-e's/ *-/-/g' -e's/- */-/g'\
 	\
 	-e's/ *스페셜$//'\
