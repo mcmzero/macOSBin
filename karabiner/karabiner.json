@@ -974,7 +974,6 @@
                                                 "description": "리모콘",
                                                 "location_id": 487653376,
                                                 "product_id": 4,
-                                                "registry_entry_id": 4294968090,
                                                 "vendor_id": 2629
                                             }
                                         ],
@@ -1016,7 +1015,6 @@
                                                 "description": "리모콘",
                                                 "location_id": 487653376,
                                                 "product_id": 4,
-                                                "registry_entry_id": 4294968090,
                                                 "vendor_id": 2629
                                             }
                                         ],
@@ -1783,7 +1781,8 @@
                                     },
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.apple\\.Safari$"
+                                            "^com\\.apple\\.Safari$",
+                                            "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -1797,7 +1796,7 @@
                                         ]
                                     }
                                 },
-                                "to_after_key_up": [
+                                "to": [
                                     {
                                         "pointing_button": "button1"
                                     },
@@ -1843,7 +1842,8 @@
                                     },
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.apple\\.Safari$"
+                                            "^com\\.apple\\.Safari$",
+                                            "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -1857,7 +1857,7 @@
                                         ]
                                     }
                                 },
-                                "to_after_key_up": [
+                                "to": [
                                     {
                                         "pointing_button": "button1"
                                     },
@@ -1909,7 +1909,8 @@
                                     },
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.apple\\.Safari$"
+                                            "^com\\.apple\\.Safari$",
+                                            "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -1934,7 +1935,8 @@
                                     },
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.apple\\.Safari$"
+                                            "^com\\.apple\\.Safari$",
+                                            "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -1965,21 +1967,22 @@
                                     },
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.apple\\.Safari$"
+                                            "^com\\.apple\\.Safari$",
+                                            "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
                                 ],
                                 "from": {
                                     "description": "카카오 페이지 모드 on",
-                                    "key_code": "spacebar",
+                                    "key_code": "left_option",
                                     "modifiers": {
-                                        "mandatory": [
-                                            "control"
+                                        "optional": [
+                                            "any"
                                         ]
                                     }
                                 },
-                                "to": [
+                                "to_if_alone": [
                                     {
                                         "set_variable": {
                                             "name": "kakao_page_mode",
@@ -1987,7 +1990,7 @@
                                         }
                                     },
                                     {
-                                        "shell_command": "'/usr/bin/say' '카카오 페이지 모드 시작'"
+                                        "shell_command": "'/usr/bin/say' '카페모'"
                                     }
                                 ],
                                 "type": "basic"
@@ -2001,21 +2004,22 @@
                                     },
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.apple\\.Safari$"
+                                            "^com\\.apple\\.Safari$",
+                                            "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
                                 ],
                                 "from": {
                                     "description": "카카오 페이지 모드 off",
-                                    "key_code": "escape",
+                                    "key_code": "left_option",
                                     "modifiers": {
                                         "optional": [
                                             "any"
                                         ]
                                     }
                                 },
-                                "to": [
+                                "to_if_alone": [
                                     {
                                         "set_variable": {
                                             "name": "kakao_page_mode",
@@ -2023,7 +2027,7 @@
                                         }
                                     },
                                     {
-                                        "shell_command": "'/usr/bin/say' '카카오 페이지 모드 종료'"
+                                        "shell_command": "'/usr/bin/say' '카페모 종료'"
                                     }
                                 ],
                                 "type": "basic"
@@ -3444,7 +3448,6 @@
                                                 "description": "리모콘",
                                                 "location_id": 487653376,
                                                 "product_id": 4,
-                                                "registry_entry_id": 4294968090,
                                                 "vendor_id": 2629
                                             }
                                         ],
@@ -3486,7 +3489,6 @@
                                                 "description": "리모콘",
                                                 "location_id": 487653376,
                                                 "product_id": 4,
-                                                "registry_entry_id": 4294968090,
                                                 "vendor_id": 2629
                                             }
                                         ],
@@ -4253,7 +4255,8 @@
                                     },
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.apple\\.Safari$"
+                                            "^com\\.apple\\.Safari$",
+                                            "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -4267,7 +4270,7 @@
                                         ]
                                     }
                                 },
-                                "to_after_key_up": [
+                                "to": [
                                     {
                                         "pointing_button": "button1"
                                     },
@@ -4313,7 +4316,8 @@
                                     },
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.apple\\.Safari$"
+                                            "^com\\.apple\\.Safari$",
+                                            "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -4327,7 +4331,7 @@
                                         ]
                                     }
                                 },
-                                "to_after_key_up": [
+                                "to": [
                                     {
                                         "pointing_button": "button1"
                                     },
@@ -4379,7 +4383,8 @@
                                     },
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.apple\\.Safari$"
+                                            "^com\\.apple\\.Safari$",
+                                            "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -4404,7 +4409,8 @@
                                     },
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.apple\\.Safari$"
+                                            "^com\\.apple\\.Safari$",
+                                            "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
@@ -4435,21 +4441,22 @@
                                     },
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.apple\\.Safari$"
+                                            "^com\\.apple\\.Safari$",
+                                            "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
                                 ],
                                 "from": {
                                     "description": "카카오 페이지 모드 on",
-                                    "key_code": "spacebar",
+                                    "key_code": "left_option",
                                     "modifiers": {
-                                        "mandatory": [
-                                            "control"
+                                        "optional": [
+                                            "any"
                                         ]
                                     }
                                 },
-                                "to": [
+                                "to_if_alone": [
                                     {
                                         "set_variable": {
                                             "name": "kakao_page_mode",
@@ -4457,7 +4464,7 @@
                                         }
                                     },
                                     {
-                                        "shell_command": "'/usr/bin/say' '카카오 페이지 모드 시작'"
+                                        "shell_command": "'/usr/bin/say' '카페모'"
                                     }
                                 ],
                                 "type": "basic"
@@ -4471,21 +4478,22 @@
                                     },
                                     {
                                         "bundle_identifiers": [
-                                            "^com\\.apple\\.Safari$"
+                                            "^com\\.apple\\.Safari$",
+                                            "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
                                     }
                                 ],
                                 "from": {
                                     "description": "카카오 페이지 모드 off",
-                                    "key_code": "escape",
+                                    "key_code": "left_option",
                                     "modifiers": {
                                         "optional": [
                                             "any"
                                         ]
                                     }
                                 },
-                                "to": [
+                                "to_if_alone": [
                                     {
                                         "set_variable": {
                                             "name": "kakao_page_mode",
@@ -4493,7 +4501,7 @@
                                         }
                                     },
                                     {
-                                        "shell_command": "'/usr/bin/say' '카카오 페이지 모드 종료'"
+                                        "shell_command": "'/usr/bin/say' '카페모 종료'"
                                     }
                                 ],
                                 "type": "basic"
