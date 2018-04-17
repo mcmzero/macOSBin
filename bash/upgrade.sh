@@ -18,5 +18,9 @@ y
 y
 y
 __EOF__
+audio_cloverHDMI-130_v0.8.command << __EOF__
+n
+y
+__EOF__
 install_webdriver.sh -u
 
