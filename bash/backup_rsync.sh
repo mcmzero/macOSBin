@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sourceVolume=/Volumes/macOS.localized
+sourceVolume=/Volumes/macOS
 targetVolume=/Volumes/Backup.localized
 
 function backup() {
