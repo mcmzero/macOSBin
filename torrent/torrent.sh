@@ -217,6 +217,8 @@ function runCommand() {
 		;;
 		magnet*)
 			magnetAdd -a $@
+            /usr/local/torrent/torrent_telegram.sh "$*"
+            exit $?
 		;;
 		*)
 			return 1;

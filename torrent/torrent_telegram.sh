@@ -5,5 +5,5 @@ peerId="토렌트"
 msgText="$*"
 
 if [[ $1 ]]; then
-	$tgCli -W -e "msg $peerId \"$msgText\""
+	$tgCli -D -W -e "msg $peerId \"$msgText\"" > /dev/null
 fi
