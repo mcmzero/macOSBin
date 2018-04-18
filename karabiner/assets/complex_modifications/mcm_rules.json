@@ -604,12 +604,12 @@
                     },
                     "to": [
                         {
-                            "shell_command": "/usr/bin/say '나 졸려 그만 잘래'"
+                            "shell_command": "/usr/bin/say '잘자'"
                         }
                     ],
-                    "to_if_held_down": [
+                    "to_after_key_up": [
                         {
-                            "shell_command": "(sleep 3;osascript -e 'tell app \"System Events\" to sleep') &"
+                            "shell_command": "(sleep 1;osascript -e 'tell app \"System Events\" to sleep') &"
                         }
                     ],
                     "conditions": [
@@ -723,12 +723,12 @@
                     },
                     "to": [
                         {
-                            "shell_command": "/usr/bin/say '나 졸려 그만 잘래'"
+                            "shell_command": "/usr/bin/say '잘자'"
                         }
                     ],
-                    "to_if_held_down": [
+                    "to_after_key_up": [
                         {
-                            "shell_command": "(sleep 3;osascript -e 'tell app \"System Events\" to sleep') &"
+                            "shell_command": "(sleep 1;osascript -e 'tell app \"System Events\" to sleep') &"
                         }
                     ],
                     "conditions": [
