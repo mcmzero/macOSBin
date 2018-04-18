@@ -27,7 +27,7 @@ function initPkgList() {
 		pkgMacOs[n]="${gfeVersion[n]} ${gfeOs[n]}"
 	done
 	
-	pkgMacOs=("${pkgMacOsBeta[@]}" "${pkgMacOs[@]}")
+	#pkgMacOs=("${pkgMacOs[@]}" "${pkgMacOsBeta[@]}")
 	pkgMacOsMax=${#pkgMacOs[@]}
 	pkgMacOsDefault=0
 
