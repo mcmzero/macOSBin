@@ -299,6 +299,11 @@ function run() {
 				ssh pi@rpi "sqlite3 /usr/local/torrent/magnet.db \"SELECT datetime(time, 'unixepoch', 'localtime'), name FROM magnetList ORDER BY time DESC  LIMIT 15;\" -separator ' '"
 			fi
 		;;
+        -f)
+            export forcedDownloadMode=on
+            shift
+            run $@
+        ;;
 		kim|cor|pon)
 			torrentSite $@
 		;;
