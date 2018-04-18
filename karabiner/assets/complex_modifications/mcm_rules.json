@@ -2,7 +2,7 @@
     "title": "mcm's rules",
     "rules": [
         {
-            "description": "⎋`(⎋⌘); ⎋(en),⌘Spc(en)",
+            "description": "⎋`(⎋⌘); ⎋(en),⌘Spc(en),^(en<->ko)",
             "manipulators": [
                 {
                     "type": "basic",
@@ -47,13 +47,13 @@
                     ],
                     "conditions": [
                         {
-							"type": "input_source_if",
-							"input_sources": [
-								{
-									"language": "ko"
-								}
-							]
-						},
+                            "type": "input_source_if",
+                            "input_sources": [
+                                {
+                                    "language": "ko"
+                                }
+                            ]
+                        },
                         {
                             "type": "frontmost_application_unless",
                             "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
@@ -83,19 +83,25 @@
                     ],
                     "conditions": [
                         {
-							"type": "input_source_if",
-							"input_sources": [
-								{
-									"language": "ko"
-								}
-							]
-						},
+                            "type": "input_source_if",
+                            "input_sources": [
+                                {
+                                    "language": "ko"
+                                }
+                            ]
+                        },
                         {
                             "type": "frontmost_application_unless",
                             "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
                         }
                     ]
-                },
+                }
+            ]
+        },
+        
+        {
+            "description": "^(컨트롤)를 누르는 동안 잠시 영문[en]으로 전환했다가 떼면 다시 한글[ko]로 돌아오기",
+            "manipulators": [
                 {
                     "type": "basic",
                     "from": {
@@ -115,15 +121,27 @@
                             "lazy": true
                         }
                     ],
+                    "to_after_key_up" : [
+                        {
+                            "select_input_source": {
+                                "input_mode_id": "com.apple.inputmethod.Korean.*",
+                                "language": "ko"
+                            }
+                        }
+                    ],
                     "conditions": [
                         {
-							"type": "input_source_if",
-							"input_sources": [
-								{
-									"language": "ko"
-								}
-							]
-						},
+                            "type": "input_source_if",
+                            "input_sources": [
+                                {
+                                    "language": "ko"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": ["com.apple.Terminal","com.microsoft.VSCode"]
+                        },
                         {
                             "type": "frontmost_application_unless",
                             "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
@@ -210,6 +228,10 @@
                             "bundle_identifiers": [
                                 "com.apple.finder"
                             ]
+                        },
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
                         }
                     ]
                 },
@@ -235,6 +257,10 @@
                             "bundle_identifiers": [
                                 "com.apple.finder"
                             ]
+                        },
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
                         }
                     ]
                 }
@@ -264,6 +290,10 @@
                                 "com.github.GitHubClient","org.altervista.mackie100projects.Clover-Configurator",
                                 "com.apple.Terminal"
                             ]
+                        },
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
                         }
                     ]
                 },
@@ -293,6 +323,10 @@
                                 "com.github.GitHubClient","org.altervista.mackie100projects.Clover-Configurator",
                                 "com.apple.Terminal"
                             ]
+                        },
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
                         }
                     ]
                 },
@@ -397,6 +431,10 @@
                                 "com.github.GitHubClient","org.altervista.mackie100projects.Clover-Configurator",
                                 "com.apple.Terminal"
                             ]
+                        },
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
                         }
                     ]
                 },
@@ -445,6 +483,10 @@
                                 "com.github.GitHubClient","org.altervista.mackie100projects.Clover-Configurator",
                                 "com.apple.Terminal"
                             ]
+                        },
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
                         }
                     ]
                 },
@@ -471,6 +513,10 @@
                                 "com.github.GitHubClient","org.altervista.mackie100projects.Clover-Configurator",
                                 "com.apple.Terminal"
                             ]
+                        },
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
                         }
                     ]
                 },
@@ -493,6 +539,10 @@
                                 "com.github.GitHubClient","org.altervista.mackie100projects.Clover-Configurator",
                                 "com.apple.Terminal"
                             ]
+                        },
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
                         }
                     ]
                 }
@@ -618,8 +668,8 @@
                             "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
                         },
                         {
-							"type": "device_if",
-							"identifiers": [
+                            "type": "device_if",
+                            "identifiers": [
                                 {
                                     "description": "리모콘",
                                     "location_id": 487653376,
@@ -627,7 +677,7 @@
                                     "vendor_id": 2629
                                 }
                             ]
-						}
+                        }
                     ]
                 },
                 {
@@ -654,8 +704,8 @@
                             "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
                         },
                         {
-							"type": "device_if",
-							"identifiers": [
+                            "type": "device_if",
+                            "identifiers": [
                                 {
                                     "description": "리모콘",
                                     "location_id": 487653376,
@@ -663,7 +713,7 @@
                                     "vendor_id": 2629
                                 }
                             ]
-						}
+                        }
                     ]
                 }
             ]
@@ -1305,6 +1355,10 @@
                         {
                             "type": "frontmost_application_if",
                             "bundle_identifiers": ["^com\\.apple\\.Safari$","com.google.Chrome"]
+                        },
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
                         }
                     ]
                 },
@@ -1357,6 +1411,10 @@
                         {
                             "type": "frontmost_application_if",
                             "bundle_identifiers": ["^com\\.apple\\.Safari$","com.google.Chrome"]
+                        },
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
                         }
                     ]
                 },
@@ -1380,6 +1438,10 @@
                         {
                             "type": "frontmost_application_if",
                             "bundle_identifiers": ["^com\\.apple\\.Safari$","com.google.Chrome"]
+                        },
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
                         }
                     ]
                 },
@@ -1406,6 +1468,10 @@
                         {
                             "type": "frontmost_application_if",
                             "bundle_identifiers": ["^com\\.apple\\.Safari$","com.google.Chrome"]
+                        },
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
                         }
                     ]
                 },
@@ -1439,6 +1505,10 @@
                         {
                             "type": "frontmost_application_if",
                             "bundle_identifiers": ["^com\\.apple\\.Safari$","com.google.Chrome"]
+                        },
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
                         }
                     ]
                 },
@@ -1471,6 +1541,10 @@
                         {
                             "type": "frontmost_application_if",
                             "bundle_identifiers": ["^com\\.apple\\.Safari$","com.google.Chrome"]
+                        },
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
                         }
                     ]
                 }

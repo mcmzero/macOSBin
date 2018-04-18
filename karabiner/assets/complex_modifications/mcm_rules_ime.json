@@ -1,994 +1,994 @@
 {
-	"title": "mcm's rules: ime",
-	"rules": [
+    "title": "mcm's rules: ime",
+    "rules": [
         {
-			"description": "Apple: GeneralKB(RAlt),HHK(RGui)->caps; wow,dia3->[ko/en]",
-			"manipulators": [
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_alt",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"key_code": "caps_lock"
-						}
-					],
-					"conditions": [
-						{
-							"type": "device_unless",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						},
-						{
-							"type": "frontmost_application_unless",
-							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
-						}
-					]
-				},
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_gui",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"key_code": "caps_lock"
-						}
-					],
-					"conditions": [
-						{
-							"type": "device_if",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						},
-						{
-							"type": "frontmost_application_unless",
-							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
-						}
-					]
-				},
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_alt",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"select_input_source":
-							{
-								"language": "en"
-							}
-						}
-					],
-					"conditions": [
-						{
-							"type": "input_source_unless",
-							"input_sources": [
-								{
-									"language": "en"
-								}
-							]
-						},
-						{
-							"type": "device_unless",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						},
-						{
-							"type": "frontmost_application_if",
-							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
-						}
-					]
-				},
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_alt",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"select_input_source":
-							{
-								"input_mode_id": "com.apple.inputmethod.Korean.*",
-								"language": "ko"
-							}
-						}
-					],
-					"conditions": [
-						{
-							"type": "input_source_unless",
-							"input_sources": [
-								{
-									"language": "ko"
-								}
-							]
-						},
-						{
-							"type": "device_unless",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						},
-						{
-							"type": "frontmost_application_if",
-							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
-						}
-					]
-				},
+            "description": "Apple: GeneralKB(RAlt),HHK(RGui)->caps; wow,dia3->[ko/en]",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_alt",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "key_code": "caps_lock"
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "device_unless",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        },
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_gui",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "key_code": "caps_lock"
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "device_if",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        },
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_alt",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "select_input_source":
+                            {
+                                "language": "en"
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "input_source_unless",
+                            "input_sources": [
+                                {
+                                    "language": "en"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "device_unless",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        },
+                        {
+                            "type": "frontmost_application_if",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_alt",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "select_input_source":
+                            {
+                                "input_mode_id": "com.apple.inputmethod.Korean.*",
+                                "language": "ko"
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "input_source_unless",
+                            "input_sources": [
+                                {
+                                    "language": "ko"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "device_unless",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        },
+                        {
+                            "type": "frontmost_application_if",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+                        }
+                    ]
+                },
 
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_gui",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"select_input_source":
-							{
-								"language": "en"
-							}
-						}
-					],
-					"conditions": [
-						{
-							"type": "input_source_unless",
-							"input_sources": [
-								{
-									"language": "en"
-								}
-							]
-						},
-						{
-							"type": "device_if",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						},
-						{
-							"type": "frontmost_application_if",
-							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
-						}
-					]
-				},
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_gui",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"select_input_source":
-							{
-								"input_mode_id": "com.apple.inputmethod.Korean.*",
-								"language": "ko"
-							}
-						}
-					],
-					"conditions": [
-						{
-							"type": "input_source_unless",
-							"input_sources": [
-								{
-									"language": "ko"
-								}
-							]
-						},
-						{
-							"type": "device_if",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						},
-						{
-							"type": "frontmost_application_if",
-							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
-						}
-					]
-				}
-			]
-		},
-
-        {
-			"description": "Apple: GeneralKB(RAlt),HHK(RGui)->f16; wow,dia3->[ko/en]",
-			"manipulators": [
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_alt",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"key_code": "f16"
-						}
-					],
-					"conditions": [
-						{
-							"type": "device_unless",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						},
-						{
-							"type": "frontmost_application_unless",
-							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
-						}
-					]
-				},
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_gui",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"key_code": "f16"
-						}
-					],
-					"conditions": [
-						{
-							"type": "device_if",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						},
-						{
-							"type": "frontmost_application_unless",
-							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
-						}
-					]
-				},
-
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_alt",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"select_input_source":
-							{
-								"language": "en"
-							}
-						}
-					],
-					"conditions": [
-						{
-							"type": "input_source_unless",
-							"input_sources": [
-								{
-									"language": "en"
-								}
-							]
-						},
-						{
-							"type": "device_unless",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						},
-						{
-							"type": "frontmost_application_if",
-							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
-						}
-					]
-				},
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_alt",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"select_input_source":
-							{
-								"input_mode_id": "com.apple.inputmethod.Korean.*",
-								"language": "ko"
-							}
-						}
-					],
-					"conditions": [
-						{
-							"type": "input_source_unless",
-							"input_sources": [
-								{
-									"language": "ko"
-								}
-							]
-						},
-						{
-							"type": "device_unless",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						},
-						{
-							"type": "frontmost_application_if",
-							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
-						}
-					]
-				},
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_gui",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"select_input_source":
-							{
-								"language": "en"
-							}
-						}
-					],
-					"conditions": [
-						{
-							"type": "input_source_unless",
-							"input_sources": [
-								{
-									"language": "en"
-								}
-							]
-						},
-						{
-							"type": "device_if",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						},
-						{
-							"type": "frontmost_application_if",
-							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
-						}
-					]
-				},
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_gui",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"select_input_source":
-							{
-								"input_mode_id": "com.apple.inputmethod.Korean.*",
-								"language": "ko"
-							}
-						}
-					],
-					"conditions": [
-						{
-							"type": "input_source_unless",
-							"input_sources": [
-								{
-									"language": "ko"
-								}
-							]
-						},
-						{
-							"type": "device_if",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						},
-						{
-							"type": "frontmost_application_if",
-							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
-						}
-					]
-				}
-
-			]
-		},
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_gui",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "select_input_source":
+                            {
+                                "language": "en"
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "input_source_unless",
+                            "input_sources": [
+                                {
+                                    "language": "en"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "device_if",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        },
+                        {
+                            "type": "frontmost_application_if",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_gui",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "select_input_source":
+                            {
+                                "input_mode_id": "com.apple.inputmethod.Korean.*",
+                                "language": "ko"
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "input_source_unless",
+                            "input_sources": [
+                                {
+                                    "language": "ko"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "device_if",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        },
+                        {
+                            "type": "frontmost_application_if",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+                        }
+                    ]
+                }
+            ]
+        },
 
         {
-			"description": "Apple: GeneralKB(RAlt),HHK(RGui)->[ko/en]",
-			"manipulators": [
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_alt",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"select_input_source":
-							{
-								"language": "en"
-							}
-						}
-					],
-					"conditions": [
-						{
-							"type": "input_source_unless",
-							"input_sources": [
-								{
-									"language": "en"
-								}
-							]
-						},
-						{
-							"type": "device_unless",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						}
-					]
-				},
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_alt",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"select_input_source":
-							{
-								"input_mode_id": "com.apple.inputmethod.Korean.*",
-								"language": "ko"
-							}
-						}
-					],
-					"conditions": [
-						{
-							"type": "input_source_unless",
-							"input_sources": [
-								{
-									"language": "ko"
-								}
-							]
-						},
-						{
-							"type": "device_unless",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						}
-					]
-				},
+            "description": "Apple: GeneralKB(RAlt),HHK(RGui)->f16; wow,dia3->[ko/en]",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_alt",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "key_code": "f16"
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "device_unless",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        },
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_gui",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "key_code": "f16"
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "device_if",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        },
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+                        }
+                    ]
+                },
 
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_gui",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"select_input_source":
-							{
-								"language": "en"
-							}
-						}
-					],
-					"conditions": [
-						{
-							"type": "input_source_unless",
-							"input_sources": [
-								{
-									"language": "en"
-								}
-							]
-						},
-						{
-							"type": "device_if",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						}
-					]
-				},
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_gui",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"select_input_source":
-							{
-								"input_mode_id": "com.apple.inputmethod.Korean.*",
-								"language": "ko"
-							}
-						}
-					],
-					"conditions": [
-						{
-							"type": "input_source_unless",
-							"input_sources": [
-								{
-									"language": "ko"
-								}
-							]
-						},
-						{
-							"type": "device_if",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						}
-					]
-				}
-			]
-		},
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_alt",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "select_input_source":
+                            {
+                                "language": "en"
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "input_source_unless",
+                            "input_sources": [
+                                {
+                                    "language": "en"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "device_unless",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        },
+                        {
+                            "type": "frontmost_application_if",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_alt",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "select_input_source":
+                            {
+                                "input_mode_id": "com.apple.inputmethod.Korean.*",
+                                "language": "ko"
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "input_source_unless",
+                            "input_sources": [
+                                {
+                                    "language": "ko"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "device_unless",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        },
+                        {
+                            "type": "frontmost_application_if",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_gui",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "select_input_source":
+                            {
+                                "language": "en"
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "input_source_unless",
+                            "input_sources": [
+                                {
+                                    "language": "en"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "device_if",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        },
+                        {
+                            "type": "frontmost_application_if",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_gui",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "select_input_source":
+                            {
+                                "input_mode_id": "com.apple.inputmethod.Korean.*",
+                                "language": "ko"
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "input_source_unless",
+                            "input_sources": [
+                                {
+                                    "language": "ko"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "device_if",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        },
+                        {
+                            "type": "frontmost_application_if",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+                        }
+                    ]
+                }
 
-		{
-			"description": "Gureum: GeneralKB(RAlt),HHK(RGui)->f16; wow,dia3->[ko/en]",
-			"manipulators": [
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_alt",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"key_code": "f16"
-						}
-					],
-					"conditions": [
-						{
-							"type": "device_unless",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						},
-						{
-							"type": "frontmost_application_unless",
-							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
-						}
-					]
-				},
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_gui",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"key_code": "f16"
-						}
-					],
-					"conditions": [
-						{
-							"type": "device_if",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						},
-						{
-							"type": "frontmost_application_unless",
-							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
-						}
-					]
-				},
+            ]
+        },
 
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_alt",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"select_input_source":
-							{
-								"language": "en"
-							}
-						}
-					],
-					"conditions": [
-						{
-							"type": "input_source_unless",
-							"input_sources": [
-								{
-									"language": "en"
-								}
-							]
-						},
-						{
-							"type": "device_unless",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						},
-						{
-							"type": "frontmost_application_if",
-							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
-						}
-					]
-				},
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_alt",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"select_input_source":
-							{
-								"input_mode_id": "org.youknowone.inputmethod.Gureum.*",
-								"language": "ko"
-							}
-						}
-					],
-					"conditions": [
-						{
-							"type": "input_source_unless",
-							"input_sources": [
-								{
-									"language": "ko"
-								}
-							]
-						},
-						{
-							"type": "device_unless",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						},
-						{
-							"type": "frontmost_application_if",
-							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
-						}
-					]
-				},
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_gui",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"select_input_source":
-							{
-								"language": "en"
-							}
-						}
-					],
-					"conditions": [
-						{
-							"type": "input_source_unless",
-							"input_sources": [
-								{
-									"language": "en"
-								}
-							]
-						},
-						{
-							"type": "device_if",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						},
-						{
-							"type": "frontmost_application_if",
-							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
-						}
-					]
-				},
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_gui",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"select_input_source":
-							{
-								"input_mode_id": "org.youknowone.inputmethod.Gureum.*",
-								"language": "ko"
-							}
-						}
-					],
-					"conditions": [
-						{
-							"type": "input_source_unless",
-							"input_sources": [
-								{
-									"language": "ko"
-								}
-							]
-						},
-						{
-							"type": "device_if",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						},
-						{
-							"type": "frontmost_application_if",
-							"bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
-						}
-					]
-				}
+        {
+            "description": "Apple: GeneralKB(RAlt),HHK(RGui)->[ko/en]",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_alt",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "select_input_source":
+                            {
+                                "language": "en"
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "input_source_unless",
+                            "input_sources": [
+                                {
+                                    "language": "en"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "device_unless",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_alt",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "select_input_source":
+                            {
+                                "input_mode_id": "com.apple.inputmethod.Korean.*",
+                                "language": "ko"
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "input_source_unless",
+                            "input_sources": [
+                                {
+                                    "language": "ko"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "device_unless",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        }
+                    ]
+                },
 
-			]
-		},
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_gui",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "select_input_source":
+                            {
+                                "language": "en"
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "input_source_unless",
+                            "input_sources": [
+                                {
+                                    "language": "en"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "device_if",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_gui",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "select_input_source":
+                            {
+                                "input_mode_id": "com.apple.inputmethod.Korean.*",
+                                "language": "ko"
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "input_source_unless",
+                            "input_sources": [
+                                {
+                                    "language": "ko"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "device_if",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
 
-		{
-			"description": "Gureum: GeneralKB(RAlt),HHK(RGui)->[ko/en]",
-			"manipulators": [
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_alt",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"select_input_source":
-							{
-								"language": "en"
-							}
-						}
-					],
-					"conditions": [
-						{
-							"type": "input_source_unless",
-							"input_sources": [
-								{
-									"language": "en"
-								}
-							]
-						},
-						{
-							"type": "device_unless",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						}
-					]
-				},
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_alt",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"select_input_source":
-							{
-								"input_mode_id": "org.youknowone.inputmethod.Gureum.*",
-								"language": "ko"
-							}
-						}
-					],
-					"conditions": [
-						{
-							"type": "input_source_unless",
-							"input_sources": [
-								{
-									"language": "ko"
-								}
-							]
-						},
-						{
-							"type": "device_unless",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						}
-					]
-				},
+        {
+            "description": "Gureum: GeneralKB(RAlt),HHK(RGui)->f16; wow,dia3->[ko/en]",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_alt",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "key_code": "f16"
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "device_unless",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        },
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_gui",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "key_code": "f16"
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "device_if",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        },
+                        {
+                            "type": "frontmost_application_unless",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+                        }
+                    ]
+                },
 
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_gui",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"select_input_source":
-							{
-								"language": "en"
-							}
-						}
-					],
-					"conditions": [
-						{
-							"type": "input_source_unless",
-							"input_sources": [
-								{
-									"language": "en"
-								}
-							]
-						},
-						{
-							"type": "device_if",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						}
-					]
-				},
-				{
-					"type": "basic",
-					"from": {
-						"key_code": "right_gui",
-						"modifiers": {
-							"optional": ["any"]
-						}
-					},
-					"to_after_key_up": [
-						{
-							"select_input_source":
-							{
-								"input_mode_id": "org.youknowone.inputmethod.Gureum.*",
-								"language": "ko"
-							}
-						}
-					],
-					"conditions": [
-						{
-							"type": "input_source_unless",
-							"input_sources": [
-								{
-									"language": "ko"
-								}
-							]
-						},
-						{
-							"type": "device_if",
-							"identifiers": [
-								{
-									"vendor_id": 2131,
-									"product_id": 256
-								}
-							]
-						}
-					]
-				}
-			]
-		}
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_alt",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "select_input_source":
+                            {
+                                "language": "en"
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "input_source_unless",
+                            "input_sources": [
+                                {
+                                    "language": "en"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "device_unless",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        },
+                        {
+                            "type": "frontmost_application_if",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_alt",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "select_input_source":
+                            {
+                                "input_mode_id": "org.youknowone.inputmethod.Gureum.*",
+                                "language": "ko"
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "input_source_unless",
+                            "input_sources": [
+                                {
+                                    "language": "ko"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "device_unless",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        },
+                        {
+                            "type": "frontmost_application_if",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_gui",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "select_input_source":
+                            {
+                                "language": "en"
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "input_source_unless",
+                            "input_sources": [
+                                {
+                                    "language": "en"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "device_if",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        },
+                        {
+                            "type": "frontmost_application_if",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_gui",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "select_input_source":
+                            {
+                                "input_mode_id": "org.youknowone.inputmethod.Gureum.*",
+                                "language": "ko"
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "input_source_unless",
+                            "input_sources": [
+                                {
+                                    "language": "ko"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "device_if",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        },
+                        {
+                            "type": "frontmost_application_if",
+                            "bundle_identifiers": ["^com\\.blizzard\\.worldofwarcraft$","^com\\.blizzard\\.diablo3$"]
+                        }
+                    ]
+                }
 
-	]
+            ]
+        },
+
+        {
+            "description": "Gureum: GeneralKB(RAlt),HHK(RGui)->[ko/en]",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_alt",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "select_input_source":
+                            {
+                                "language": "en"
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "input_source_unless",
+                            "input_sources": [
+                                {
+                                    "language": "en"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "device_unless",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_alt",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "select_input_source":
+                            {
+                                "input_mode_id": "org.youknowone.inputmethod.Gureum.*",
+                                "language": "ko"
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "input_source_unless",
+                            "input_sources": [
+                                {
+                                    "language": "ko"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "device_unless",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        }
+                    ]
+                },
+
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_gui",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "select_input_source":
+                            {
+                                "language": "en"
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "input_source_unless",
+                            "input_sources": [
+                                {
+                                    "language": "en"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "device_if",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "right_gui",
+                        "modifiers": {
+                            "optional": ["any"]
+                        }
+                    },
+                    "to_after_key_up": [
+                        {
+                            "select_input_source":
+                            {
+                                "input_mode_id": "org.youknowone.inputmethod.Gureum.*",
+                                "language": "ko"
+                            }
+                        }
+                    ],
+                    "conditions": [
+                        {
+                            "type": "input_source_unless",
+                            "input_sources": [
+                                {
+                                    "language": "ko"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "device_if",
+                            "identifiers": [
+                                {
+                                    "vendor_id": 2131,
+                                    "product_id": 256
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+
+    ]
 }

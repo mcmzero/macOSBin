@@ -15,7 +15,7 @@
                 },
                 "rules": [
                     {
-                        "description": "Apple: GeneralKB(RAlt),HHK(RGui)->caps; wow,dia3->[ko/en]",
+                        "description": "Apple: GeneralKB(RAlt),HHK(RGui)->f16; wow,dia3->[ko/en]",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -46,7 +46,7 @@
                                 },
                                 "to_after_key_up": [
                                     {
-                                        "key_code": "caps_lock"
+                                        "key_code": "f16"
                                     }
                                 ],
                                 "type": "basic"
@@ -80,7 +80,7 @@
                                 },
                                 "to_after_key_up": [
                                     {
-                                        "key_code": "caps_lock"
+                                        "key_code": "f16"
                                     }
                                 ],
                                 "type": "basic"
@@ -266,7 +266,7 @@
                         ]
                     },
                     {
-                        "description": "⎋`(⎋⌘); ⎋(en),⌘Spc(en)",
+                        "description": "⎋`(⎋⌘); ⎋(en),⌘Spc(en),^(en<->ko)",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -378,7 +378,12 @@
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "^(컨트롤)를 누르는 동안 잠시 영문[en]으로 전환했다가 떼면 다시 한글[ko]로 돌아오기",
+                        "manipulators": [
                             {
                                 "conditions": [
                                     {
@@ -388,6 +393,13 @@
                                             }
                                         ],
                                         "type": "input_source_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "com.apple.Terminal",
+                                            "com.microsoft.VSCode"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     },
                                     {
                                         "bundle_identifiers": [
@@ -414,6 +426,14 @@
                                     {
                                         "key_code": "left_control",
                                         "lazy": true
+                                    }
+                                ],
+                                "to_after_key_up": [
+                                    {
+                                        "select_input_source": {
+                                            "input_mode_id": "com.apple.inputmethod.Korean.*",
+                                            "language": "ko"
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -491,6 +511,13 @@
                                             "com.apple.finder"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "description": "finder: f1->휴지통으로 이동",
@@ -525,6 +552,13 @@
                                             "com.apple.finder"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "description": "finder: ⌘f1->휴지통 비우기",
@@ -565,6 +599,13 @@
                                             "com.apple.Terminal"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
@@ -594,6 +635,13 @@
                                             "com.apple.Terminal"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "description": "Copy&Yank: f2->⌘c,^w",
@@ -700,6 +748,13 @@
                                             "com.apple.Terminal"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "description": "iBooks: f5->prev page",
@@ -752,6 +807,13 @@
                                             "com.apple.Terminal"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "description": "iBooks: f6->next page",
@@ -811,6 +873,13 @@
                                             "com.apple.Terminal"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "description": "Open: f7->iBooks",
@@ -837,6 +906,13 @@
                                             "com.apple.Terminal"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "description": "Open: f8->XCode",
@@ -990,12 +1066,12 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "/usr/bin/say '나 졸려 그만 잘래'"
+                                        "shell_command": "/usr/bin/say '잘자'"
                                     }
                                 ],
-                                "to_if_held_down": [
+                                "to_after_key_up": [
                                     {
-                                        "shell_command": "(sleep 3;osascript -e 'tell app \"System Events\" to sleep') &"
+                                        "shell_command": "(sleep 1;osascript -e 'tell app \"System Events\" to sleep') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -1111,12 +1187,12 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "/usr/bin/say '나 졸려 그만 잘래'"
+                                        "shell_command": "/usr/bin/say '잘자'"
                                     }
                                 ],
-                                "to_if_held_down": [
+                                "to_after_key_up": [
                                     {
-                                        "shell_command": "(sleep 3;osascript -e 'tell app \"System Events\" to sleep') &"
+                                        "shell_command": "(sleep 1;osascript -e 'tell app \"System Events\" to sleep') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -1785,6 +1861,13 @@
                                             "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "description": "이전편",
@@ -1846,6 +1929,13 @@
                                             "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "description": "다음편",
@@ -1913,6 +2003,13 @@
                                             "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
@@ -1939,6 +2036,13 @@
                                             "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
@@ -1971,6 +2075,13 @@
                                             "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
@@ -2008,6 +2119,13 @@
                                             "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
@@ -2489,7 +2607,7 @@
                 },
                 "rules": [
                     {
-                        "description": "Apple: GeneralKB(RAlt),HHK(RGui)->caps; wow,dia3->[ko/en]",
+                        "description": "Apple: GeneralKB(RAlt),HHK(RGui)->f16; wow,dia3->[ko/en]",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -2520,7 +2638,7 @@
                                 },
                                 "to_after_key_up": [
                                     {
-                                        "key_code": "caps_lock"
+                                        "key_code": "f16"
                                     }
                                 ],
                                 "type": "basic"
@@ -2554,7 +2672,7 @@
                                 },
                                 "to_after_key_up": [
                                     {
-                                        "key_code": "caps_lock"
+                                        "key_code": "f16"
                                     }
                                 ],
                                 "type": "basic"
@@ -2740,7 +2858,7 @@
                         ]
                     },
                     {
-                        "description": "⎋`(⎋⌘); ⎋(en),⌘Spc(en)",
+                        "description": "⎋`(⎋⌘); ⎋(en),⌘Spc(en),^(en<->ko)",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -2852,7 +2970,12 @@
                                     }
                                 ],
                                 "type": "basic"
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "description": "^(컨트롤)를 누르는 동안 잠시 영문[en]으로 전환했다가 떼면 다시 한글[ko]로 돌아오기",
+                        "manipulators": [
                             {
                                 "conditions": [
                                     {
@@ -2862,6 +2985,13 @@
                                             }
                                         ],
                                         "type": "input_source_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "com.apple.Terminal",
+                                            "com.microsoft.VSCode"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     },
                                     {
                                         "bundle_identifiers": [
@@ -2888,6 +3018,14 @@
                                     {
                                         "key_code": "left_control",
                                         "lazy": true
+                                    }
+                                ],
+                                "to_after_key_up": [
+                                    {
+                                        "select_input_source": {
+                                            "input_mode_id": "com.apple.inputmethod.Korean.*",
+                                            "language": "ko"
+                                        }
                                     }
                                 ],
                                 "type": "basic"
@@ -2965,6 +3103,13 @@
                                             "com.apple.finder"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "description": "finder: f1->휴지통으로 이동",
@@ -2999,6 +3144,13 @@
                                             "com.apple.finder"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "description": "finder: ⌘f1->휴지통 비우기",
@@ -3039,6 +3191,13 @@
                                             "com.apple.Terminal"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
@@ -3068,6 +3227,13 @@
                                             "com.apple.Terminal"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "description": "Copy&Yank: f2->⌘c,^w",
@@ -3174,6 +3340,13 @@
                                             "com.apple.Terminal"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "description": "iBooks: f5->prev page",
@@ -3226,6 +3399,13 @@
                                             "com.apple.Terminal"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "description": "iBooks: f6->next page",
@@ -3285,6 +3465,13 @@
                                             "com.apple.Terminal"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "description": "Open: f7->iBooks",
@@ -3311,6 +3498,13 @@
                                             "com.apple.Terminal"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "description": "Open: f8->XCode",
@@ -3464,12 +3658,12 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "/usr/bin/say '나 졸려 그만 잘래'"
+                                        "shell_command": "/usr/bin/say '잘자'"
                                     }
                                 ],
-                                "to_if_held_down": [
+                                "to_after_key_up": [
                                     {
-                                        "shell_command": "(sleep 3;osascript -e 'tell app \"System Events\" to sleep') &"
+                                        "shell_command": "(sleep 1;osascript -e 'tell app \"System Events\" to sleep') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -3585,12 +3779,12 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "/usr/bin/say '나 졸려 그만 잘래'"
+                                        "shell_command": "/usr/bin/say '잘자'"
                                     }
                                 ],
-                                "to_if_held_down": [
+                                "to_after_key_up": [
                                     {
-                                        "shell_command": "(sleep 3;osascript -e 'tell app \"System Events\" to sleep') &"
+                                        "shell_command": "(sleep 1;osascript -e 'tell app \"System Events\" to sleep') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -4259,6 +4453,13 @@
                                             "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "description": "이전편",
@@ -4320,6 +4521,13 @@
                                             "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "description": "다음편",
@@ -4387,6 +4595,13 @@
                                             "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
@@ -4413,6 +4628,13 @@
                                             "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
@@ -4445,6 +4667,13 @@
                                             "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
@@ -4482,6 +4711,13 @@
                                             "com.google.Chrome"
                                         ],
                                         "type": "frontmost_application_if"
+                                    },
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.blizzard\\.worldofwarcraft$",
+                                            "^com\\.blizzard\\.diablo3$"
+                                        ],
+                                        "type": "frontmost_application_unless"
                                     }
                                 ],
                                 "from": {
