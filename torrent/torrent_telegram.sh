@@ -1,9 +1,10 @@
 #!/bin/bash
 
 tgCli="/snap/bin/telegram-cli"
-peerId="토렌트"
+peerId="TV"
 msgText="$*"
 
-if [[ $1 ]]; then
-	$tgCli -D -W -e "msg $peerId \"$msgText\"" > /dev/null
+if [[ $msgText ]]; then
+    #echo "$(whoami) $msgText" >> /home/pi/telegramMsgText.txt
+    sudo -u pi $tgCli -D -W -e "msg $peerId \"$msgText\"" > /dev/null
 fi

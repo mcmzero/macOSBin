@@ -17,8 +17,6 @@ MAILTO=""
 # Clean up magnet list
 07 */2 * * *        pi /usr/local//usr/bin/tt/update_bbc_news_m3u.sh
 
-02 * * * *          pi /home/pi/bin/tokenprice.sh 50
-
 # Look for and purge old sessions every 5 minutes
 */30 * * * *        pi /usr/local/bin/torrent_done.sh
 00 */12 * * *       pi /usr/bin/tt login

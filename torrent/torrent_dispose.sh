@@ -221,11 +221,10 @@ function getTargetName() {
 	-e's/\ *E\([0-9]*\)\ /.E\1./'\
 	-e's/.\([0-9]*\)\ \([0-9]*\)p/.\1.\2p/'\
 	\
-	-e's/[[:space:]]*\./\./'\
-	-e's/\.[[:space:]]*/\./'\
-	-e's/^[[:space:]]*//' -e's/[[:space:]]*$//'\
+	-e's/[[:space:]]*\./\./' -e's/\.[[:space:]]*/\./'\
 	-e's/\.+/\./'\
 	-e's/ *-/-/g' -e's/- */-/g'\
+	-e's/^[[:space:]]*//' -e's/[[:space:]]*$//'\
 	)
 	targetName=$(trimEpisodeNumberGreaterThan1000 "$targetName")
     echo $targetName
@@ -285,8 +284,7 @@ function getTargetPathName() {
 	-e's/ *[0-9]*-[0-9]*회 합본//'\
 	-e's/ *[0-9]*-[0-9]*화 합본//'\
 	\
-	-e's/^[[:space:]]*//'\
-	-e's/[[:space:]]*$//'\
+	-e's/^[[:space:]]*//' -e's/[[:space:]]*$//'\
 	)
 	echo $targetPath
 }

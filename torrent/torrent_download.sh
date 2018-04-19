@@ -6,9 +6,9 @@ source /usr/local/torrent/torrent_server_address.sh
 [ -z "$TOR_SERVER_IP" ] && TOR_SERVER_IP="localhost"
 [ -z "$TOR_SERVER_PORT" ] && TOR_SERVER_PORT=9191
 
-#sqlite3
 sqlite3="$(which sqlite3)"
-[ "$sqlite3" ] && sqlite3="$sqlite3 /usr/local/torrent/magnet.db"
+[[ "$sqlite3" ]] && sqlite3="$sqlite3 /usr/local/torrent/magnet.db"
+[[ $(grep pi /etc/passwd) ]] && sqlite3="sudo -u pi $sqlite3"
 $sqlite3 "CREATE TABLE IF NOT EXISTS magnetList(magnet TEXT primary key, time INTEGER, name TEXT);"
 
 function decode() {
@@ -26,6 +26,8 @@ disposeFile="/usr/local/torrent/torrent_dispose.sh"
 magnetListFile="/usr/local/torrent/magnet_list"
 magnetNameListFile="/usr/local/torrent/magnet_name_list"
 cookieFile_cor="/usr/local/torrent/cookie_tcorea"
+
+source $disposeFile
 
 declare -a urlServer=(\
     "https://www.tcorea.com"\
@@ -100,31 +102,48 @@ function magnetRemove() {
     transDefault --torrent "$*" --remove
 }
 
+function magnetIdList() {
+    transDefault -l|grep -ve'ID.*Name' -ve'Sum:.*'|\
+                    sed -e's/^[[:space:]]*//' -e's/[[:space:]]*$//'|\
+                    cut -d' ' -f1
+}
+
 function torrentPurge() {
     local server=$TOR_SERVER
-    [ -n "$1" ] && server=$1
+    [[ $1 ]] && server=$1
 
-    local tempMagnetList=$(mktemp -q -t $(basename $0).XXX)
-    if [ $? -ne 0 ]; then
+    local basename=$(basename $0 2> /dev/null||echo "torrent")
+    local tempMagnetList=$(mktemp -q -t ${basename}.XXX)
+    if [[ $? -ne 0 ]]; then
         echo "$0: Can't create temp file, exiting..."
         return 1
     fi
 
-    local torrentIdList=$(transServer $server -l|\
-        grep -ve'ID.*Name' -ve'Sum:.*'|\
-        tee ${tempMagnetList}|\
-        grep "Stopped\|Seeding\|Finished\|Idle"|\
-        grep "100%"|\
-        sed -e's/^[[:space:]]*//' -e's/[[:space:]]*$//'|\
-        cut -d' ' -f1)
+    local torrentIdList=$(transServer $server -l|grep -ve'ID.*Name' -ve'Sum:.*'|\
+                            tee ${tempMagnetList}|\
+                            grep "Stopped\|Seeding\|Finished\|Idle"|grep "100%"|\
+                            sed -e's/^[[:space:]]*//' -e's/[[:space:]]*$//'|\
+                            cut -d' ' -f1)
+
+    local telegramMsgText
+    for tid in $torrentIdList; do
+        local name=$(getTargetName $(transServer $server -t $tid -i|grep Name|cut -d' ' -f4-)|sed -e's/.mp4//' -e's/.mkv//' -e's/.avi//' -e's/.720p.*$//')
+        local magnet=$(transServer $server -t $tid -i|grep Magnet|cut -d' ' -f4-|sed -e's/&dn.*$//')
+        if [[ $name && $magnet ]]; then
+            $sqlite3 "UPDATE magnetList SET name = '${name}' WHERE magnet == '$magnet'"
+            #$sqlite3 "SELECT datetime(time, 'unixepoch', 'localtime'),magnet,name FROM magnetList WHERE magnet == '$magnet'" -separator ' ' >> /home/pi/telegramMsgText.txt
+            telegramMsgText="${telegramMsgText}${name}\\n"
+        fi
+    done
+    /usr/local/torrent/torrent_telegram.sh $telegramMsgText
+
     torrentIdList=$(echo ${torrentIdList}|sed -e 's/ /,/g')
-    if [ -n "$torrentIdList" ]; then
+    if [[ $torrentIdList ]]; then
         transServer $server --torrent ${torrentIdList} --remove
     fi
 
     # 다운로드 항목이 없을때 떨굼상자 안에 있는 폴더들을 검사하여 모든 동영상 파일을 떨꿈상자 폴더로 이동하고 하위 폴더를 제거(정리)한다
-    if [ -z "$(tail -n 1 ${tempMagnetList})" ]; then
-        source $disposeFile
+    if [[ -z "$(tail -n 1 ${tempMagnetList})" ]]; then
         cleanupRasPi
     fi
     rm -f ${tempMagnetList}
@@ -411,7 +430,7 @@ function torrentSearch_kim() {
 
     local magnetCount=0
     local magnetList
-    local telegramMsg
+    local telegramMsgText
     for pageNum in $(seq $pageNumEnd -1 $pageNumStart); do
         urlString="${urlServer[2]}/bbs/s.php?page=${pageNum}&k=${search}"
         echo search kim: $urlString
@@ -431,18 +450,19 @@ function torrentSearch_kim() {
                 matchCount=$(($matchCount + 1))
                 ((matchCount > count)) && break
                 magnetArray[n]=$(echo ${magnetArray[n]}|tr '[:upper:]' '[:lower:]')
+                nameArray[n]=$(getTargetName ${nameArray[n]}|sed -e's/.mp4//' -e's/.mkv//' -e's/.avi//' -e's/.720p.*$//')
                 if [[ $sqlite3 ]]; then
                     local result=$($sqlite3 "SELECT COUNT(*),name FROM magnetList WHERE magnet == '${magnetArray[n]}'")
                     local resultCount=$(echo $result|cut -d'|' -f1)
                     local resultName=$(echo $result|cut -d'|' -f2-)
                     if [[ $resultCount > 0 && $resultName == "" ]]; then
                         $sqlite3 "UPDATE magnetList SET name = '${nameArray[n]}' WHERE magnet == '${magnetArray[n]}' AND name IS NULL"
-                        telegramMsg="${telegramMsg}#${nameArray[n]//.720p*/}\\n"
+                        telegramMsgText="${telegramMsgText}#${nameArray[n]}\\n"
                     elif [[ $resultCount == 0 ]]; then
                         if $sqlite3 "INSERT INTO magnetList VALUES('${magnetArray[n]}', strftime('%s','now'), '${nameArray[n]}')"; then
                             let magnetCount=magnetCount+1
                             magnetList="$magnetList -a ${magnetArray[n]}"
-                            telegramMsg="${telegramMsg}+${nameArray[n]//.720p*/}\\n"
+                            telegramMsgText="${telegramMsgText}+${nameArray[n]}\\n"
                             echo "+[${magnetArray[n]}] $($sqlite3 "SELECT datetime(time, 'unixepoch', 'localtime'), name FROM magnetList WHERE magnet == '${magnetArray[n]}'" -separator ' ')"
                         fi
                     elif [[ $forcedDownloadMode ]]; then
@@ -473,7 +493,7 @@ function torrentSearch_kim() {
         rm $outputFile
     fi
     rm $htmlFile
-    /usr/local/torrent/torrent_telegram.sh "$telegramMsg"
+    #/usr/local/torrent/torrent_telegram.sh "$telegramMsgText"
 }
 
 function torrentCategory_kim() {
@@ -510,7 +530,7 @@ function torrentCategory_kim() {
 
     local magnetCount=0
     local magnetList
-    local telegramMsg
+    local telegramMsgText
     for pageNum in $(seq $pageNumEnd -1 $pageNumStart); do
         urlString="${urlType}&page=${pageNum}&k=${search}"
         echo search kim: $urlString
@@ -530,18 +550,19 @@ function torrentCategory_kim() {
                 matchCount=$(($matchCount + 1))
                 ((matchCount > count)) && break
                 magnetArray[n]=$(echo ${magnetArray[n]}|tr '[:upper:]' '[:lower:]')
+                nameArray[n]=$(getTargetName ${nameArray[n]}|sed -e's/.mp4//' -e's/.mkv//' -e's/.avi//' -e's/.720p.*$//')
                 if [[ $sqlite3 ]]; then
                     local result=$($sqlite3 "SELECT COUNT(*),name FROM magnetList WHERE magnet == '${magnetArray[n]}'")
                     local resultCount=$(echo $result|cut -d'|' -f1)
                     local resultName=$(echo $result|cut -d'|' -f2-)
                     if [[ $resultCount > 0 && $resultName == "" ]]; then
                         $sqlite3 "UPDATE magnetList SET name = '${nameArray[n]}' WHERE magnet == '${magnetArray[n]}' AND name IS NULL"
-                        telegramMsg="${telegramMsg}#${nameArray[n]//.720p*/}\\n"
+                        telegramMsgText="${telegramMsgText}#${nameArray[n]}\\n"
                     elif [[ $resultCount == 0 ]]; then
                         if $sqlite3 "INSERT INTO magnetList VALUES('${magnetArray[n]}', strftime('%s','now'), '${nameArray[n]}')"; then
                             let magnetCount=magnetCount+1
                             magnetList="$magnetList -a ${magnetArray[n]}"
-                            telegramMsg="${telegramMsg}+${nameArray[n]//.720p*/}\\n"
+                            telegramMsgText="${telegramMsgText}+${nameArray[n]}\\n"
                             echo "+[${magnetArray[n]}] $($sqlite3 "SELECT datetime(time, 'unixepoch', 'localtime'), name FROM magnetList WHERE magnet == '${magnetArray[n]}'" -separator ' ')"
                         fi
                     elif [[ $forcedDownloadMode ]]; then
@@ -572,7 +593,7 @@ function torrentCategory_kim() {
         rm $outputFile
     fi
     rm $htmlFile
-    /usr/local/torrent/torrent_telegram.sh "$telegramMsg"
+    #/usr/local/torrent/torrent_telegram.sh "$telegramMsgText"
 }
 
 function magnetNameListAdd() {
