@@ -24,21 +24,21 @@ MAILTO=""
 
 # 예능, 드라마
 */10 * * * *         pi /usr/bin/tt kim ent 2
-*/20 * * * *         pi /usr/bin/tt kim drama 2
+*/15 * * * *         pi /usr/bin/tt kim drama 2
 
 #00,30 16-23,0-9 * * 1-5 pi /usr/bin/tt kim ent 2
 #00,30 16-23,0-9 * * 1-5 pi /usr/bin/tt kim drama 2
 10,30,50 16-23,0-9 * * 1-5 pi /usr/bin/tt cor ent 2
-10,30,50 16-23,0-9 * * 1-5 pi /usr/bin/tt cor drama 2
+15,35,55 16-23,0-9 * * 1-5 pi /usr/bin/tt cor drama 2
 00,20,40 16-23,0-9 * * 1-5 pi /usr/bin/tt pon ent 2
-00,20,40 16-23,0-9 * * 1-5 pi /usr/bin/tt pon drama 2
+05,25,45 16-23,0-9 * * 1-5 pi /usr/bin/tt pon drama 2
 
 #00,30 * * * 6,7     pi /usr/bin/tt kim ent 2
 #00,30 * * * 6,7     pi /usr/bin/tt kim drama 2
 10,30,50 * * * 6,7     pi /usr/bin/tt cor ent 2
-10,30,50 * * * 6,7     pi /usr/bin/tt cor drama 2
+15,35,55 * * * 6,7     pi /usr/bin/tt cor drama 2
 00,20,40 * * * 6,7     pi /usr/bin/tt pon ent 2
-00,20,40 * * * 6,7     pi /usr/bin/tt pon drama 2
+05,25,45 * * * 6,7     pi /usr/bin/tt pon drama 2
 
 # 일일
 00 11-15 * * 1-5    pi /usr/bin/tt cor 4 1 1 720 TV소설
