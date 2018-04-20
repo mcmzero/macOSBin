@@ -1482,10 +1482,10 @@
                         "description": "카카오 페이지 모드 on",
                         "key_code": "left_option",
                         "modifiers": {
-                            "optional": ["any"]
+                            "optional": ["caps_lock"]
                         }
                     },
-                    "to_if_alone": [
+                    "to_if_held_down": [
                         {
                             "set_variable": {
                                 "name": "kakao_page_mode",

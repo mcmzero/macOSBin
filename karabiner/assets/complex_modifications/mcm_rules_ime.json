@@ -51,6 +51,7 @@
                             "type": "device_if",
                             "identifiers": [
                                 {
+                                    "Description": "HHK",
                                     "vendor_id": 2131,
                                     "product_id": 256
                                 }
@@ -173,6 +174,7 @@
                             "type": "device_if",
                             "identifiers": [
                                 {
+                                    "Description": "HHK",
                                     "vendor_id": 2131,
                                     "product_id": 256
                                 }
@@ -214,6 +216,7 @@
                             "type": "device_if",
                             "identifiers": [
                                 {
+                                    "Description": "HHK",
                                     "vendor_id": 2131,
                                     "product_id": 256
                                 }
@@ -278,6 +281,7 @@
                             "type": "device_if",
                             "identifiers": [
                                 {
+                                    "Description": "HHK",
                                     "vendor_id": 2131,
                                     "product_id": 256
                                 }
@@ -400,6 +404,7 @@
                             "type": "device_if",
                             "identifiers": [
                                 {
+                                    "Description": "HHK",
                                     "vendor_id": 2131,
                                     "product_id": 256
                                 }
@@ -441,6 +446,7 @@
                             "type": "device_if",
                             "identifiers": [
                                 {
+                                    "Description": "HHK",
                                     "vendor_id": 2131,
                                     "product_id": 256
                                 }
@@ -562,6 +568,7 @@
                             "type": "device_if",
                             "identifiers": [
                                 {
+                                    "Description": "HHK",
                                     "vendor_id": 2131,
                                     "product_id": 256
                                 }
@@ -599,6 +606,7 @@
                             "type": "device_if",
                             "identifiers": [
                                 {
+                                    "Description": "HHK",
                                     "vendor_id": 2131,
                                     "product_id": 256
                                 }
@@ -659,6 +667,7 @@
                             "type": "device_if",
                             "identifiers": [
                                 {
+                                    "Description": "HHK",
                                     "vendor_id": 2131,
                                     "product_id": 256
                                 }
@@ -781,6 +790,7 @@
                             "type": "device_if",
                             "identifiers": [
                                 {
+                                    "Description": "HHK",
                                     "vendor_id": 2131,
                                     "product_id": 256
                                 }
@@ -822,6 +832,7 @@
                             "type": "device_if",
                             "identifiers": [
                                 {
+                                    "Description": "HHK",
                                     "vendor_id": 2131,
                                     "product_id": 256
                                 }
@@ -943,6 +954,7 @@
                             "type": "device_if",
                             "identifiers": [
                                 {
+                                    "Description": "HHK",
                                     "vendor_id": 2131,
                                     "product_id": 256
                                 }
@@ -980,6 +992,7 @@
                             "type": "device_if",
                             "identifiers": [
                                 {
+                                    "Description": "HHK",
                                     "vendor_id": 2131,
                                     "product_id": 256
                                 }
