@@ -56,6 +56,7 @@
                                     {
                                         "identifiers": [
                                             {
+                                                "Description": "HHK",
                                                 "product_id": 256,
                                                 "vendor_id": 2131
                                             }
@@ -187,6 +188,7 @@
                                     {
                                         "identifiers": [
                                             {
+                                                "Description": "HHK",
                                                 "product_id": 256,
                                                 "vendor_id": 2131
                                             }
@@ -231,6 +233,7 @@
                                     {
                                         "identifiers": [
                                             {
+                                                "Description": "HHK",
                                                 "product_id": 256,
                                                 "vendor_id": 2131
                                             }
@@ -2089,11 +2092,11 @@
                                     "key_code": "left_option",
                                     "modifiers": {
                                         "optional": [
-                                            "any"
+                                            "caps_lock"
                                         ]
                                     }
                                 },
-                                "to_if_alone": [
+                                "to_if_held_down": [
                                     {
                                         "set_variable": {
                                             "name": "kakao_page_mode",
@@ -2648,6 +2651,7 @@
                                     {
                                         "identifiers": [
                                             {
+                                                "Description": "HHK",
                                                 "product_id": 256,
                                                 "vendor_id": 2131
                                             }
@@ -2779,6 +2783,7 @@
                                     {
                                         "identifiers": [
                                             {
+                                                "Description": "HHK",
                                                 "product_id": 256,
                                                 "vendor_id": 2131
                                             }
@@ -2823,6 +2828,7 @@
                                     {
                                         "identifiers": [
                                             {
+                                                "Description": "HHK",
                                                 "product_id": 256,
                                                 "vendor_id": 2131
                                             }
@@ -4681,11 +4687,11 @@
                                     "key_code": "left_option",
                                     "modifiers": {
                                         "optional": [
-                                            "any"
+                                            "caps_lock"
                                         ]
                                     }
                                 },
-                                "to_if_alone": [
+                                "to_if_held_down": [
                                     {
                                         "set_variable": {
                                             "name": "kakao_page_mode",
