@@ -1308,24 +1308,18 @@
         },
 
         {
-            "description": "safari(카카오페이지): 1(이전편),2(다음편); ␣(→),⇧␣(←); ^␣(카카오페이지모드 시작),⎋(끝)",
+            "description": "safari(카카오페이지): 1(이전편),2(다음편); ␣(→),⇧␣(←); ^(카카오페이지모드 시작),^(끝)",
             "manipulators": [
                 {
                     "type": "basic",
                     "from": {
                         "key_code": "1",
                         "modifiers": {
-                            "optional": ["any"]
+                            "optional": ["caps_lock"]
                         }
                     },
                     "description": "이전편",
                     "to": [
-                        {
-                            "pointing_button": "button1"
-                        },
-                        {
-                            "pointing_button": "button1"
-                        },
                         {
                             "key_code": "tab",
                             "modifiers": ["left_option"]
@@ -1350,7 +1344,7 @@
                         {
                             "type": "variable_if",
                             "name": "kakao_page_mode",
-                            "value": 1
+                            "value": 9
                         },
                         {
                             "type": "frontmost_application_if",
@@ -1367,17 +1361,11 @@
                     "from": {
                         "key_code": "2",
                         "modifiers": {
-                            "optional": ["any"]
+                            "optional": ["caps_lock"]
                         }
                     },
                     "description": "다음편",
                     "to": [
-                        {
-                            "pointing_button": "button1"
-                        },
-                        {
-                            "pointing_button": "button1"
-                        },
                         {
                             "key_code": "tab",
                             "modifiers": ["left_option"]
@@ -1406,7 +1394,7 @@
                         {
                             "type": "variable_if",
                             "name": "kakao_page_mode",
-                            "value": 1
+                            "value": 9
                         },
                         {
                             "type": "frontmost_application_if",
@@ -1421,11 +1409,17 @@
                 {
                     "type": "basic",
                     "from": {
-                        "key_code": "spacebar"
+                        "description": "다음 페이지",
+                        "key_code": "spacebar",
+                        "modifiers": {
+                            "optional": ["caps_lock"]
+                        }
                     },
                     "to": [
                         {
-                            "description": "다음 페이지",
+                            "key_code": "escape"
+                        },
+                        {
                             "key_code": "right_arrow"
                         }
                     ],
@@ -1449,12 +1443,15 @@
                     "type": "basic",
                     "from": {
                         "description": "이전 페이지",
-                        "key_code": "spacebar",
+                        "key_code": "left_command",
                         "modifiers": {
-                            "optional": ["shift","caps_lock"]
+                            "optional": ["caps_lock"]
                         }
                     },
                     "to": [
+                        {
+                            "key_code": "escape"
+                        },
                         {
                             "key_code": "left_arrow"
                         }
@@ -1518,7 +1515,7 @@
                         "description": "카카오 페이지 모드 off",
                         "key_code": "left_option",
                         "modifiers": {
-                            "optional": ["any"]
+                            "optional": ["caps_lock"]
                         }
                     },
                     "to_if_alone": [

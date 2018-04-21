@@ -1849,14 +1849,14 @@
                         ]
                     },
                     {
-                        "description": "safari(카카오페이지): 1(이전편),2(다음편); ␣(→),⇧␣(←); ^␣(카카오페이지모드 시작),⎋(끝)",
+                        "description": "safari(카카오페이지): 1(이전편),2(다음편); ␣(→),⇧␣(←); ^(카카오페이지모드 시작),^(끝)",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
                                         "name": "kakao_page_mode",
                                         "type": "variable_if",
-                                        "value": 1
+                                        "value": 9
                                     },
                                     {
                                         "bundle_identifiers": [
@@ -1878,17 +1878,11 @@
                                     "key_code": "1",
                                     "modifiers": {
                                         "optional": [
-                                            "any"
+                                            "caps_lock"
                                         ]
                                     }
                                 },
                                 "to": [
-                                    {
-                                        "pointing_button": "button1"
-                                    },
-                                    {
-                                        "pointing_button": "button1"
-                                    },
                                     {
                                         "key_code": "tab",
                                         "modifiers": [
@@ -1924,7 +1918,7 @@
                                     {
                                         "name": "kakao_page_mode",
                                         "type": "variable_if",
-                                        "value": 1
+                                        "value": 9
                                     },
                                     {
                                         "bundle_identifiers": [
@@ -1946,17 +1940,11 @@
                                     "key_code": "2",
                                     "modifiers": {
                                         "optional": [
-                                            "any"
+                                            "caps_lock"
                                         ]
                                     }
                                 },
                                 "to": [
-                                    {
-                                        "pointing_button": "button1"
-                                    },
-                                    {
-                                        "pointing_button": "button1"
-                                    },
                                     {
                                         "key_code": "tab",
                                         "modifiers": [
@@ -2016,11 +2004,19 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "spacebar"
+                                    "description": "다음 페이지",
+                                    "key_code": "spacebar",
+                                    "modifiers": {
+                                        "optional": [
+                                            "caps_lock"
+                                        ]
+                                    }
                                 },
                                 "to": [
                                     {
-                                        "description": "다음 페이지",
+                                        "key_code": "escape"
+                                    },
+                                    {
                                         "key_code": "right_arrow"
                                     }
                                 ],
@@ -2050,15 +2046,17 @@
                                 ],
                                 "from": {
                                     "description": "이전 페이지",
-                                    "key_code": "spacebar",
+                                    "key_code": "left_command",
                                     "modifiers": {
                                         "optional": [
-                                            "shift",
                                             "caps_lock"
                                         ]
                                     }
                                 },
                                 "to": [
+                                    {
+                                        "key_code": "escape"
+                                    },
                                     {
                                         "key_code": "left_arrow"
                                     }
@@ -2136,7 +2134,7 @@
                                     "key_code": "left_option",
                                     "modifiers": {
                                         "optional": [
-                                            "any"
+                                            "caps_lock"
                                         ]
                                     }
                                 },
@@ -4444,14 +4442,14 @@
                         ]
                     },
                     {
-                        "description": "safari(카카오페이지): 1(이전편),2(다음편); ␣(→),⇧␣(←); ^␣(카카오페이지모드 시작),⎋(끝)",
+                        "description": "safari(카카오페이지): 1(이전편),2(다음편); ␣(→),⇧␣(←); ^(카카오페이지모드 시작),^(끝)",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
                                         "name": "kakao_page_mode",
                                         "type": "variable_if",
-                                        "value": 1
+                                        "value": 9
                                     },
                                     {
                                         "bundle_identifiers": [
@@ -4473,17 +4471,11 @@
                                     "key_code": "1",
                                     "modifiers": {
                                         "optional": [
-                                            "any"
+                                            "caps_lock"
                                         ]
                                     }
                                 },
                                 "to": [
-                                    {
-                                        "pointing_button": "button1"
-                                    },
-                                    {
-                                        "pointing_button": "button1"
-                                    },
                                     {
                                         "key_code": "tab",
                                         "modifiers": [
@@ -4519,7 +4511,7 @@
                                     {
                                         "name": "kakao_page_mode",
                                         "type": "variable_if",
-                                        "value": 1
+                                        "value": 9
                                     },
                                     {
                                         "bundle_identifiers": [
@@ -4541,17 +4533,11 @@
                                     "key_code": "2",
                                     "modifiers": {
                                         "optional": [
-                                            "any"
+                                            "caps_lock"
                                         ]
                                     }
                                 },
                                 "to": [
-                                    {
-                                        "pointing_button": "button1"
-                                    },
-                                    {
-                                        "pointing_button": "button1"
-                                    },
                                     {
                                         "key_code": "tab",
                                         "modifiers": [
@@ -4611,11 +4597,19 @@
                                     }
                                 ],
                                 "from": {
-                                    "key_code": "spacebar"
+                                    "description": "다음 페이지",
+                                    "key_code": "spacebar",
+                                    "modifiers": {
+                                        "optional": [
+                                            "caps_lock"
+                                        ]
+                                    }
                                 },
                                 "to": [
                                     {
-                                        "description": "다음 페이지",
+                                        "key_code": "escape"
+                                    },
+                                    {
                                         "key_code": "right_arrow"
                                     }
                                 ],
@@ -4645,15 +4639,17 @@
                                 ],
                                 "from": {
                                     "description": "이전 페이지",
-                                    "key_code": "spacebar",
+                                    "key_code": "left_command",
                                     "modifiers": {
                                         "optional": [
-                                            "shift",
                                             "caps_lock"
                                         ]
                                     }
                                 },
                                 "to": [
+                                    {
+                                        "key_code": "escape"
+                                    },
                                     {
                                         "key_code": "left_arrow"
                                     }
@@ -4731,7 +4727,7 @@
                                     "key_code": "left_option",
                                     "modifiers": {
                                         "optional": [
-                                            "any"
+                                            "caps_lock"
                                         ]
                                     }
                                 },
