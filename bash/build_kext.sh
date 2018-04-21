@@ -20,7 +20,8 @@ function rebase_mcm() {
 		if cd /Users/changmin/xcode/$name; then
 			pwd
 			#git checkout mcm && git pull origin master
-			[ "$(git rebase origin/master mcm)" == "Current branch mcm is up to date." ] || build=0
+			[[ $(git rebase origin/master mcm) != "Current branch mcm is up to date." ]] && build=0
+            [[ $(git pull origin master) != "Already up to date." ]] && build=0
 		fi
 	done
 	if [[ $build == 1 ]]; then
