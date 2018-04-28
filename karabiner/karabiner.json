@@ -1138,14 +1138,9 @@
                                 "from": {
                                     "key_code": "print_screen"
                                 },
-                                "to": [
-                                    {
-                                        "shell_command": "/usr/bin/say '시스템 종료'"
-                                    }
-                                ],
                                 "to_if_held_down": [
                                     {
-                                        "shell_command": "(sleep3;osascript -e 'tell app \"System Events\" to shut down') &"
+                                        "shell_command": "(/usr/bin/say '시스템 종료';sleep2;osascript -e 'tell app \"System Events\" to shut down') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -1163,14 +1158,9 @@
                                 "from": {
                                     "key_code": "f13"
                                 },
-                                "to": [
-                                    {
-                                        "shell_command": "/usr/bin/say '시스템 종료'"
-                                    }
-                                ],
                                 "to_if_held_down": [
                                     {
-                                        "shell_command": "(sleep3;osascript -e 'tell app \"System Events\" to shut down') &"
+                                        "shell_command": "(/usr/bin/say '시스템 종료';sleep2;osascript -e 'tell app \"System Events\" to shut down') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -1190,12 +1180,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "/usr/bin/say '잘자'"
-                                    }
-                                ],
-                                "to_after_key_up": [
-                                    {
-                                        "shell_command": "(sleep 1;osascript -e 'tell app \"System Events\" to sleep') &"
+                                        "shell_command": "(/usr/bin/say '잘자';sleep 2;osascript -e 'tell app \"System Events\" to sleep') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -1215,12 +1200,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "/usr/bin/say '나 졸려 그만 잘래'"
-                                    }
-                                ],
-                                "to_if_held_down": [
-                                    {
-                                        "shell_command": "(sleep 3;osascript -e 'tell app \"System Events\" to sleep') &"
+                                        "shell_command": "(/usr/bin/say '잘자';sleep 2;osascript -e 'tell app \"System Events\" to sleep') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -1753,10 +1733,10 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "f",
+                                        "key_code": "return_or_enter",
                                         "modifiers": [
                                             "left_control",
-                                            "left_command"
+                                            "left_option"
                                         ]
                                     }
                                 ],
@@ -2014,10 +1994,10 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "escape"
+                                        "key_code": "right_arrow"
                                     },
                                     {
-                                        "key_code": "right_arrow"
+                                        "key_code": "escape"
                                     }
                                 ],
                                 "type": "basic"
@@ -2055,10 +2035,10 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "escape"
+                                        "key_code": "left_arrow"
                                     },
                                     {
-                                        "key_code": "left_arrow"
+                                        "key_code": "escape"
                                     }
                                 ],
                                 "type": "basic"
@@ -2087,14 +2067,14 @@
                                 ],
                                 "from": {
                                     "description": "카카오 페이지 모드 on",
-                                    "key_code": "left_option",
+                                    "key_code": "f1",
                                     "modifiers": {
                                         "optional": [
                                             "caps_lock"
                                         ]
                                     }
                                 },
-                                "to_if_held_down": [
+                                "to": [
                                     {
                                         "set_variable": {
                                             "name": "kakao_page_mode",
@@ -2102,7 +2082,7 @@
                                         }
                                     },
                                     {
-                                        "shell_command": "'/usr/bin/say' '카페모'"
+                                        "shell_command": "'/usr/bin/say' '카카오 페이지 모드'"
                                     }
                                 ],
                                 "type": "basic"
@@ -2131,14 +2111,14 @@
                                 ],
                                 "from": {
                                     "description": "카카오 페이지 모드 off",
-                                    "key_code": "left_option",
+                                    "key_code": "f2",
                                     "modifiers": {
                                         "optional": [
                                             "caps_lock"
                                         ]
                                     }
                                 },
-                                "to_if_alone": [
+                                "to": [
                                     {
                                         "set_variable": {
                                             "name": "kakao_page_mode",
@@ -2146,7 +2126,7 @@
                                         }
                                     },
                                     {
-                                        "shell_command": "'/usr/bin/say' '카페모 종료'"
+                                        "shell_command": "'/usr/bin/say' '카카오 페이지 모드 종료'"
                                     }
                                 ],
                                 "type": "basic"
@@ -3731,14 +3711,9 @@
                                 "from": {
                                     "key_code": "print_screen"
                                 },
-                                "to": [
-                                    {
-                                        "shell_command": "/usr/bin/say '시스템 종료'"
-                                    }
-                                ],
                                 "to_if_held_down": [
                                     {
-                                        "shell_command": "(sleep3;osascript -e 'tell app \"System Events\" to shut down') &"
+                                        "shell_command": "(/usr/bin/say '시스템 종료';sleep2;osascript -e 'tell app \"System Events\" to shut down') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -3756,14 +3731,9 @@
                                 "from": {
                                     "key_code": "f13"
                                 },
-                                "to": [
-                                    {
-                                        "shell_command": "/usr/bin/say '시스템 종료'"
-                                    }
-                                ],
                                 "to_if_held_down": [
                                     {
-                                        "shell_command": "(sleep3;osascript -e 'tell app \"System Events\" to shut down') &"
+                                        "shell_command": "(/usr/bin/say '시스템 종료';sleep2;osascript -e 'tell app \"System Events\" to shut down') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -3783,12 +3753,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "/usr/bin/say '잘자'"
-                                    }
-                                ],
-                                "to_after_key_up": [
-                                    {
-                                        "shell_command": "(sleep 1;osascript -e 'tell app \"System Events\" to sleep') &"
+                                        "shell_command": "(/usr/bin/say '잘자';sleep 2;osascript -e 'tell app \"System Events\" to sleep') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -3808,12 +3773,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "/usr/bin/say '나 졸려 그만 잘래'"
-                                    }
-                                ],
-                                "to_if_held_down": [
-                                    {
-                                        "shell_command": "(sleep 3;osascript -e 'tell app \"System Events\" to sleep') &"
+                                        "shell_command": "(/usr/bin/say '잘자';sleep 2;osascript -e 'tell app \"System Events\" to sleep') &"
                                     }
                                 ],
                                 "type": "basic"
@@ -4346,10 +4306,10 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "f",
+                                        "key_code": "return_or_enter",
                                         "modifiers": [
                                             "left_control",
-                                            "left_command"
+                                            "left_option"
                                         ]
                                     }
                                 ],
@@ -4607,10 +4567,10 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "escape"
+                                        "key_code": "right_arrow"
                                     },
                                     {
-                                        "key_code": "right_arrow"
+                                        "key_code": "escape"
                                     }
                                 ],
                                 "type": "basic"
@@ -4648,10 +4608,10 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "escape"
+                                        "key_code": "left_arrow"
                                     },
                                     {
-                                        "key_code": "left_arrow"
+                                        "key_code": "escape"
                                     }
                                 ],
                                 "type": "basic"
@@ -4680,14 +4640,14 @@
                                 ],
                                 "from": {
                                     "description": "카카오 페이지 모드 on",
-                                    "key_code": "left_option",
+                                    "key_code": "f1",
                                     "modifiers": {
                                         "optional": [
                                             "caps_lock"
                                         ]
                                     }
                                 },
-                                "to_if_held_down": [
+                                "to": [
                                     {
                                         "set_variable": {
                                             "name": "kakao_page_mode",
@@ -4695,7 +4655,7 @@
                                         }
                                     },
                                     {
-                                        "shell_command": "'/usr/bin/say' '카페모'"
+                                        "shell_command": "'/usr/bin/say' '카카오 페이지 모드'"
                                     }
                                 ],
                                 "type": "basic"
@@ -4724,14 +4684,14 @@
                                 ],
                                 "from": {
                                     "description": "카카오 페이지 모드 off",
-                                    "key_code": "left_option",
+                                    "key_code": "f2",
                                     "modifiers": {
                                         "optional": [
                                             "caps_lock"
                                         ]
                                     }
                                 },
-                                "to_if_alone": [
+                                "to": [
                                     {
                                         "set_variable": {
                                             "name": "kakao_page_mode",
@@ -4739,7 +4699,7 @@
                                         }
                                     },
                                     {
-                                        "shell_command": "'/usr/bin/say' '카페모 종료'"
+                                        "shell_command": "'/usr/bin/say' '카카오 페이지 모드 종료'"
                                     }
                                 ],
                                 "type": "basic"
