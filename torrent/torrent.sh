@@ -214,6 +214,7 @@ function runCommand() {
         ;;
         dispose)
             shift
+            torrentPurge $@
             source $disposeFile
             disposeTorrent $@
             return 0
